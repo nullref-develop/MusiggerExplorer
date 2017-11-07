@@ -1,7 +1,7 @@
  <template id="pagination-template">
-    <div class="pagination">
+    <div class="pagination grid-x">
         <div class="pagination-left">
-            <a href="#" v-if="hasPrev()" @click.prevent="changePage(prevPage)">Предыдущая</a>
+            <a href="#" v-if="hasPrev()" @click.prevent="changePage(prevPage)">Previous</a>
         </div>
         <div class="pagination-mid">
             <ul>
@@ -17,7 +17,7 @@
             </ul>
         </div>
         <div class="pagination-right">
-            <a href="#" v-if="hasNext()" @click.prevent="changePage(nextPage)">Следующая</a>
+            <a href="#" v-if="hasNext()" @click.prevent="changePage(nextPage)">Next</a>
         </div>
     </div>
 </template>
@@ -91,10 +91,9 @@ export default {
 </script>
 <style lang="scss">
 .pagination {
-    display: flex;
-    flex-direction: row;
     justify-content: space-between;
     margin: 40px 0;
+    font-weight: bold;
     .pagination-left a,
     .pagination-right a,
     .pagination-mid ul li a {
@@ -103,10 +102,11 @@ export default {
         margin: 0 5px;
         text-decoration: none;
         color: black;
+        transition: all 0.2s ease;
         &.current,
         &:hover {
             color: white;
-            background-color: red;
+            background-color: DodgerBlue;
         }
     }
     .pagination-mid ul {
