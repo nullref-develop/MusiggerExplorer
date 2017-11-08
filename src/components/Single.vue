@@ -27,22 +27,27 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
     name: 'Single',
     data () {
         return {
-            freakeurl: 'http://freake.ru/',
+            freakeurl: 'http://freake.ru',
             Release: {}
         }
     },
     methods: {
         getSingleRelease: function (releaseid) {
-            var resource = this.$resource('http://localhost:49951/api/releases{/id}')
-            resource.get({ id: releaseid }).then(response => {
-                console.log(response.data)
+            axios.get('http://localhost:49951/api/releases', {
+                params: {
+                    ID: releaseid
+                }
+            }).then(response => {
                 this.Release = response.data
-            }, response => {
-                // error
+            })
+            .catch(e => {
+                console.log(e)
             })
         }
     },

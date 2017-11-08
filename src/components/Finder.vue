@@ -2,6 +2,15 @@
     <div class="grid-container fluid">
         <pagination :current="currentPage" :total="totalReleases" :per-page="perPage" @page-changed="getAllReleases"></pagination>
 
+        <label>Label</label>
+        <multiselect v-model="selectedLabels" @search-change="getLabels" :options="labels" :multiple="true" :close-on-select="false"></multiselect>
+
+        <label>Type</label>
+        <multiselect v-model="selectedTypes" :options="types" :multiple="true" :close-on-select="false"></multiselect>
+        
+        <label>Genres</label>
+        <multiselect v-model="selectedGenres" :options="genres" :multiple="true" :close-on-select="false"></multiselect>
+
         <div class="releases grid-x">
             <div v-for="Releases in Releases" :key="Releases.Id" class="small-12 medium-6 large-4 cell">
                 <router-link :to="{ name: 'release', params: { id: Releases.Id} }" class="release-item grid-x">
@@ -23,43 +32,86 @@
 
 <script>
 import Paginator from './Paginator'
+import Multiselect from 'vue-multiselect'
+import axios from 'axios'
 
 export default {
     components: {
-        'pagination': Paginator
+        'pagination': Paginator,
+        Multiselect
     },
     name: 'Finder',
     data: function () {
         return {
             freakeurl: 'http://freake.ru/',
             api: 'http://localhost:49951/api/releases',
+            apiGenres: 'http://localhost:49951/api/genres',
+            apiLabels: 'http://localhost:49951/api/labels',
+            apiArtists: 'http://localhost:49951/api/artists',
             Releases: [],
-            totalReleases: 200,
-            perPage: 30,
-            currentPage: 1
+            totalReleases: 0,
+            perPage: 24,
+            currentPage: 1,
+            selectedGenres: null,
+            genres: [],
+            selectedTypes: null,
+            types: ['Album', 'Single', 'EP', 'LP', 'Compilation', 'Radioshow'],
+            selectedLabels: null,
+            labels: [],
+            votes: 0,
+            labelsQuery: '',
+            artistsQuery: '',
+            isLoading: false
         }
     },
     methods: {
-        getAllReleases: function (page) {
+        getAllReleases: function (page, votes, perPage, genres, labels, artists) {
             var options = {
                 params: {
-                    p: page
+                    p: page,
+                    votes: votes,
+                    perPage: perPage,
+                    genres: genres,
+                    labels: labels,
+                    artists: artists
                 }
             }
-            this.$http.get(this.api, options).then(response => {
+            axios.get(this.api, options).then(response => {
                 this.Releases = response.data
+                this.totalReleases = parseInt(response.headers['x-total'])
                 this.currentPage = page
-            }, response => {
-                // error
+            })
+            .catch(e => {
+                console.log(e)
+            })
+        },
+        getAllGenres: function () {
+            axios.get(this.apiGenres).then(response => {
+                this.genres = response.data
+            })
+            .catch(e => {
+                console.log(e)
+            })
+        },
+        getLabels: function () {
+            this.isLoading = true
+            axios.get(this.apiLabels).then(response => {
+                this.labels = response.data
+                this.isLoading = false
+            })
+            .catch(e => {
+                console.log(e)
             })
         }
     },
     created: function () {
-        this.getAllReleases(this.currentPage)
+        this.getAllGenres()
+        this.getAllReleases(this.currentPage, this.votes, this.perPage, this.genres, this.labelsQuery, this.artistsQuery)
     }
 }
 </script>
 
+<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 <style lang="scss">
 .releases {
     padding: 0;

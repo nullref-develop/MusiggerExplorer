@@ -84,7 +84,6 @@ export default {
         },
         changePage: function (page) {
             this.$emit('page-changed', page)
-            console.log(page)
         }
     }
 }
