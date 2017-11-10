@@ -33,13 +33,13 @@ export default {
     name: 'Single',
     data () {
         return {
-            freakeurl: 'http://freake.ru',
+            freakeurl: this.freakeUrl,
             Release: {}
         }
     },
     methods: {
         getSingleRelease: function (releaseid) {
-            axios.get('http://localhost:49951/api/releases', {
+            axios.get(this.apiUrl + '/releases', {
                 params: {
                     ID: releaseid
                 }
@@ -52,6 +52,7 @@ export default {
         }
     },
     created: function () {
+        // get release id from url params
         var releaseId = this.$route.params.id
         this.getSingleRelease(releaseId)
     }

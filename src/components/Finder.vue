@@ -12,7 +12,7 @@
         ></pagination>
 
         <label>Label</label>
-        <multiselect v-model="selectedLabels" @search-change="getLabels" @close="filterInput" :options="labels" :multiple="true"></multiselect>
+        <multiselect v-model="selectedLabels" @search-change="getLabels" @close="filterInput" @remove="filterInput" :options="labels" :multiple="true"></multiselect>
 
         <label>Type</label>
         <multiselect v-model="selectedTypes" @input="filterInput" :options="types" :multiple="true"></multiselect>
@@ -22,7 +22,13 @@
 
         <label>Votes</label>
         <br>
-        <input v-model="votes" v-on:change="filterInput" v-on:keyup="filterInput" type="number">
+        <input v-model.number="votes" v-on:change="filterInput" v-on:keyup="filterInput" type="number">
+        <br>
+        <br>
+
+        <label>Releases per page</label>
+        <br>
+        <input v-model.number="perPage" v-on:change="filterInput" v-on:keyup="filterInput" type="number">
         <br>
         <br>
 
@@ -58,13 +64,13 @@ export default {
     name: 'Finder',
     data: function () {
         return {
-            freakeurl: 'http://freake.ru/',
-            api: 'http://localhost:49951/api/releases',
-            apiGenres: 'http://localhost:49951/api/genres',
-            apiLabels: 'http://localhost:49951/api/labels',
+            freakeurl: this.freakeUrl,
+            api: this.apiUrl + '/releases',
+            apiGenres: this.apiUrl + '/genres',
+            apiLabels: this.apiUrl + '/labels',
             Releases: [],
             totalReleases: 0,
-            perPage: 44,
+            perPage: 40,
             currentPage: 1,
             selectedGenres: null,
             genres: [],
@@ -72,16 +78,18 @@ export default {
             types: ['Album', 'Single', 'EP', 'LP', 'Compilation', 'Radioshow'],
             selectedLabels: null,
             labels: [],
-            votes: '0',
+            votes: 0,
             labelsQuery: '',
             genresQuery: '',
             typesQuery: '',
+            qgenres: '',
             isLoading: false
         }
     },
     methods: {
+        // casting of variable types
         filterInput: function () {
-            this.currentPage = 1
+            this.currentPage = 1 // reset current page when filter change
             this.typesQuery = (this.selectedTypes != null) ? this.selectedTypes.join() : null
             this.genresQuery = (this.selectedGenres != null) ? this.selectedGenres.join() : null
             this.labelsQuery = (this.selectedLabels != null) ? this.selectedLabels.join() : null
@@ -98,7 +106,6 @@ export default {
                     types: selectedTypes
                 }
             }
-            console.log(options)
             axios.get(this.api, options).then(response => {
                 this.Releases = response.data
                 this.totalReleases = parseInt(response.headers['x-total'])
@@ -107,6 +114,15 @@ export default {
             .catch(e => {
                 console.log(e)
             })
+            // update url query when something changed
+            this.$router.replace({query: {
+                p: page,
+                votes: votes,
+                perPage: perPage,
+                genres: selectedGenres,
+                labels: selectedLabels,
+                types: selectedTypes
+            }})
         },
         getAllGenres: function () {
             axios.get(this.apiGenres).then(response => {
@@ -128,8 +144,25 @@ export default {
         }
     },
     created: function () {
+        // Parse query from url and apply to filter
+        this.currentPage = (this.$route.query.p) ? parseInt(this.$route.query.p) : this.currentPage
+        this.votes = (this.$route.query.votes) ? parseInt(this.$route.query.votes) : this.votes
+        this.perPage = (this.$route.query.perPage) ? parseInt(this.$route.query.perPage) : this.perPage
+        if (this.$route.query.genres) {
+            this.genresQuery = this.$route.query.genres
+            this.selectedGenres = this.$route.query.genres.split(',')
+        }
+        if (this.$route.query.labels) {
+            this.labelsQuery = this.$route.query.labels
+            this.selectedLabels = this.$route.query.labels.split(',')
+        }
+        if (this.$route.query.types) {
+            this.typesQuery = this.$route.query.types
+            this.selectedTypes = this.$route.query.types.split(',')
+        }
+        // get genres and releases (that fits the filter)
         this.getAllGenres()
-        this.getAllReleases(this.currentPage, this.votes, this.perPage, this.selectedGenres, this.selectedLabels, this.selectedTypes)
+        this.getAllReleases(this.currentPage, this.votes, this.perPage, this.genresQuery, this.labelsQuery, this.typesQuery)
     }
 }
 </script>

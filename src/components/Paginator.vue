@@ -43,8 +43,8 @@ export default {
             default: 2
         },
         votes: {
-            type: String,
-            default: '0'
+            type: Number,
+            default: 0
         },
         genres: {
             type: String,

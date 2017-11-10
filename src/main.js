@@ -6,6 +6,8 @@ import router from './router'
 import './assets/styles/foundation.css'
 
 Vue.config.productionTip = false
+Vue.prototype.apiUrl = 'http://localhost:49951/api'
+Vue.prototype.freakeUrl = 'http://freake.ru'
 
 /* eslint-disable no-new */
 new Vue({

@@ -6,10 +6,13 @@ import Single from '@/components/Single'
 Vue.use(Router)
 
 export default new Router({
+    mode: 'history',
     routes: [
         {
             path: '/',
-            component: Finder
+            name: 'releases',
+            component: Finder,
+            props: true
         },
         {
             path: '/release/:id',
