@@ -11,8 +11,7 @@ export default new Router({
         {
             path: '/',
             name: 'releases',
-            component: Finder,
-            props: true
+            component: Finder
         },
         {
             path: '/release/:id',

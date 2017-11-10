@@ -1,7 +1,9 @@
  <template id="pagination-template">
     <div class="pagination grid-x">
         <div class="pagination-left">
-            <a href="#" v-if="hasPrev()" @click.prevent="changePage(prevPage)"><icon name="chevron-left" scale="0.8"></icon> Previous</a>
+            <a href="#" v-if="hasPrev()" @click.prevent="changePage(prevPage)">
+                <icon name="chevron-left" scale="0.8"></icon> Previous
+            </a>
         </div>
         <div class="pagination-mid">
             <ul>
@@ -17,7 +19,9 @@
             </ul>
         </div>
         <div class="pagination-right">
-            <a href="#" v-if="hasNext()" @click.prevent="changePage(nextPage)">Next <icon name="chevron-right" scale="0.8"></icon></a>
+            <a href="#" v-if="hasNext()" @click.prevent="changePage(nextPage)">
+                Next <icon name="chevron-right" scale="0.8"></icon>
+            </a>
         </div>
     </div>
 </template>

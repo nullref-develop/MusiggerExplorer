@@ -7,6 +7,7 @@ import router from './router'
 Vue.config.productionTip = false
 Vue.prototype.apiUrl = 'http://localhost:49951/api'
 Vue.prototype.freakeUrl = 'http://freake.ru'
+Vue.prototype.appName = 'Musigger - Search and filter music releases'
 
 /* eslint-disable no-new */
 new Vue({

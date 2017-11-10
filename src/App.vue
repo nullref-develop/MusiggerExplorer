@@ -66,12 +66,15 @@ blockquote {
     font-weight: bold;
     color: white;
     transition: all 0.2s ease;
+    cursor: pointer;
+    border: none;
+    outline: none;
     &:hover {
         background-color: $color-accent;
     }
 }
 .fa-icon {
     position: relative;
-    top: 0.15em;
+    top: 0.1em;
 }
 </style>

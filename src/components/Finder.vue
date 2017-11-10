@@ -1,30 +1,54 @@
 <template>
     <div class="grid-container fluid">
         
-        <div class="filter grid-x grid-margin-x">
-            <div class="filter-item small-12 cell">
-                <label>Genres</label>
-                <multiselect v-model="selectedGenres" @input="filterInput" :options="genres" :multiple="true" placeholder="Select genres"></multiselect>
-            </div>
-            <div class="filter-item large-6 medium-12 cell">
-                <label>Types</label>
-                <multiselect v-model="selectedTypes" @input="filterInput" :options="types" :multiple="true" placeholder="Select release types"></multiselect>
-            </div>
-            <div class="filter-item large-6 medium-12 cell">
-                <label>Labels</label>
-                <multiselect v-model="selectedLabels" @search-change="getLabels" @close="filterInput" @remove="filterInput" :options="labels" :multiple="true" placeholder="Select record labels"></multiselect>
-            </div>
-            <div class="filter-item large-6 medium-12 cell">
-                <label>Votes</label>
-                <input v-model.number="votes" v-on:change="filterInput" v-on:keyup="filterInput" type="number" class="finder-input">
-            </div>
-            <div class="filter-item large-6 medium-12 cell">
-                <label>Releases per page</label>
-                <input v-model.number="perPage" v-on:change="filterInput" v-on:keyup="filterInput" type="number" class="finder-input">
+        <div class="filter">
+            <transition name="slide-fade">
+                <div v-if="showFilter" class="grid-x grid-margin-x">
+                    <div class="filter-item small-12 cell">
+                        <label>Genres</label>
+                        <multiselect v-model="selectedGenres" @input="filterInput" :options="genres" :multiple="true" placeholder="Select genres"></multiselect>
+                    </div>
+                    <div class="filter-item large-6 medium-12 cell">
+                        <label>Types</label>
+                        <multiselect v-model="selectedTypes" @input="filterInput" :options="types" :multiple="true" placeholder="Select release types"></multiselect>
+                    </div>
+                    <div class="filter-item large-6 medium-12 cell">
+                        <label>Labels</label>
+                        <multiselect v-model="selectedLabels" @search-change="getLabels" @close="filterInput" @remove="filterInput" :options="labels" :multiple="true" placeholder="Select record labels"></multiselect>
+                    </div>
+                    <div class="filter-item large-6 medium-12 cell">
+                        <label>Votes</label>
+                        <input v-model.number="votes" v-on:change="filterInput" v-on:keyup="filterInput" type="number" class="finder-input">
+                    </div>
+                    <div class="filter-item large-6 medium-12 cell">
+                        <label>Releases per page</label>
+                        <input v-model.number="perPage" v-on:change="filterInput" v-on:keyup="filterInput" type="number" class="finder-input">
+                    </div>
+                </div>
+            </transition>
+            <div class="grid-x grid-margin-x">
+                <div class="small-11 cell">
+                    <transition name="fade">
+                        <div v-if="!showFilter" class="filter-mini">
+                            <span class="genres" v-if="genresQuery"><icon name="music" scale="0.8"></icon> {{genresQuery}}&nbsp;&nbsp;</span>
+                            <span v-if="typesQuery"><icon name="play" scale="0.8"></icon> {{typesQuery}}&nbsp;&nbsp;</span>
+                            <span v-if="labelsQuery"><icon name="picture-o" scale="0.8"></icon> {{labelsQuery}}&nbsp;&nbsp;</span>
+                            <span v-if="votes"><icon name="users" scale="0.8"></icon> {{votes}}&nbsp;&nbsp;</span>
+                            <span v-if="!genresQuery && !typesQuery && !labelsQuery && !votes">
+                                Push the button to show the filters <icon name="angle-double-right" scale="0.8"></icon>
+                            </span>
+                        </div>
+                    </transition>
+                </div>
+                <div class="small-1 cell">
+                    <button v-bind:class="{ active: showFilter }" @click="showFilter = !showFilter" class="filter-button button" type="button">
+                        <icon name="chevron-down" scale="0.8"></icon>
+                    </button>
+                </div>
             </div>
         </div>
 
-        <pagination
+        <!-- <pagination
             :current="currentPage"
             :total="totalReleases"
             :per-page="perPage"
@@ -33,7 +57,7 @@
             :labels="labelsQuery"
             :types="typesQuery"
             @page-changed="getAllReleases"
-        ></pagination>
+        ></pagination> -->
 
         <div class="releases grid-x">
             <div v-for="Releases in Releases" :key="Releases.Id" class="small-12 medium-6 large-4 cell">
@@ -92,6 +116,7 @@ export default {
             apiLabels: this.apiUrl + '/labels',
             Releases: [],
             totalReleases: 0,
+            showFilter: false,
             perPage: 30,
             currentPage: 1,
             selectedGenres: null,
@@ -105,7 +130,8 @@ export default {
             genresQuery: '',
             typesQuery: '',
             qgenres: '',
-            isLoading: false
+            isLoading: false,
+            firstLaunch: true
         }
     },
     methods: {
@@ -132,19 +158,22 @@ export default {
                 this.Releases = response.data
                 this.totalReleases = parseInt(response.headers['x-total'])
                 this.currentPage = page
+                // update url query when something changed (except first app launch)
+                if (!this.firstLaunch) {
+                    this.$router.replace({query: {
+                        p: this.currentPage,
+                        votes: this.votes,
+                        perPage: this.perPage,
+                        genres: this.genresQuery,
+                        labels: this.labelsQuery,
+                        types: this.typesQuery
+                    }})
+                }
+                this.firstLaunch = false
             })
             .catch(e => {
                 console.log(e)
             })
-            // update url query when something changed
-            this.$router.replace({query: {
-                p: page,
-                votes: votes,
-                perPage: perPage,
-                genres: selectedGenres,
-                labels: selectedLabels,
-                types: selectedTypes
-            }})
         },
         getAllGenres: function () {
             axios.get(this.apiGenres).then(response => {
@@ -166,6 +195,7 @@ export default {
         }
     },
     created: function () {
+        document.title = this.appName
         // Parse query from url and apply to filter
         this.currentPage = (this.$route.query.p) ? parseInt(this.$route.query.p) : this.currentPage
         this.votes = (this.$route.query.votes) ? parseInt(this.$route.query.votes) : this.votes
@@ -191,13 +221,64 @@ export default {
 
 <style lang="scss">
 @import "../assets/app.scss";
+.fade-enter-active {
+    transition: opacity 1s
+}
+.fade-leave-active {
+    transition: opacity .1s
+}
+.fade-enter, .fade-leave-to {
+    opacity: 0
+}
+.slide-fade-enter-active {
+    transition: all .2s ease-in;
+}
+.slide-fade-leave-active {
+    transition: all .1s ease-out;
+}
+.slide-fade-enter, .slide-fade-leave-to {
+      transform: translateY(-1em);
+      opacity: 0;
+}
 .filter {
     padding: 1em 1em 1em;
     background-color: $color-level1;
     margin: 0 0.2em 0.4em 0.2em;
+    .filter-mini {
+        overflow: hidden;
+        word-wrap: none;
+        span {
+            max-width: 20em;
+            overflow: hidden;
+            white-space: nowrap;
+            display: inline-block;
+            text-overflow: ellipsis;
+            margin: 0.6em 0 0.4em;
+            line-height: 1em;
+        }
+        .genres {
+            max-width: 30em;
+        }
+    }
     label {
         font-size: 1em;
         font-weight: normal;
+    }
+    .filter-button {
+        background-color: $color-background;
+        color: black;
+        float: right;
+        svg {
+            transition: all 0.3s ease-in-out;
+        }
+        &:hover {
+            background-color: $color-accent;
+        }
+        &.active {
+            svg {
+                transform: rotate(180deg);
+            }
+        }
     }
     .filter-item {
     }

@@ -1,7 +1,6 @@
 <template>
     <div class="grid-container">
-        <div v-if="Release" class="srelease">
-            <div class="grid-x">
+        <div v-if="Release" class="srelease grid-x">
                 <div class="srelease-info auto cell">
                     <p class="srelease-info-title">{{Release.Name}}</p>
                     <p class="srelease-info-label">{{Release.Label}}</p>
@@ -20,7 +19,6 @@
                     </div>
                 </div>
                 <img v-bind:src="freakeurl+Release.Cover" class="srelease-cover">
-            </div>
         </div>
 
         <Getlow></Getlow>
@@ -54,6 +52,7 @@ export default {
                 }
             }).then(response => {
                 this.Release = response.data
+                document.title = this.Release.Name + ' | ' + this.appName
             })
             .catch(e => {
                 console.log(e)
@@ -74,16 +73,12 @@ export default {
     max-width: 100em;
 }
 .srelease {
-    padding: 8em 0 8em 0;
+    padding: 8em 0;
     background-color: white;
     .srelease-cover {
         width: 30em;
         height: 30em;
         padding: 0 4em 0 0;
-        @media (max-width: 1300px) {
-            width: 22em;
-            height: 22em;
-        }
         @media (max-width: 640px) {
             width: 100%;
             height: 100%;
@@ -92,6 +87,10 @@ export default {
     .srelease-info {
         padding: 0 4em;
         align-self: center;
+        flex-basis: auto;
+        @media (max-width: 768px) {
+            padding: 0 1em;
+        }
         p { 
             margin: 0;
             line-height: 1em;
@@ -143,6 +142,15 @@ export default {
         .srelease-extra-tofreake {
             text-align: right;
             overflow: hidden;
+        }
+    }
+    @media (max-width: 1600px) {
+        flex-flow: column-reverse nowrap;
+        padding: 4em 0;
+        .srelease-cover {
+            padding: 0;
+            align-self: center;
+            margin-bottom: 4em;
         }
     }
 }
