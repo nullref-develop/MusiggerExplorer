@@ -1,5 +1,29 @@
 <template>
     <div class="grid-container fluid">
+        
+        <div class="filter grid-x grid-margin-x">
+            <div class="filter-item small-12 cell">
+                <label>Genres</label>
+                <multiselect v-model="selectedGenres" @input="filterInput" :options="genres" :multiple="true" placeholder="Select genres"></multiselect>
+            </div>
+            <div class="filter-item large-6 medium-12 cell">
+                <label>Types</label>
+                <multiselect v-model="selectedTypes" @input="filterInput" :options="types" :multiple="true" placeholder="Select release types"></multiselect>
+            </div>
+            <div class="filter-item large-6 medium-12 cell">
+                <label>Labels</label>
+                <multiselect v-model="selectedLabels" @search-change="getLabels" @close="filterInput" @remove="filterInput" :options="labels" :multiple="true" placeholder="Select record labels"></multiselect>
+            </div>
+            <div class="filter-item large-6 medium-12 cell">
+                <label>Votes</label>
+                <input v-model.number="votes" v-on:change="filterInput" v-on:keyup="filterInput" type="number" class="finder-input">
+            </div>
+            <div class="filter-item large-6 medium-12 cell">
+                <label>Releases per page</label>
+                <input v-model.number="perPage" v-on:change="filterInput" v-on:keyup="filterInput" type="number" class="finder-input">
+            </div>
+        </div>
+
         <pagination
             :current="currentPage"
             :total="totalReleases"
@@ -11,27 +35,6 @@
             @page-changed="getAllReleases"
         ></pagination>
 
-        <label>Label</label>
-        <multiselect v-model="selectedLabels" @search-change="getLabels" @close="filterInput" @remove="filterInput" :options="labels" :multiple="true"></multiselect>
-
-        <label>Type</label>
-        <multiselect v-model="selectedTypes" @input="filterInput" :options="types" :multiple="true"></multiselect>
-        
-        <label>Genres</label>
-        <multiselect v-model="selectedGenres" @input="filterInput" :options="genres" :multiple="true"></multiselect>
-
-        <label>Votes</label>
-        <br>
-        <input v-model.number="votes" v-on:change="filterInput" v-on:keyup="filterInput" type="number">
-        <br>
-        <br>
-
-        <label>Releases per page</label>
-        <br>
-        <input v-model.number="perPage" v-on:change="filterInput" v-on:keyup="filterInput" type="number">
-        <br>
-        <br>
-
         <div class="releases grid-x">
             <div v-for="Releases in Releases" :key="Releases.Id" class="small-12 medium-6 large-4 cell">
                 <router-link :to="{ name: 'release', params: { id: Releases.Id} }" class="release-item grid-x">
@@ -40,26 +43,45 @@
                         <p class="release-info-title cell">{{ Releases.Name }}</p>
                         <p class="release-info-label cell">{{ Releases.Label }}</p>
                         <div class="release-info-summary cell">
-                            <span>Type: {{ Releases.Type }}&nbsp;&nbsp;</span>
-                            <span>Votes: {{ Releases.Votes }}</span>
+                            <span><icon name="play" scale="0.8"></icon> {{ Releases.Type }}&nbsp;&nbsp;</span>
+                            <span><icon name="users" scale="0.8"></icon> {{ Releases.Votes }}</span>
                         </div>
-                        <p class="release-info-genres cell">Genres: {{ Releases.Genres }}</p>
+                        <p class="release-info-genres cell"><icon name="music" scale="0.8"></icon> {{ Releases.Genres }}</p>
                     </div>
                 </router-link>
             </div>
         </div>
+
+        <pagination
+            :current="currentPage"
+            :total="totalReleases"
+            :per-page="perPage"
+            :votes="votes"
+            :genres="genresQuery"
+            :labels="labelsQuery"
+            :types="typesQuery"
+            @page-changed="getAllReleases"
+        ></pagination>
+
+        <Getlow></Getlow>
+
     </div>
 </template>
 
 <script>
 import Paginator from './Paginator'
+import Getlow from './Getlow'
 import Multiselect from 'vue-multiselect'
 import axios from 'axios'
+import 'vue-awesome/icons'
+import Icon from 'vue-awesome/components/Icon'
 
 export default {
     components: {
         'pagination': Paginator,
-        Multiselect
+        Multiselect,
+        Getlow,
+        Icon
     },
     name: 'Finder',
     data: function () {
@@ -70,7 +92,7 @@ export default {
             apiLabels: this.apiUrl + '/labels',
             Releases: [],
             totalReleases: 0,
-            perPage: 40,
+            perPage: 30,
             currentPage: 1,
             selectedGenres: null,
             genres: [],
@@ -167,8 +189,30 @@ export default {
 }
 </script>
 
-<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 <style lang="scss">
+@import "../assets/app.scss";
+.filter {
+    padding: 1em 1em 1em;
+    background-color: $color-level1;
+    margin: 0 0.2em 0.4em 0.2em;
+    label {
+        font-size: 1em;
+        font-weight: normal;
+    }
+    .filter-item {
+    }
+    .finder-input {
+        min-height: 2.5em;
+        display: block;
+        padding: 0.8em;
+        border-radius: 0;
+        border: none;
+        background: #ffffff;
+        box-shadow: none;
+        background-color: $color-background;
+    }
+}
+
 .releases {
     padding: 0;
     margin: 0;
@@ -176,10 +220,10 @@ export default {
 }
 
 .release-item {
-    background: white;
+    background: $color-level1;
     height: 148px;
     color: black;
-    margin: 2px;
+    margin: 0.2em;
     text-decoration: none;
     transition: all 0.2s ease;
     overflow: hidden;
@@ -193,7 +237,7 @@ export default {
         height: 148px;
     }
     .release-info {
-        padding: 10px 20px;
+        margin: 0.6em 1.2em;
         overflow: hidden;
         .release-info-title {
             font-size: 1.5em;

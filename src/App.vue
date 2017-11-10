@@ -11,6 +11,12 @@ export default {
 </script>
 
 <style lang="scss">
+@import "~foundation-sites/scss/foundation";
+@include foundation-xy-grid-classes;
+@include foundation-forms;
+
+@import "./assets/app.scss";
+
 @font-face {
     font-family: "futura-pt";
     font-style: normal;
@@ -23,7 +29,18 @@ export default {
     font-weight: normal;
     src: url("https://cdn-resources.ableton.com/80bA26cPQ1hEJDFjpUKntxfqdmG3ZykO/static/fonts/futura-pt-book.325fc4671f06.eot?&1e781793c759#iefix") format("embedded-opentype"), url("https://cdn-resources.ableton.com/80bA26cPQ1hEJDFjpUKntxfqdmG3ZykO/static/fonts/futura-pt-book.2dadbb3c03c1.woff2?1e781793c759") format("woff2"), url("https://cdn-resources.ableton.com/80bA26cPQ1hEJDFjpUKntxfqdmG3ZykO/static/fonts/futura-pt-book.b65339f98771.woff?1e781793c759") format("woff"), url("https://cdn-resources.ableton.com/80bA26cPQ1hEJDFjpUKntxfqdmG3ZykO/static/fonts/futura-pt-book.187839f67492.ttf?1e781793c759") format("truetype"), url("https://cdn-resources.ableton.com/80bA26cPQ1hEJDFjpUKntxfqdmG3ZykO/static/fonts/futura-pt-book.60a93019c94b.svg?1e781793c759#FuturaPTWeb-Book") format("svg");
 }
-
+input::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+    color: $color-placeholder;
+}
+input::-moz-placeholder { /* Firefox 19+ */
+    color: $color-placeholder;
+}
+input:-ms-input-placeholder { /* IE 10+ */
+    color: $color-placeholder;
+}
+input:-moz-placeholder { /* Firefox 18- */
+    color: $color-placeholder;
+}
 * {
     text-rendering: optimizeLegibility;
     -webkit-font-variant-ligatures: common-ligatures;
@@ -36,21 +53,25 @@ export default {
     font-family: 'futura-pt', 'Oswald', sans-serif;
 }
 html, body {
-    background-color: #F0F0F0;
+    background-color: $color-background;
 }
 blockquote {
     margin: 0;
 }
 .button {
     display: inline-block;
-    background-color: darkgray;
+    background-color: darken($color-background,15%);
     padding: 10px 15px;
     text-decoration: none;
     font-weight: bold;
     color: white;
     transition: all 0.2s ease;
     &:hover {
-        background-color: DodgerBlue;
+        background-color: $color-accent;
     }
+}
+.fa-icon {
+    position: relative;
+    top: 0.15em;
 }
 </style>

@@ -1,6 +1,6 @@
 {
-  "name": "musigger",
-  "version": "1.0.0",
+  "name": "Musigger",
+  "version": "0.3.0",
   "description": "Web application for searching and filtering music releases",
   "author": "Anton Zolotov <antonzolotov@outlook.com>",
   "private": true,
@@ -12,7 +12,9 @@
   },
   "dependencies": {
     "axios": "^0.17.0",
+    "foundation-sites": "^6.4.4-rc1",
     "vue": "^2.5.2",
+    "vue-awesome": "^2.3.4",
     "vue-multiselect": "^2.0.6",
     "vue-router": "^3.0.1"
   },

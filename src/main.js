@@ -3,7 +3,6 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-import './assets/styles/foundation.css'
 
 Vue.config.productionTip = false
 Vue.prototype.apiUrl = 'http://localhost:49951/api'

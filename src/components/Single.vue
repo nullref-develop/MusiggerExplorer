@@ -2,34 +2,43 @@
     <div class="grid-container">
         <div v-if="Release" class="srelease">
             <div class="grid-x">
-                <img v-bind:src="freakeurl+Release.Cover" class="srelease-cover">
                 <div class="srelease-info auto cell">
                     <p class="srelease-info-title">{{Release.Name}}</p>
                     <p class="srelease-info-label">{{Release.Label}}</p>
-                    <span class="srelease-info-type">Album</span>
-                    <span class="srelease-info-rating">{{Release.Rating}}</span>
-                    <span class="srelease-info-votes">{{Release.Votes}}</span>
+                    <span class="srelease-info-type">{{Release.Type}}</span>
+                    <span class="srelease-info-rating"><icon name="star"></icon> {{Release.Rating}}</span>
+                    <span class="srelease-info-votes"><icon name="users"></icon> {{Release.Votes}}</span>
                     <p class="srelease-info-genres">{{Release.Genres}}</p>
-                </div>
-            </div>
-            <div class="srelease-extra grid-y">
-                <div v-html="Release.Info" class="srelease-extra-info cell"></div>
-                <div class="cell grid-x">
-                    <div v-html="Release.Links" class="srelease-extra-links auto cell"></div>
-                    <div class="srelease-extra-tofreake small-2 cell">
-                        <a v-bind:href="freakeurl+'/'+Release.ReleaseId" class="button" target="_blank">Freake.ru</a>
+                    <div class="srelease-extra grid-y">
+                        <div v-html="Release.Info" class="srelease-extra-info cell"></div>
+                        <div class="cell grid-x">
+                            <div v-html="Release.Links" class="srelease-extra-links auto cell"></div>
+                            <div class="srelease-extra-tofreake small-2 cell">
+                                <a v-bind:href="freakeurl+'/'+Release.ReleaseId" class="button" target="_blank"><icon name="external-link-square"></icon> Freake.ru</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                
+                <img v-bind:src="freakeurl+Release.Cover" class="srelease-cover">
             </div>
         </div>
+
+        <Getlow></Getlow>
+
     </div>
 </template>
 
 <script>
+import Getlow from './Getlow'
 import axios from 'axios'
+import 'vue-awesome/icons'
+import Icon from 'vue-awesome/components/Icon'
 
 export default {
+    components: {
+        Getlow,
+        Icon
+    },
     name: 'Single',
     data () {
         return {
@@ -60,12 +69,25 @@ export default {
 </script>
 
 <style lang="scss">
+
+.grid-container {
+    max-width: 100em;
+}
 .srelease {
-    padding: 8em 0 0 0;
+    padding: 8em 0 8em 0;
     background-color: white;
     .srelease-cover {
-        width: 25em;
-        height: 25em;
+        width: 30em;
+        height: 30em;
+        padding: 0 4em 0 0;
+        @media (max-width: 1300px) {
+            width: 22em;
+            height: 22em;
+        }
+        @media (max-width: 640px) {
+            width: 100%;
+            height: 100%;
+        }
     }
     .srelease-info {
         padding: 0 4em;
@@ -103,7 +125,8 @@ export default {
         }
     }
     .srelease-extra {
-        padding: 4em;
+        margin-top: 2em;
+        padding: 0;
         .srelease-extra-info {
             margin-bottom: 1em;
         }
@@ -123,7 +146,8 @@ export default {
         }
     }
 }
-iframe {
+iframe,
+embed {
     width: 100% !important;
     max-width: 100% !important;
     min-width: 100% !important;

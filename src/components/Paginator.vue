@@ -1,7 +1,7 @@
  <template id="pagination-template">
     <div class="pagination grid-x">
         <div class="pagination-left">
-            <a href="#" v-if="hasPrev()" @click.prevent="changePage(prevPage)">Previous</a>
+            <a href="#" v-if="hasPrev()" @click.prevent="changePage(prevPage)"><icon name="chevron-left" scale="0.8"></icon> Previous</a>
         </div>
         <div class="pagination-mid">
             <ul>
@@ -17,13 +17,19 @@
             </ul>
         </div>
         <div class="pagination-right">
-            <a href="#" v-if="hasNext()" @click.prevent="changePage(nextPage)">Next</a>
+            <a href="#" v-if="hasNext()" @click.prevent="changePage(nextPage)">Next <icon name="chevron-right" scale="0.8"></icon></a>
         </div>
     </div>
 </template>
 
 <script>
+import 'vue-awesome/icons'
+import Icon from 'vue-awesome/components/Icon'
+
 export default {
+    components: {
+        Icon
+    },
     name: 'pagination',
     props: {
         current: {
@@ -105,9 +111,11 @@ export default {
 }
 </script>
 <style lang="scss">
+@import "../assets/app.scss";
+
 .pagination {
     justify-content: space-between;
-    margin: 40px 0;
+    margin: 1.1em 0;
     font-weight: bold;
     .pagination-left a,
     .pagination-right a,
@@ -121,7 +129,7 @@ export default {
         &.current,
         &:hover {
             color: white;
-            background-color: DodgerBlue;
+            background-color: $color-accent;
         }
     }
     .pagination-mid ul {
