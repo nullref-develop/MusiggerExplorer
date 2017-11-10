@@ -36,11 +36,27 @@ export default {
         },
         perPage: {
             type: Number,
-            default: 30
+            default: 0
         },
         pageRange: {
             type: Number,
             default: 2
+        },
+        votes: {
+            type: String,
+            default: '0'
+        },
+        genres: {
+            type: String,
+            default: ''
+        },
+        labels: {
+            type: String,
+            default: ''
+        },
+        types: {
+            type: String,
+            default: ''
         }
     },
     computed: {
@@ -83,7 +99,7 @@ export default {
             return this.current < this.totalPages
         },
         changePage: function (page) {
-            this.$emit('page-changed', page)
+            this.$emit('page-changed', page, this.votes, this.perPage, this.genres, this.labels, this.types)
         }
     }
 }

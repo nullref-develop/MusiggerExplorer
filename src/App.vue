@@ -38,6 +38,9 @@ export default {
 html, body {
     background-color: #F0F0F0;
 }
+blockquote {
+    margin: 0;
+}
 .button {
     display: inline-block;
     background-color: darkgray;

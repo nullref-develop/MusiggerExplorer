@@ -1,15 +1,30 @@
 <template>
     <div class="grid-container fluid">
-        <pagination :current="currentPage" :total="totalReleases" :per-page="perPage" @page-changed="getAllReleases"></pagination>
+        <pagination
+            :current="currentPage"
+            :total="totalReleases"
+            :per-page="perPage"
+            :votes="votes"
+            :genres="genresQuery"
+            :labels="labelsQuery"
+            :types="typesQuery"
+            @page-changed="getAllReleases"
+        ></pagination>
 
         <label>Label</label>
-        <multiselect v-model="selectedLabels" @search-change="getLabels" :options="labels" :multiple="true" :close-on-select="false"></multiselect>
+        <multiselect v-model="selectedLabels" @search-change="getLabels" @close="filterInput" :options="labels" :multiple="true"></multiselect>
 
         <label>Type</label>
-        <multiselect v-model="selectedTypes" :options="types" :multiple="true" :close-on-select="false"></multiselect>
+        <multiselect v-model="selectedTypes" @input="filterInput" :options="types" :multiple="true"></multiselect>
         
         <label>Genres</label>
-        <multiselect v-model="selectedGenres" :options="genres" :multiple="true" :close-on-select="false"></multiselect>
+        <multiselect v-model="selectedGenres" @input="filterInput" :options="genres" :multiple="true"></multiselect>
+
+        <label>Votes</label>
+        <br>
+        <input v-model="votes" v-on:change="filterInput" v-on:keyup="filterInput" type="number">
+        <br>
+        <br>
 
         <div class="releases grid-x">
             <div v-for="Releases in Releases" :key="Releases.Id" class="small-12 medium-6 large-4 cell">
@@ -47,10 +62,9 @@ export default {
             api: 'http://localhost:49951/api/releases',
             apiGenres: 'http://localhost:49951/api/genres',
             apiLabels: 'http://localhost:49951/api/labels',
-            apiArtists: 'http://localhost:49951/api/artists',
             Releases: [],
             totalReleases: 0,
-            perPage: 24,
+            perPage: 44,
             currentPage: 1,
             selectedGenres: null,
             genres: [],
@@ -58,24 +72,33 @@ export default {
             types: ['Album', 'Single', 'EP', 'LP', 'Compilation', 'Radioshow'],
             selectedLabels: null,
             labels: [],
-            votes: 0,
+            votes: '0',
             labelsQuery: '',
-            artistsQuery: '',
+            genresQuery: '',
+            typesQuery: '',
             isLoading: false
         }
     },
     methods: {
-        getAllReleases: function (page, votes, perPage, genres, labels, artists) {
+        filterInput: function () {
+            this.currentPage = 1
+            this.typesQuery = (this.selectedTypes != null) ? this.selectedTypes.join() : null
+            this.genresQuery = (this.selectedGenres != null) ? this.selectedGenres.join() : null
+            this.labelsQuery = (this.selectedLabels != null) ? this.selectedLabels.join() : null
+            this.getAllReleases(this.currentPage, this.votes, this.perPage, this.genresQuery, this.labelsQuery, this.typesQuery)
+        },
+        getAllReleases: function (page, votes, perPage, selectedGenres, selectedLabels, selectedTypes) {
             var options = {
                 params: {
                     p: page,
                     votes: votes,
                     perPage: perPage,
-                    genres: genres,
-                    labels: labels,
-                    artists: artists
+                    genres: selectedGenres,
+                    labels: selectedLabels,
+                    types: selectedTypes
                 }
             }
+            console.log(options)
             axios.get(this.api, options).then(response => {
                 this.Releases = response.data
                 this.totalReleases = parseInt(response.headers['x-total'])
@@ -106,7 +129,7 @@ export default {
     },
     created: function () {
         this.getAllGenres()
-        this.getAllReleases(this.currentPage, this.votes, this.perPage, this.genres, this.labelsQuery, this.artistsQuery)
+        this.getAllReleases(this.currentPage, this.votes, this.perPage, this.selectedGenres, this.selectedLabels, this.selectedTypes)
     }
 }
 </script>
