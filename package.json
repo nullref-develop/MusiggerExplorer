@@ -1,6 +1,6 @@
 {
   "name": "Musigger",
-  "version": "0.3.0",
+  "version": "0.6.0",
   "description": "Web application for searching and filtering music releases",
   "author": "Anton Zolotov <antonzolotov@outlook.com>",
   "private": true,

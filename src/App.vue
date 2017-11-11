@@ -55,22 +55,33 @@ input:-moz-placeholder { /* Firefox 18- */
 html, body {
     background-color: $color-background;
 }
+a {
+    color: $color-link;
+    &:visited {
+        color: $color-link-visted;
+    }
+}
 blockquote {
     margin: 0;
 }
 .button {
     display: inline-block;
-    background-color: darken($color-background,15%);
+    background-color: transparent;
+    // background-color: darken($color-background,15%);
     padding: 10px 15px;
     text-decoration: none;
     font-weight: bold;
-    color: white;
+    color: $color-darkgrey;
     transition: all 0.2s ease;
     cursor: pointer;
     border: none;
     outline: none;
     &:hover {
         background-color: $color-accent;
+        color: $color-level1;
+    }
+    &:visted {
+        color: $color-darkgrey !important;
     }
 }
 .fa-icon {

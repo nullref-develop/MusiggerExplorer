@@ -1,13 +1,41 @@
 <template>
     <div class="grid-container">
-        <div v-if="Release" class="srelease grid-x">
+        <div class="releaseinner">
+            <div class="logodiv grid-x">
+                <Logo></Logo>
+            </div>
+
+
+            <div v-if="Release" class="srelease grid-x">
+
                 <div class="srelease-info auto cell">
                     <p class="srelease-info-title">{{Release.Name}}</p>
-                    <p class="srelease-info-label">{{Release.Label}}</p>
-                    <span class="srelease-info-type">{{Release.Type}}</span>
+                    <p>
+                        <strong>by</strong>
+                        <span v-for="artists in artists">
+                            <router-link
+                            :to="{ name: 'releases', query: {artists: artists} }"
+                            class="srelease-info-artist"
+                            title="Find all releases by this artist"
+                            >
+                                {{artists}}
+                            </router-link>
+                            <span> </span>
+                        </span>
+                    </p>
+                    
+                    <br>
+                    <span class="srelease-info-type">Album<!-- {{Release.Type}} --></span>
                     <span class="srelease-info-rating"><icon name="star"></icon> {{Release.Rating}}</span>
                     <span class="srelease-info-votes"><icon name="users"></icon> {{Release.Votes}}</span>
-                    <p class="srelease-info-genres">{{Release.Genres}}</p>
+                    <router-link
+                        :to="{ name: 'releases', query: {labels: Release.Label} }"
+                        class="srelease-info-label"
+                        title="Find all releases by this label"
+                        >
+                        <icon name="picture-o"></icon> {{Release.Label}}
+                    </router-link>
+                    <p class="srelease-info-genres"><icon name="music"></icon> {{Release.Genres}}</p>
                     <div class="srelease-extra grid-y">
                         <div v-html="Release.Info" class="srelease-extra-info cell"></div>
                         <div class="cell grid-x">
@@ -19,6 +47,7 @@
                     </div>
                 </div>
                 <img v-bind:src="freakeurl+Release.Cover" class="srelease-cover">
+            </div>
         </div>
 
         <Getlow></Getlow>
@@ -27,6 +56,7 @@
 </template>
 
 <script>
+import Logo from './Logo'
 import Getlow from './Getlow'
 import axios from 'axios'
 import 'vue-awesome/icons'
@@ -34,6 +64,7 @@ import Icon from 'vue-awesome/components/Icon'
 
 export default {
     components: {
+        Logo,
         Getlow,
         Icon
     },
@@ -41,7 +72,8 @@ export default {
     data () {
         return {
             freakeurl: this.freakeUrl,
-            Release: {}
+            Release: {},
+            artists: []
         }
     },
     methods: {
@@ -52,6 +84,7 @@ export default {
                 }
             }).then(response => {
                 this.Release = response.data
+                this.artists = response.data.Artists.split(', ')
                 document.title = this.Release.Name + ' | ' + this.appName
             })
             .catch(e => {
@@ -68,41 +101,63 @@ export default {
 </script>
 
 <style lang="scss">
+@import "../assets/app.scss";
 
 .grid-container {
     max-width: 100em;
 }
+.releaseinner {
+    background-color: $color-level1;
+    padding: 2em;
+    margin: 0.2em;
+    .logodiv {
+        padding: 2em 2em 0;
+    }
+}
 .srelease {
-    padding: 8em 0;
-    background-color: white;
+    padding: 2em 0 2em;
     .srelease-cover {
         width: 30em;
         height: 30em;
-        padding: 0 4em 0 0;
+        padding: 0 2em;
         @media (max-width: 640px) {
             width: 100%;
             height: 100%;
         }
     }
     .srelease-info {
-        padding: 0 4em;
+        padding: 0 2em;
         align-self: center;
         flex-basis: auto;
+        max-width: 57.6em;
+        @media (max-width: 1400px) {
+            width: 100%;
+            max-width: 100%;
+        }
         @media (max-width: 768px) {
             padding: 0 1em;
         }
         p { 
             margin: 0;
             line-height: 1em;
+            font-size: 1.2em;
         }
         .srelease-info-title {
-            font-size: 2em;
-            line-height: 1em;
+            font-size: 2.2em;
+            line-height: 1.2em;
+            font-weight: bold;
+            margin-bottom: 0.1em;
+        }
+        .srelease-info-label,
+        .srelease-info-artist {
+            display: inline-block;
+            color: black;
+            border-bottom: 2px solid black;
+            text-decoration: none;
             font-weight: bold;
         }
-        .srelease-info-label {
-            font-weight: bold;
-            margin-bottom: 2em;
+        .srelease-info-artist {
+            margin-bottom: 1em;
         }
         .srelease-info-type,
         .srelease-info-rating,
@@ -119,8 +174,8 @@ export default {
             padding: 2px 4px;
         }
         .srelease-info-genres {
-            margin-top: 0.5em;
-            color: gray;
+            margin-top: 0.4em;
+            color: $color-darkgrey;
         }
     }
     .srelease-extra {
@@ -137,20 +192,23 @@ export default {
                 .link-head {
                     font-weight: bold;
                 }
-            } 
+            }
+            ol {
+                padding-left: 1em;
+            }
         }
         .srelease-extra-tofreake {
             text-align: right;
             overflow: hidden;
         }
     }
-    @media (max-width: 1600px) {
+    @media (max-width: 1400px) {
         flex-flow: column-reverse nowrap;
-        padding: 4em 0;
+        padding: 2em;
         .srelease-cover {
             padding: 0;
             align-self: center;
-            margin-bottom: 4em;
+            margin-bottom: 2em;
         }
     }
 }
@@ -159,5 +217,8 @@ embed {
     width: 100% !important;
     max-width: 100% !important;
     min-width: 100% !important;
+}
+footer {
+    padding: 0 4em !important;
 }
 </style>

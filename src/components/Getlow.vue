@@ -1,22 +1,31 @@
 <template>
-    <footer class="grid-x">
-        <div class="small-12 cell">
-            <h1>Musigger</h1>
+    <footer>
+        <div class="grid-x">
+            <div class="musigger-title auto cell">
+                <h1>Musigger</h1>
+            </div>
+            <div class="musigger-icon medium-2 small-3 cell">
+                <img src="../assets/icon.svg" />
+            </div>
         </div>
-        <div class="large-2 medium-4 small-12 cell">
-            <ul>
-                <li><a href="https://github.com/Musigger" target="_blank">GitHub</a></li>
-                <li><a href="https://www.facebook.com/nullrdv/" target="_blank">NRDV</a></li>
-                <li><a href="https://www.promusity.com/" target="_blank">Promusity</a></li>
-            </ul>
+        <div class="grid-x">
+            <div class="large-2 medium-4 small-12 cell">
+                <ul>
+                    <li><a href="https://github.com/Musigger" target="_blank">GitHub</a></li>
+                    <li><a href="https://www.facebook.com/nullrdv/" target="_blank">NRDV</a></li>
+                    <li><a href="https://www.promusity.com/?utm_source=musigger" target="_blank">Promusity</a></li>
+                </ul>
+            </div>
+            <div class="large-10 medium-8 small-12 cell">
+                <strong>What musiggger is?</strong>
+                <p>Curabitur non nulla sit amet nisl tempus convallis quis ac lectus. Vivamus magna justo, lacinia eget consectetur sed, convallis at tellus. Nulla quis lorem ut libero malesuada feugiat. Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui. Pellentesque in ipsum id orci porta dapibus. Nulla porttitor accumsan tincidunt. Quisque velit nisi, pretium ut lacinia in, elementum id enim. Proin eget tortor risus. Curabitur non nulla sit amet nisl tempus convallis quis ac lectus. Nulla porttitor accumsan tincidunt.</p>
+            </div>
         </div>
-        <div class="large-10 medium-8 small-12 cell">
-            <strong>What musiggger is?</strong>
-            <p>Curabitur non nulla sit amet nisl tempus convallis quis ac lectus. Vivamus magna justo, lacinia eget consectetur sed, convallis at tellus. Nulla quis lorem ut libero malesuada feugiat. Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui. Pellentesque in ipsum id orci porta dapibus. Nulla porttitor accumsan tincidunt. Quisque velit nisi, pretium ut lacinia in, elementum id enim. Proin eget tortor risus. Curabitur non nulla sit amet nisl tempus convallis quis ac lectus. Nulla porttitor accumsan tincidunt.</p>
-        </div>
-        <div class="footer-down small-12 cell">
-            <span>Version 0.3</span>
-            <span class="madeby">Developed by NRDV</span>
+        <div class="grid-x">
+            <div class="footer-down small-12 cell">
+                <span>Version 0.6</span>
+                <span class="madeby">Developed by NRDV</span>
+            </div>
         </div>
     </footer>
 </template>
@@ -25,17 +34,29 @@
 @import "../assets/app.scss";
 footer {
     background-color: $color-level1;
-    margin: 1.2em 0.2em 0.4em;
+    margin: 0.4em 0.2em;
     padding: 0 2em;
-    h1 {
-        font-size: 3em;
+    .musigger-icon {
+        text-align: right;
+        img {
+            width: 4.7em;
+            margin: 2.73em 0;
+        }
+    }
+    .musigger-title {
+        h1 {
+            display: inline-block;
+            font-size: 3em;
+            line-height: 1.2em;
+            margin: 0.67em 0;
+        }
     }
     ul {
         list-style: none;
         padding: 0;
         li > a {
             text-decoration: none;
-            color: black;
+            color: black !important;
             &:after {
                 content: '\00a0›';
             }
