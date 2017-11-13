@@ -91,9 +91,8 @@ export default {
                     perPage: perPage,
                     genres: selectedGenres,
                     labels: selectedLabels,
-                    types: selectedTypes
-                    // Включить, когда заработает поиск с пустыми артистами
-                    // artists: artists
+                    types: selectedTypes,
+                    artists: artists
                 }
             }
             axios.get(this.api, options).then(response => {
@@ -116,9 +115,8 @@ export default {
                         perPage: options.params.perPage,
                         genres: options.params.genres,
                         labels: options.params.labels,
-                        types: options.params.types
-                        // Включить, когда заработает поиск с пустыми артистами
-                        // artists: this.artistsQuery
+                        types: options.params.types,
+                        artists: this.artistsQuery
                     }})
                 }
                 this.firstLaunch = false

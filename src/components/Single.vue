@@ -25,7 +25,7 @@
                     </p>
                     
                     <br>
-                    <span class="srelease-info-type">Album<!-- {{Release.Type}} --></span>
+                    <span class="srelease-info-type">{{Release.Type}}</span>
                     <span class="srelease-info-rating"><icon name="star"></icon> {{Release.Rating}}</span>
                     <span class="srelease-info-votes"><icon name="users"></icon> {{Release.Votes}}</span>
                     <router-link
@@ -91,11 +91,26 @@ export default {
                 console.log(e)
             })
         }
+        getUpdatedInfo: function () {
+            axios.patch(this.apiUrl + '/releases', {
+                params: {
+                    ID: releaseid
+                }
+            }).then(response => {
+                if (response.status == 200) {
+                    this.Release = response.data
+                }
+            })
+            .catch(e => {
+                console.log(e)
+            })
+        }
     },
     created: function () {
         // get release id from url params
         var releaseId = this.$route.params.id
         this.getSingleRelease(releaseId)
+        this.getUpdatedInfo(releaseId)
     }
 }
 </script>
