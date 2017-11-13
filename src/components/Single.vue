@@ -90,14 +90,15 @@ export default {
             .catch(e => {
                 console.log(e)
             })
-        }
-        getUpdatedInfo: function () {
-            axios.patch(this.apiUrl + '/releases', {
+        },
+        getUpdatedInfo: function (releaseid) {
+            axios.get(this.apiUrl + '/releases', {
                 params: {
-                    ID: releaseid
+                    ID: releaseid,
+                    update: true
                 }
             }).then(response => {
-                if (response.status == 200) {
+                if (response.status === 200) {
                     this.Release = response.data
                 }
             })
