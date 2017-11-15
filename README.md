@@ -4,13 +4,13 @@ Web application for searching and filtering music releases. Musiggger provide fl
 
 ## Getting Started
 
-First of all, you need to run [web api server]([contributors](https://github.com/your/project/contributors)) and make DB. 
+First of all, you need to set up and run [web api server]([contributors](https://github.com/your/project/contributors)) and make DB. 
 Next, clone a copy of git repository and install dependencies
 ```
 git clone git://github.com/Musigger/MusiggerExplorer.git
 npm install
 ```
-When go to [main.js file]([contributors](src/main.js)) and change the url where your web api server is hosted:
+When go to /src/main.js and change the url where your web api server is hosted:
 ```
 Vue.prototype.apiUrl = 'http://localhost:49951/api'
 ```
@@ -28,9 +28,9 @@ npm run dev
 
 ## Authors
 
-* **[Anton Zolotov](https://github.com/PurpleBooth)** - *Clinet single page application*
-* **[Egor Shoba](https://github.com/PurpleBooth)** - *Server Web API*
+* **[Anton Zolotov](https://github.com/joseph2)** - *Clinet single page application*
+* **[Egor Shoba](https://github.com/silentfobos)** - *Server Web API*
 
 ## License
 
-This project is licensed under the Mozilla Public License 2.0 - see the [LICENSE.md](LICENSE.md) file for details
+This project is licensed under the Mozilla Public License 2.0 - see the LICENSE.md file for details
