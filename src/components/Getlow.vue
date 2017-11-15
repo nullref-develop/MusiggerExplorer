@@ -18,12 +18,12 @@
             </div>
             <div class="large-10 medium-8 small-12 cell">
                 <strong>What musiggger is?</strong>
-                <p>Curabitur non nulla sit amet nisl tempus convallis quis ac lectus. Vivamus magna justo, lacinia eget consectetur sed, convallis at tellus. Nulla quis lorem ut libero malesuada feugiat. Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui. Pellentesque in ipsum id orci porta dapibus. Nulla porttitor accumsan tincidunt. Quisque velit nisi, pretium ut lacinia in, elementum id enim. Proin eget tortor risus. Curabitur non nulla sit amet nisl tempus convallis quis ac lectus. Nulla porttitor accumsan tincidunt.</p>
+                <p>Web application for searching and filtering music releases. Musiggger provide flexible release filtering system by genres, types, labels, votes and even artists. Also it offers superrior perfomance and modern design. Music collection updates every day. Can you belive it, here you can download every release without registration and sms!</p>
             </div>
         </div>
         <div class="grid-x">
             <div class="footer-down small-12 cell">
-                <span>Version 0.6</span>
+                <span>Version 1.0</span>
                 <span class="madeby">Developed by NRDV</span>
             </div>
         </div>
