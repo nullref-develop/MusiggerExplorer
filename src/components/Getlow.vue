@@ -17,8 +17,8 @@
                 </ul>
             </div>
             <div class="large-10 medium-8 small-12 cell">
-                <strong>What musiggger is?</strong>
-                <p>Web application for searching and filtering music releases. Musiggger provide flexible release filtering system by genres, types, labels, votes and even artists. Also it offers superrior perfomance and modern design. Music collection updates every day. Can you belive it, here you can download every release without registration and sms!</p>
+                <strong>What musigger is?</strong>
+                <p>Web application for searching and filtering music releases. Musigger provides flexible release filtering engine that sorts by genres, types, labels, votes and even artists. Also it offers superrior perfomance and modern design. Music collection updates every day. Can you belive it, here you can download every release without registration and sms!</p>
             </div>
         </div>
         <div class="grid-x">

@@ -51,7 +51,7 @@
                     </div>
                 </transition>
             </div>
-            <div class="small-2 cell">
+            <div class="medium-4 small-5 cell">
                 <button v-bind:class="{ active: showFilter }" @click="showFilter = !showFilter" class="filter-button button" type="button">
                     <icon name="chevron-down" scale="0.7"></icon>
                 </button>

@@ -1,6 +1,7 @@
 # Musigger Explorer
 
-Web application for searching and filtering music releases. Musiggger provide flexible release filtering system by genres, types, labels, votes and even artists. Also it offers superrior perfomance and modern design.
+[Musigger.com](http://musigger.com)
+Web application for searching and filtering music releases. Musigger provides flexible release filtering engine that sorts by genres, types, labels, votes and even artists. Also it offers superrior perfomance and modern design.
 
 ## Getting Started
 
@@ -28,7 +29,7 @@ npm run dev
 
 ## Authors
 
-* **[Anton Zolotov](https://github.com/joseph2)** - *Clinet single page application*
+* **[Anton Zolotov](https://github.com/joseph2)** - *Client single page application*
 * **[Egor Shoba](https://github.com/silentfobos)** - *Server Web API*
 
 ## License

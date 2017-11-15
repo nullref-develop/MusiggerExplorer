@@ -41,7 +41,7 @@
                         <div class="cell grid-x">
                             <div v-html="Release.Links" class="srelease-extra-links auto cell"></div>
                             <div class="srelease-extra-tofreake small-2 cell">
-                                <a v-bind:href="freakeurl+'/'+Release.ReleaseId" class="button" target="_blank"><icon name="external-link-square"></icon> Freake.ru</a>
+                                <a v-bind:href="freakeurl+'/'+Release.ReleaseId" class="button" target="_blank"><icon name="external-link-square"></icon> Link</a>
                             </div>
                         </div>
                     </div>
@@ -132,6 +132,7 @@ export default {
 }
 .srelease {
     padding: 2em 0 2em;
+    justify-content: space-between;
     .srelease-cover {
         width: 30em;
         height: 30em;
@@ -145,7 +146,10 @@ export default {
         padding: 0 2em;
         align-self: center;
         flex-basis: auto;
-        max-width: 57.6em;
+        max-width: 40em;
+        @media (min-width: 1680px) {
+            max-width: 57em;
+        }
         @media (max-width: 1400px) {
             width: 100%;
             max-width: 100%;
