@@ -28,6 +28,7 @@
                     <span class="srelease-info-type">{{Release.Type}}</span>
                     <span class="srelease-info-rating"><icon name="star"></icon> {{Release.Rating}}</span>
                     <span class="srelease-info-votes"><icon name="users"></icon> {{Release.Votes}}</span>
+                    <span class="srelease-info-date"><icon name="calendar"></icon> {{Release.Date}}</span>
                     <router-link
                         :to="{ name: 'releases', query: {labels: Release.Label} }"
                         class="srelease-info-label"
@@ -84,6 +85,12 @@ export default {
                 }
             }).then(response => {
                 this.Release = response.data
+                var shortDate = new Date(response.data.Date)
+                this.Release.Date = shortDate.toLocaleString('ru', {
+                    year: 'numeric',
+                    month: 'numeric',
+                    day: 'numeric'
+                })
                 this.artists = response.data.Artists.split(', ')
                 document.title = this.Release.Name + ' | ' + this.appName
             })
@@ -193,7 +200,8 @@ export default {
         }
         .srelease-info-type,
         .srelease-info-rating,
-        .srelease-info-votes {
+        .srelease-info-votes,
+        .srelease-info-date {
             width: max-content;
             font-weight: bold;
             display: inline;
