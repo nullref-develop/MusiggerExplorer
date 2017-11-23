@@ -45,13 +45,13 @@
                             <icon name="users" scale="0.8"></icon> {{votes}}&nbsp;&nbsp;
                         </span>
                         <!-- If no one filter is set -->
-                        <span v-if="!artistsQuery && !genresQuery && !typesQuery && !labelsQuery && !votes">
+                        <span v-if="!artistsQuery && !genresQuery && !typesQuery && !labelsQuery && !votes" class="filter-infotext">
                             Push the button to show the filters <icon name="angle-double-right" scale="0.8"></icon>
                         </span>
                     </div>
                 </transition>
             </div>
-            <div class="medium-4 small-5 cell">
+            <div class="medium-4 small-8 cell">
                 <button v-bind:class="{ active: showFilter }" @click="showFilter = !showFilter" class="filter-button button" type="button">
                     <icon name="chevron-down" scale="0.7"></icon>
                 </button>
@@ -217,6 +217,7 @@ export default {
 </script>
 
 <style lang="scss">
+@import "~foundation-sites/scss/foundation";
 @import "../assets/app.scss";
 
 .fade-enter-active {
@@ -252,6 +253,11 @@ export default {
             text-overflow: ellipsis;
             margin: 0.5em 0 0.3em;
             line-height: 1.2em;
+        }
+        .filter-infotext {
+            @media #{$small-only} {
+                display: none;  
+            }
         }
         .genres {
             max-width: 30em;
@@ -294,6 +300,9 @@ export default {
         background: #ffffff;
         box-shadow: none;
         background-color: $color-background;
+    }
+    @media #{$small-only} {
+        padding: 1em;
     }
 }
 </style>

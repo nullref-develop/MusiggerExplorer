@@ -40,7 +40,7 @@
                         <div v-html="Release.Info" class="srelease-extra-info cell"></div>
                         <div class="cell grid-x">
                             <div v-html="Release.Links" class="srelease-extra-links auto cell"></div>
-                            <div class="srelease-extra-tofreake small-2 cell">
+                            <div class="srelease-extra-tofreake small-4 cell">
                                 <a v-bind:href="freakeurl+'/'+Release.ReleaseId" class="button" target="_blank"><icon name="external-link-square"></icon> Link</a>
                             </div>
                         </div>
@@ -117,6 +117,7 @@ export default {
 </script>
 
 <style lang="scss">
+@import "~foundation-sites/scss/foundation";
 @import "../assets/app.scss";
 
 .grid-container {
@@ -128,6 +129,12 @@ export default {
     margin: 0.2em;
     .logodiv {
         padding: 2em 2em 0;
+        @media #{$small-only} {
+            padding: 2em 1em 0;
+        }
+    }
+    @media #{$small-only} {
+        padding: 0;
     }
 }
 .srelease {
@@ -137,9 +144,10 @@ export default {
         width: 30em;
         height: 30em;
         padding: 0 2em;
-        @media (max-width: 640px) {
+        @media #{$small-only} {
             width: 100%;
             height: 100%;
+            font-size: 0.9em;
         }
     }
     .srelease-info {
@@ -167,6 +175,10 @@ export default {
             line-height: 1.2em;
             font-weight: bold;
             margin-bottom: 0.1em;
+            @media #{$small-only} {
+                font-size: 1.8em;
+                line-height: 1.1em;
+            }
         }
         .srelease-info-label,
         .srelease-info-artist {
@@ -201,16 +213,23 @@ export default {
     .srelease-extra {
         margin-top: 2em;
         padding: 0;
+        overflow: hidden;
         .srelease-extra-info {
             margin-bottom: 1em;
         }
         .srelease-extra-links {
-            ul {
+            overflow: hidden;
+            ul, ol {
                 list-style: none;
                 padding: 0;
                 margin: 0;
                 .link-head {
                     font-weight: bold;
+                }
+                li {
+                    overflow: hidden;
+                    white-space: pre;
+                    text-overflow: ellipsis;
                 }
             }
             ol {
@@ -231,14 +250,21 @@ export default {
             margin-bottom: 2em;
         }
     }
+    @media #{$small-only} {
+        padding: 2em 1em;
+    }
 }
 iframe,
 embed {
     width: 100% !important;
     max-width: 100% !important;
     min-width: 100% !important;
+    overflow: hidden;
 }
 footer {
     padding: 0 4em !important;
+    @media #{$small-only} {
+        padding: 0 1em !important;
+    }
 }
 </style>

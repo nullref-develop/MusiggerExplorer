@@ -2,7 +2,7 @@
     <div class="pagination grid-x">
         <div class="pagination-left">
             <a href="#" v-if="hasPrev()" @click.prevent="changePage(prevPage)">
-                <icon name="chevron-left" scale="0.8"></icon> Previous
+                <icon name="chevron-left" scale="0.8"></icon>&nbsp;<span class="pagination-prevnext">Previous</span>
             </a>
         </div>
         <div class="pagination-mid">
@@ -20,7 +20,7 @@
         </div>
         <div class="pagination-right">
             <a href="#" v-if="hasNext()" @click.prevent="changePage(nextPage)">
-                Next <icon name="chevron-right" scale="0.8"></icon>
+                <span class="pagination-prevnext">Next</span>&nbsp;<icon name="chevron-right" scale="0.8"></icon>
             </a>
         </div>
     </div>
@@ -50,7 +50,7 @@ export default {
         },
         pageRange: {
             type: Number,
-            default: 2
+            default: 1
         },
         votes: {
             type: Number,
@@ -115,6 +115,7 @@ export default {
 }
 </script>
 <style lang="scss">
+@import "~foundation-sites/scss/foundation";
 @import "../assets/app.scss";
 
 .pagination {
@@ -135,12 +136,20 @@ export default {
             color: white;
             background-color: $color-accent;
         }
+        @media #{$small-only} {
+            padding: 6px 12px; 
+        }
     }
     .pagination-mid ul {
         display: flex;
         flex-direction: row;
         list-style: none;
         margin: 0;
+    }
+    .pagination-prevnext {
+        @media #{$small-only} {
+            display: none;
+        }
     }
 }
 </style>

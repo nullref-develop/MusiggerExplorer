@@ -151,6 +151,7 @@ export default {
 </script>
 
 <style lang="scss">
+@import "~foundation-sites/scss/foundation";
 @import "../assets/app.scss";
 
 .grid-container {
@@ -171,6 +172,9 @@ export default {
     transition: all 0.2s ease;
     overflow: hidden;
     font-weight: normal;
+    @media #{$small-only} {
+        height: 100px;
+    }
     &:hover {
         transform: scale(1.02);
         box-shadow: 0 14px 28px rgba(0,0,0,0.15), 0 10px 10px rgba(0,0,0,0.12);
@@ -178,10 +182,15 @@ export default {
     .release-cover {
         width: 148px;
         height: 148px;
+        @media #{$small-only} {
+            width: 100px;
+            height: 100px;
+        }
     }
     .release-info {
         margin: 0.6em 1.2em;
         overflow: hidden;
+        line-height: 1.2em;
         .release-info-title {
             font-size: 1.5em;
             line-height: 1.2em;
@@ -189,6 +198,9 @@ export default {
             font-weight: bold;
             max-height: 2.4em;
             overflow: hidden;
+            @media #{$small-only} {
+                max-height: 1.2em;
+            }
         }
         .release-info-label {
             margin: 0 0 0.5em 0;
@@ -203,6 +215,9 @@ export default {
             text-overflow: ellipsis;
             margin: 0;
         }
+    }
+    @media #{$small-only} {
+        font-size: 0.9em;
     }
 }
 </style>

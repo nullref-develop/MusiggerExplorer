@@ -13,7 +13,6 @@
                 <ul>
                     <li><a href="https://github.com/Musigger" target="_blank">GitHub</a></li>
                     <li><a href="https://www.facebook.com/nullrdv/" target="_blank">NRDV</a></li>
-                    <li><a href="https://www.promusity.com/?utm_source=musigger" target="_blank">Promusity</a></li>
                 </ul>
             </div>
             <div class="large-10 medium-8 small-12 cell">
@@ -31,7 +30,9 @@
 </template>
 
 <style lang="scss">
+@import "~foundation-sites/scss/foundation";
 @import "../assets/app.scss";
+
 footer {
     background-color: $color-level1;
     margin: 0.4em 0.2em;
@@ -71,6 +72,10 @@ footer {
         .madeby {
             float: right;
         }
+    }
+    @media #{$small-only} {
+        padding: 0 1em;
+        font-size: 0.9em;    
     }
 }
 </style>

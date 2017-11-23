@@ -88,4 +88,12 @@ blockquote {
     position: relative;
     top: 0.1em;
 }
+@media #{$small-only} {
+    body {
+        margin: 0;
+    }
+    .grid-container {
+        padding: 0;
+    }
+}
 </style>
