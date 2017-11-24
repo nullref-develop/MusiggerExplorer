@@ -22,7 +22,7 @@
         </div>
         <div class="grid-x">
             <div class="footer-down small-12 cell">
-                <span>Version 1.0</span>
+                <span>Version 1.1</span>
                 <span class="madeby">Developed by NRDV</span>
             </div>
         </div>

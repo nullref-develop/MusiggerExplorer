@@ -227,26 +227,31 @@ export default {
         }
         .srelease-extra-links {
             overflow: hidden;
-            ul, ol {
-                list-style: none;
-                padding: 0;
-                margin: 0;
-                .link-head {
-                    font-weight: bold;
-                }
-                li {
-                    overflow: hidden;
-                    white-space: pre;
-                    text-overflow: ellipsis;
-                }
-            }
-            ol {
-                padding-left: 1em;
-            }
         }
         .srelease-extra-tofreake {
             text-align: right;
             overflow: hidden;
+        }
+        ul, ol {
+            padding: 0;
+            margin: 0 0 1em 0;
+            .link-head {
+                font-weight: bold;
+            }
+            li {
+                overflow: hidden;
+                white-space: pre;
+                text-overflow: ellipsis;
+            }
+        }
+        ol {
+            padding-left: 1em;
+            li {
+                overflow: visible;
+            }
+        }
+        ul {
+            list-style: none;
         }
     }
     @media (max-width: 1400px) {
