@@ -3,6 +3,10 @@
         <transition name="slide-fade">
             <div v-if="showFilter" class="grid-x grid-margin-x">
                 <div class="filter-item small-12 cell">
+                    <label>Search</label>
+                    <input v-model="titleQuery" v-on:change="filterInput" v-on:keyup="filterInput" type="text" class="finder-input margin-0" placeholder="Search for titles and artists">
+                </div>
+                <div class="filter-item small-12 cell">
                     <label>Genres</label>
                     <multiselect v-model="selectedGenres" @input="filterInput" :options="genres" :multiple="true" placeholder="Select genres"></multiselect>
                 </div>
@@ -29,6 +33,9 @@
             <div class="auto cell">
                 <transition name="fade">
                     <div v-if="!showFilter" class="filter-mini">
+                        <span v-if="titleQuery">
+                            <icon name="search" scale="0.8"></icon> {{titleQuery}}&nbsp;&nbsp;
+                        </span>
                         <span v-if="artistsQuery">
                             <icon name="user" scale="0.8"></icon> {{artistsQuery}}&nbsp;&nbsp;
                         </span>
@@ -45,7 +52,7 @@
                             <icon name="users" scale="0.8"></icon> {{votes}}&nbsp;&nbsp;
                         </span>
                         <!-- If no one filter is set -->
-                        <span v-if="!artistsQuery && !genresQuery && !typesQuery && !labelsQuery && !votes" class="filter-infotext">
+                        <span v-if="!artistsQuery && !genresQuery && !typesQuery && !labelsQuery && !votes && !titleQuery" class="filter-infotext">
                             Push the button to show the filters <icon name="angle-double-right" scale="0.8"></icon>
                         </span>
                     </div>
@@ -70,6 +77,7 @@
 import Logo from './Logo'
 import Multiselect from 'vue-multiselect'
 import axios from 'axios'
+import debounce from 'tiny-debounce'
 import 'vue-awesome/icons'
 import Icon from 'vue-awesome/components/Icon'
 
@@ -94,6 +102,10 @@ export default {
             type: String
         },
         labelsQueryP: {
+            default: '',
+            type: String
+        },
+        titleQueryP: {
             default: '',
             type: String
         },
@@ -132,31 +144,36 @@ export default {
             labelsQuery: '',
             genresQuery: '',
             typesQuery: '',
-            artistsQuery: ''
+            artistsQuery: '',
+            titleQuery: ''
         }
     },
     methods: {
         // casting of variable types
-        filterInput: function () {
-            this.currentPage = 1 // reset current page when filter change
-            this.typesQuery = (this.selectedTypes != null) ? this.selectedTypes.join() : null
-            this.labelsQuery = (this.selectedLabels != null) ? this.selectedLabels.join() : null
-            this.genresQuery = (this.selectedGenres != null) ? this.selectedGenres.join() : null
-            this.$emit('filter-changed',
-                this.currentPage,
-                this.votes,
-                this.perPage,
-                this.genresQuery,
-                this.labelsQuery,
-                this.typesQuery,
-                this.artistsQuery
-            )
-        },
+        filterInput: debounce( // задержка поиска при пользовательском вводе
+            function () {
+                this.currentPage = 1 // reset current page when filter change
+                this.typesQuery = (this.selectedTypes != null) ? this.selectedTypes.join() : null
+                this.labelsQuery = (this.selectedLabels != null) ? this.selectedLabels.join() : null
+                this.genresQuery = (this.selectedGenres != null) ? this.selectedGenres.join() : null
+                this.$emit('filter-changed',
+                    this.currentPage,
+                    this.votes,
+                    this.perPage,
+                    this.genresQuery,
+                    this.labelsQuery,
+                    this.typesQuery,
+                    this.artistsQuery,
+                    this.titleQuery
+                )
+            },
+        1000),
         clearFilter: function () {
             this.labelsQuery = ''
             this.genresQuery = ''
             this.typesQuery = ''
             this.artistsQuery = ''
+            this.titleQuery = ''
             this.selectedLabels = null
             this.selectedGenres = null
             this.selectedTypes = null
@@ -170,7 +187,8 @@ export default {
                 this.genresQuery,
                 this.labelsQuery,
                 this.typesQuery,
-                this.artistsQuery
+                this.artistsQuery,
+                this.titleQuery
             )
         },
         getAllGenres: function () {
@@ -181,16 +199,18 @@ export default {
                 console.log(e)
             })
         },
-        getLabels: function () {
-            this.isLoading = true
-            axios.get(this.apiLabels).then(response => {
-                this.labels = response.data
-                this.isLoading = false
-            })
-            .catch(e => {
-                console.log(e)
-            })
-        }
+        getLabels: debounce(
+            function () {
+                this.isLoading = true
+                axios.get(this.apiLabels).then(response => {
+                    this.labels = response.data
+                    this.isLoading = false
+                })
+                .catch(e => {
+                    console.log(e)
+                })
+            },
+        1000)
     },
     created: function () {
         // Parse query from parent component and apply to filter
@@ -207,6 +227,7 @@ export default {
             this.typesQuery = this.typesQueryP
         }
         this.artistsQuery = this.artistsQueryP
+        this.titleQuery = this.titleQueryP
         this.votes = this.votesP
         this.currentPage = this.currentPageP
         this.perPage = this.perPageP
@@ -220,6 +241,9 @@ export default {
 @import "~foundation-sites/scss/foundation";
 @import "../assets/app.scss";
 
+.margin-0 {
+    margin: 0;
+}
 .fade-enter-active {
     transition: opacity 0.5s
 }

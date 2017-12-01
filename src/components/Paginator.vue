@@ -67,6 +67,10 @@ export default {
         types: {
             type: String,
             default: ''
+        },
+        title: {
+            type: String,
+            default: ''
         }
     },
     computed: {
@@ -109,7 +113,7 @@ export default {
             return this.current < this.totalPages
         },
         changePage: function (page) {
-            this.$emit('page-changed', page, this.votes, this.perPage, this.genres, this.labels, this.types)
+            this.$emit('page-changed', page, this.votes, this.perPage, this.genres, this.labels, this.types, '', this.title)
         }
     }
 }

@@ -6,6 +6,7 @@
             :genresQueryP="genresQuery"
             :typesQueryP="typesQuery"
             :labelsQueryP="labelsQuery"
+            :titleQueryP="titleQuery"
             :votesP="votes"
             :currentPageP="currentPage"
             :perPageP="perPage"
@@ -37,6 +38,7 @@
             :genres="genresQuery"
             :labels="labelsQuery"
             :types="typesQuery"
+            :title="titleQuery"
             @page-changed="getAllReleases"
         ></Paginator>
 
@@ -78,12 +80,13 @@ export default {
             genresQuery: '',
             typesQuery: '',
             artistsQuery: '',
+            titleQuery: '',
             // disable url rewrite on first app launch
             firstLaunch: true
         }
     },
     methods: {
-        getAllReleases: function (page, votes, perPage, selectedGenres, selectedLabels, selectedTypes, artists) {
+        getAllReleases: function (page, votes, perPage, selectedGenres, selectedLabels, selectedTypes, artists, title) {
             var options = {
                 params: {
                     p: page,
@@ -92,7 +95,8 @@ export default {
                     genres: selectedGenres,
                     labels: selectedLabels,
                     types: selectedTypes,
-                    artists: artists
+                    artists: artists,
+                    title: title
                 }
             }
             axios.get(this.api, options).then(response => {
@@ -107,6 +111,7 @@ export default {
                 this.labelsQuery = selectedLabels
                 this.typesQuery = selectedTypes
                 this.artistsQuery = artists
+                this.titleQuery = title
                 // update url query when something changed (except first app launch)
                 if (!this.firstLaunch) {
                     this.$router.replace({query: {
@@ -116,7 +121,8 @@ export default {
                         genres: options.params.genres,
                         labels: options.params.labels,
                         types: options.params.types,
-                        artists: this.artistsQuery
+                        artists: this.artistsQuery,
+                        title: options.params.title
                     }})
                 }
                 this.firstLaunch = false
@@ -144,8 +150,11 @@ export default {
         if (this.$route.query.artists) {
             this.artistsQuery = this.$route.query.artists
         }
+        if (this.$route.query.title) {
+            this.titleQuery = this.$route.query.title
+        }
         // get genres and releases (that fits the filter)
-        this.getAllReleases(this.currentPage, this.votes, this.perPage, this.genresQuery, this.labelsQuery, this.typesQuery, this.artistsQuery)
+        this.getAllReleases(this.currentPage, this.votes, this.perPage, this.genresQuery, this.labelsQuery, this.typesQuery, this.artistsQuery, this.titleQuery)
     }
 }
 </script>
