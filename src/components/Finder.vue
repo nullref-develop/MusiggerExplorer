@@ -1,49 +1,63 @@
 <template>
-    <div class="grid-container">
-
-        <Filtration
-            :artistsQueryP="artistsQuery"
-            :genresQueryP="genresQuery"
-            :typesQueryP="typesQuery"
-            :labelsQueryP="labelsQuery"
-            :titleQueryP="titleQuery"
-            :votesP="votes"
-            :currentPageP="currentPage"
-            :perPageP="perPage"
-            @filter-changed="getAllReleases"
-        ></Filtration>
-
-        <div class="releases grid-x">
-            <div v-for="Releases in Releases" :key="Releases.Id" class="small-12 medium-6 large-4 cell">
-                <router-link :to="{ name: 'release', params: { id: Releases.Id} }" class="release-item grid-x">
-                    <img class="release-cover cell" v-bind:src="freakeurl+Releases.MiniCover" />
-                    <div class="release-info cell auto grid-y">
-                        <p class="release-info-title cell">{{ Releases.Name }}</p>
-                        <p class="release-info-label cell">{{ Releases.Label }}</p>
-                        <div class="release-info-summary cell">
-                            <span><icon name="play" scale="0.8"></icon> {{ Releases.Type }}&nbsp;&nbsp;</span>
-                            <span><icon name="users" scale="0.8"></icon> {{ Releases.Votes }}</span>
-                        </div>
-                        <p class="release-info-genres cell"><icon name="music" scale="0.8"></icon> {{ Releases.Genres }}</p>
-                    </div>
-                </router-link>
+    <div>
+        <div v-if="isLoading" id="loader">
+            <div class="loader">
+                <ul>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                </ul>
             </div>
         </div>
+        <div class="grid-container">
 
-        <Paginator
-            :current="currentPage"
-            :total="totalReleases"
-            :per-page="perPage"
-            :votes="votes"
-            :genres="genresQuery"
-            :labels="labelsQuery"
-            :types="typesQuery"
-            :title="titleQuery"
-            @page-changed="getAllReleases"
-        ></Paginator>
+            <Filtration
+                :artistsQueryP="artistsQuery"
+                :genresQueryP="genresQuery"
+                :typesQueryP="typesQuery"
+                :labelsQueryP="labelsQuery"
+                :titleQueryP="titleQuery"
+                :votesP="votes"
+                :currentPageP="currentPage"
+                :perPageP="perPage"
+                @filter-changed="getAllReleases"
+            ></Filtration>
 
-        <Getlow></Getlow>
+            <div class="releases grid-x">
+                <div v-for="Releases in Releases" :key="Releases.Id" class="small-12 medium-6 large-4 cell">
+                    <router-link :to="{ name: 'release', params: { id: Releases.Id} }" class="release-item grid-x">
+                        <img class="release-cover cell" v-bind:src="freakeurl+Releases.MiniCover" />
+                        <div class="release-info cell auto grid-y">
+                            <p class="release-info-title cell">{{ Releases.Name }}</p>
+                            <p class="release-info-label cell">{{ Releases.Label }}</p>
+                            <div class="release-info-summary cell">
+                                <span><icon name="play" scale="0.8"></icon> {{ Releases.Type }}&nbsp;&nbsp;</span>
+                                <span><icon name="users" scale="0.8"></icon> {{ Releases.Votes }}</span>
+                            </div>
+                            <p class="release-info-genres cell"><icon name="music" scale="0.8"></icon> {{ Releases.Genres }}</p>
+                        </div>
+                    </router-link>
+                </div>
+            </div>
 
+            <Paginator
+                :current="currentPage"
+                :total="totalReleases"
+                :per-page="perPage"
+                :votes="votes"
+                :genres="genresQuery"
+                :labels="labelsQuery"
+                :types="typesQuery"
+                :title="titleQuery"
+                @page-changed="getAllReleases"
+            ></Paginator>
+
+            <Getlow></Getlow>
+
+        </div>
     </div>
 </template>
 
@@ -82,11 +96,13 @@ export default {
             artistsQuery: '',
             titleQuery: '',
             // disable url rewrite on first app launch
-            firstLaunch: true
+            firstLaunch: true,
+            isLoading: true
         }
     },
     methods: {
         getAllReleases: function (page, votes, perPage, selectedGenres, selectedLabels, selectedTypes, artists, title) {
+            this.isLoading = true
             var options = {
                 params: {
                     p: page,
@@ -126,6 +142,7 @@ export default {
                     }})
                 }
                 this.firstLaunch = false
+                this.isLoading = false
             })
             .catch(e => {
                 console.log(e)

@@ -22,7 +22,7 @@
         </div>
         <div class="grid-x">
             <div class="footer-down small-12 cell">
-                <span>Version 1.1</span>
+                <span>Version 1.2</span>
                 <span class="madeby">Developed by NRDV</span>
             </div>
         </div>
@@ -35,7 +35,7 @@
 
 footer {
     background-color: $color-level1;
-    margin: 0.4em 0.2em;
+    margin: 0.4em 0.2em 0 0.2em;
     padding: 0 2em;
     .musigger-icon {
         text-align: right;
