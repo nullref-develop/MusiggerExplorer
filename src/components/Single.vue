@@ -133,7 +133,7 @@ export default {
 .releaseinner {
     background-color: $color-level1;
     padding: 2em;
-    margin: 0.2em;
+    margin: 0 0.2em 0.2em 0.2em;
     .logodiv {
         padding: 2em 2em 0;
         @media #{$small-only} {
@@ -268,7 +268,9 @@ export default {
     }
 }
 iframe,
-embed {
+embed,
+object {
+    display: block;
     width: 100% !important;
     max-width: 100% !important;
     min-width: 100% !important;
