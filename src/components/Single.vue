@@ -23,7 +23,7 @@
                             <span> </span>
                         </span>
                     </p>
-                    
+
                     <br>
                     <span class="srelease-info-type">{{Release.Type}}</span>
                     <span class="srelease-info-rating"><icon name="star"></icon> {{Release.Rating}}</span>
@@ -172,7 +172,7 @@ export default {
         @media (max-width: 768px) {
             padding: 0 1em;
         }
-        p { 
+        p {
             margin: 0;
             line-height: 1em;
             font-size: 1.2em;
@@ -205,7 +205,7 @@ export default {
             width: max-content;
             font-weight: bold;
             display: inline;
-            margin-right: 1em;
+            margin-right: 1.5em;
         }
         .srelease-info-type {
             border: 2px solid black;
