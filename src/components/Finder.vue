@@ -194,8 +194,8 @@ export default {
                 this.firstLaunch = false
                 this.isLoading = false
             })
-                .catch(e => {
-                    console.log(e)
+                .catch(() => {
+                    // console.log(e)
                 })
         }
     }

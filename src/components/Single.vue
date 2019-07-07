@@ -121,8 +121,8 @@ export default {
                 this.artists = response.data.Artists.split(", ")
                 document.title = this.Release.Name + " | " + this.appName
             })
-                .catch(e => {
-                    console.log(e)
+                .catch(() => {
+                    // console.log(e)
                 })
         },
         getUpdatedInfo: function (releaseid) {
@@ -136,8 +136,8 @@ export default {
                     this.Release = response.data
                 }
             })
-                .catch(e => {
-                    console.log(e)
+                .catch(() => {
+                    // console.log(e)
                 })
         }
     }

@@ -298,8 +298,8 @@ export default {
                 .then(response => {
                     this.genres = response.data
                 })
-                .catch(e => {
-                    console.log(e)
+                .catch(() => {
+                    // console.log(e)
                 })
         },
         getLabels: debounce(function() {
@@ -310,8 +310,8 @@ export default {
                     this.labels = response.data
                     this.isLoading = false
                 })
-                .catch(e => {
-                    console.log(e)
+                .catch(() => {
+                    // console.log(e)
                 })
         }, 1000)
     }
