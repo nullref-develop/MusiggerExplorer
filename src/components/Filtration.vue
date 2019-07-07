@@ -4,67 +4,133 @@
             <div v-if="showFilter" class="grid-x grid-margin-x">
                 <div class="filter-item small-12 cell">
                     <label>Search</label>
-                    <input v-model="titleQuery" v-on:change="filterInput" v-on:keyup="filterInput" type="text" class="finder-input margin-0" placeholder="Search for titles and artists">
+                    <input
+                        v-model="titleQuery"
+                        type="text"
+                        class="finder-input margin-0"
+                        placeholder="Search for titles and artists"
+                        @change="filterInput"
+                        @keyup="filterInput"
+                    >
                 </div>
                 <div class="filter-item small-12 cell">
                     <label>Genres</label>
-                    <multiselect v-model="selectedGenres" @input="filterInput" :options="genres" :multiple="true" placeholder="Select genres"></multiselect>
+                    <multiselect
+                        v-model="selectedGenres"
+                        :options="genres"
+                        :multiple="true"
+                        placeholder="Select genres"
+                        @input="filterInput"
+                    />
                 </div>
                 <div class="filter-item large-6 medium-12 cell">
                     <label>Types</label>
-                    <multiselect v-model="selectedTypes" @input="filterInput" :options="types" :multiple="true" placeholder="Select release types"></multiselect>
+                    <multiselect
+                        v-model="selectedTypes"
+                        :options="types"
+                        :multiple="true"
+                        placeholder="Select release types"
+                        @input="filterInput"
+                    />
                 </div>
                 <div class="filter-item large-6 medium-12 cell">
                     <label>Labels</label>
-                    <multiselect v-model="selectedLabels" @search-change="getLabels" @close="filterInput" @remove="filterInput" :options="labels" :multiple="true" placeholder="Select record labels"></multiselect>
+                    <multiselect
+                        v-model="selectedLabels"
+                        :options="labels"
+                        :multiple="true"
+                        placeholder="Select record labels"
+                        @search-change="getLabels"
+                        @close="filterInput"
+                        @remove="filterInput"
+                    />
                 </div>
                 <div class="filter-item large-6 medium-12 cell">
                     <label>Votes</label>
-                    <input v-model.number="votes" v-on:change="filterInput" v-on:keyup="filterInput" type="number" class="finder-input">
+                    <input
+                        v-model.number="votes"
+                        type="number"
+                        class="finder-input"
+                        @change="filterInput"
+                        @keyup="filterInput"
+                    >
                 </div>
                 <div class="filter-item large-6 medium-12 cell">
                     <label>Releases per page</label>
-                    <input v-model.number="perPage" v-on:change="filterInput" v-on:keyup="filterInput" type="number" class="finder-input">
+                    <input
+                        v-model.number="perPage"
+                        type="number"
+                        class="finder-input"
+                        @change="filterInput"
+                        @keyup="filterInput"
+                    >
                 </div>
             </div>
         </transition>
         <div class="grid-x grid-margin-x">
-            <Logo></Logo>
+            <Logo />
             <div class="auto cell">
                 <transition name="fade">
                     <div v-if="!showFilter" class="filter-mini">
                         <span v-if="titleQuery">
-                            <icon name="search" scale="0.8"></icon> {{titleQuery}}&nbsp;&nbsp;
+                            <icon name="search" scale="0.8" />
+                            {{ titleQuery }}&nbsp;&nbsp;
                         </span>
                         <span v-if="artistsQuery">
-                            <icon name="user" scale="0.8"></icon> {{artistsQuery}}&nbsp;&nbsp;
+                            <icon name="user" scale="0.8" />
+                            {{ artistsQuery }}&nbsp;&nbsp;
                         </span>
                         <span v-if="genresQuery" class="genres">
-                            <icon name="music" scale="0.8"></icon> {{genresQuery}}&nbsp;&nbsp;
+                            <icon name="music" scale="0.8" />
+                            {{ genresQuery }}&nbsp;&nbsp;
                         </span>
                         <span v-if="typesQuery">
-                            <icon name="play" scale="0.8"></icon> {{typesQuery}}&nbsp;&nbsp;
+                            <icon name="play" scale="0.8" />
+                            {{ typesQuery }}&nbsp;&nbsp;
                         </span>
                         <span v-if="labelsQuery">
-                            <icon name="picture-o" scale="0.8"></icon> {{labelsQuery}}&nbsp;&nbsp;
+                            <icon name="picture-o" scale="0.8" />
+                            {{ labelsQuery }}&nbsp;&nbsp;
                         </span>
                         <span v-if="votes">
-                            <icon name="users" scale="0.8"></icon> {{votes}}&nbsp;&nbsp;
+                            <icon name="users" scale="0.8" />
+                            {{ votes }}&nbsp;&nbsp;
                         </span>
                         <!-- If no one filter is set -->
-                        <span v-if="!artistsQuery && !genresQuery && !typesQuery && !labelsQuery && !votes && !titleQuery" class="filter-infotext">
-                            Push the button to show the filters <icon name="angle-double-right" scale="0.8"></icon>
+                        <span
+                            v-if="
+                                !artistsQuery &&
+                                    !genresQuery &&
+                                    !typesQuery &&
+                                    !labelsQuery &&
+                                    !votes &&
+                                    !titleQuery
+                            "
+                            class="filter-infotext"
+                        >
+                            Push the button to show the filters
+                            <icon name="angle-double-right" scale="0.8" />
                         </span>
                     </div>
                 </transition>
             </div>
             <div class="medium-4 small-8 cell">
-                <button v-bind:class="{ active: showFilter }" @click="showFilter = !showFilter" class="filter-button button" type="button">
-                    <icon name="chevron-down" scale="0.7"></icon>
+                <button
+                    :class="{ active: showFilter }"
+                    class="filter-button button"
+                    type="button"
+                    @click="showFilter = !showFilter"
+                >
+                    <icon name="chevron-down" scale="0.7" />
                 </button>
                 <transition name="fade">
-                    <button v-if="showFilter" @click="clearFilter" class="clearfilter-button filter-button button" type="button">
-                        <icon name="trash" scale="0.8"></icon>
+                    <button
+                        v-if="showFilter"
+                        class="clearfilter-button filter-button button"
+                        type="button"
+                        @click="clearFilter"
+                    >
+                        <icon name="trash" scale="0.8" />
                         Clear filter
                     </button>
                 </transition>
@@ -74,39 +140,39 @@
 </template>
 
 <script>
-import Logo from './Logo'
-import Multiselect from 'vue-multiselect'
-import axios from 'axios'
-import debounce from 'tiny-debounce'
-import 'vue-awesome/icons'
-import Icon from 'vue-awesome/components/Icon'
+import Logo from "./Logo"
+import Multiselect from "vue-multiselect"
+import axios from "axios"
+import debounce from "tiny-debounce"
+import "vue-awesome/icons"
+import Icon from "vue-awesome/components/Icon"
 
 export default {
+    name: "Filtration",
     components: {
         Multiselect,
         Logo,
         Icon
     },
-    name: 'Filtration',
     props: {
         artistsQueryP: {
-            default: '',
+            default: "",
             type: String
         },
         genresQueryP: {
-            default: '',
+            default: "",
             type: String
         },
         typesQueryP: {
-            default: '',
+            default: "",
             type: String
         },
         labelsQueryP: {
-            default: '',
+            default: "",
             type: String
         },
         titleQueryP: {
-            default: '',
+            default: "",
             type: String
         },
         votesP: {
@@ -122,11 +188,11 @@ export default {
             type: Number
         }
     },
-    data: function () {
+    data: function() {
         return {
             // urls
-            apiGenres: this.apiUrl + '/genres',
-            apiLabels: this.apiUrl + '/labels',
+            apiGenres: this.apiUrl + "/genres",
+            apiLabels: this.apiUrl + "/labels",
             // for pagination
             currentPage: 1,
             // for filter
@@ -137,26 +203,59 @@ export default {
             selectedGenres: null,
             genres: [],
             selectedTypes: null,
-            types: ['Album', 'Single', 'EP', 'LP', 'Compilation', 'Radioshow'],
+            types: ["Album", "Single", "EP", "LP", "Compilation", "Radioshow"],
             votes: 0,
             perPage: 24,
             // selected item in strings
-            labelsQuery: '',
-            genresQuery: '',
-            typesQuery: '',
-            artistsQuery: '',
-            titleQuery: ''
+            labelsQuery: "",
+            genresQuery: "",
+            typesQuery: "",
+            artistsQuery: "",
+            titleQuery: ""
         }
+    },
+    created: function() {
+        // Parse query from parent component and apply to filter
+        if (this.genresQueryP) {
+            this.selectedGenres = this.genresQueryP.split(",")
+            this.genresQuery = this.genresQueryP
+        }
+        if (this.labelsQueryP) {
+            this.selectedLabels = this.labelsQueryP.split(",")
+            this.labelsQuery = this.labelsQueryP
+        }
+        if (this.typesQueryP) {
+            this.selectedTypes = this.typesQueryP.split(",")
+            this.typesQuery = this.typesQueryP
+        }
+        this.artistsQuery = this.artistsQueryP
+        this.titleQuery = this.titleQueryP
+        this.votes = this.votesP
+        this.currentPage = this.currentPageP
+        this.perPage = this.perPageP
+        // load full list of genres from web api
+        this.getAllGenres()
     },
     methods: {
         // casting of variable types
-        filterInput: debounce( // задержка поиска при пользовательском вводе
-            function () {
+        filterInput: debounce(
+            // задержка поиска при пользовательском вводе
+            function() {
                 this.currentPage = 1 // reset current page when filter change
-                this.typesQuery = (this.selectedTypes != null) ? this.selectedTypes.join() : null
-                this.labelsQuery = (this.selectedLabels != null) ? this.selectedLabels.join() : null
-                this.genresQuery = (this.selectedGenres != null) ? this.selectedGenres.join() : null
-                this.$emit('filter-changed',
+                this.typesQuery =
+                    this.selectedTypes != null
+                        ? this.selectedTypes.join()
+                        : null
+                this.labelsQuery =
+                    this.selectedLabels != null
+                        ? this.selectedLabels.join()
+                        : null
+                this.genresQuery =
+                    this.selectedGenres != null
+                        ? this.selectedGenres.join()
+                        : null
+                this.$emit(
+                    "filter-changed",
                     this.currentPage,
                     this.votes,
                     this.perPage,
@@ -167,20 +266,22 @@ export default {
                     this.titleQuery
                 )
             },
-        1000),
-        clearFilter: function () {
-            this.labelsQuery = ''
-            this.genresQuery = ''
-            this.typesQuery = ''
-            this.artistsQuery = ''
-            this.titleQuery = ''
+            1000
+        ),
+        clearFilter: function() {
+            this.labelsQuery = ""
+            this.genresQuery = ""
+            this.typesQuery = ""
+            this.artistsQuery = ""
+            this.titleQuery = ""
             this.selectedLabels = null
             this.selectedGenres = null
             this.selectedTypes = null
             this.currentPage = 1
             this.votes = 0
             this.perPage = 24
-            this.$emit('filter-changed',
+            this.$emit(
+                "filter-changed",
                 this.currentPage,
                 this.votes,
                 this.perPage,
@@ -191,48 +292,28 @@ export default {
                 this.titleQuery
             )
         },
-        getAllGenres: function () {
-            axios.get(this.apiGenres).then(response => {
-                this.genres = response.data
-            })
-            .catch(e => {
-                console.log(e)
-            })
+        getAllGenres: function() {
+            axios
+                .get(this.apiGenres)
+                .then(response => {
+                    this.genres = response.data
+                })
+                .catch(e => {
+                    console.log(e)
+                })
         },
-        getLabels: debounce(
-            function () {
-                this.isLoading = true
-                axios.get(this.apiLabels).then(response => {
+        getLabels: debounce(function() {
+            this.isLoading = true
+            axios
+                .get(this.apiLabels)
+                .then(response => {
                     this.labels = response.data
                     this.isLoading = false
                 })
                 .catch(e => {
                     console.log(e)
                 })
-            },
-        1000)
-    },
-    created: function () {
-        // Parse query from parent component and apply to filter
-        if (this.genresQueryP) {
-            this.selectedGenres = this.genresQueryP.split(',')
-            this.genresQuery = this.genresQueryP
-        }
-        if (this.labelsQueryP) {
-            this.selectedLabels = this.labelsQueryP.split(',')
-            this.labelsQuery = this.labelsQueryP
-        }
-        if (this.typesQueryP) {
-            this.selectedTypes = this.typesQueryP.split(',')
-            this.typesQuery = this.typesQueryP
-        }
-        this.artistsQuery = this.artistsQueryP
-        this.titleQuery = this.titleQueryP
-        this.votes = this.votesP
-        this.currentPage = this.currentPageP
-        this.perPage = this.perPageP
-        // load full list of genres from web api
-        this.getAllGenres()
+        }, 1000)
     }
 }
 </script>
@@ -245,22 +326,23 @@ export default {
     margin: 0;
 }
 .fade-enter-active {
-    transition: opacity 0.5s
+    transition: opacity 0.5s;
 }
 .fade-leave-active {
-    transition: opacity 0.2s
+    transition: opacity 0.2s;
 }
 .fade-enter,
 .fade-leave-to {
-    opacity: 0
+    opacity: 0;
 }
 .slide-fade-enter-active,
 .slide-fade-leave-active {
-    transition: all .1s ease;
+    transition: all 0.1s ease;
 }
-.slide-fade-enter, .slide-fade-leave-to {
-      transform: translateY(-1em);
-      opacity: 0;
+.slide-fade-enter,
+.slide-fade-leave-to {
+    transform: translateY(-1em);
+    opacity: 0;
 }
 .filter {
     padding: 1em 2em;
@@ -280,7 +362,7 @@ export default {
         }
         .filter-infotext {
             @media #{$small-only} {
-                display: none;  
+                display: none;
             }
         }
         .genres {

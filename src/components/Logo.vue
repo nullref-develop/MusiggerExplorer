@@ -1,6 +1,13 @@
 <template>
-    <a class="logo cell" href="/" title="Back to the jungle">
-        <img class="logo-img" src="../assets/logo.svg" />
+    <a
+        class="logo cell"
+        href="/"
+        title="Back to the jungle"
+    >
+        <img
+            class="logo-img"
+            src="../assets/logo.svg"
+        >
     </a>
 </template>
 

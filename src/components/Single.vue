@@ -2,74 +2,95 @@
     <div class="grid-container">
         <div class="releaseinner">
             <div class="logodiv grid-x">
-                <Logo></Logo>
+                <Logo />
             </div>
 
 
-            <div v-if="Release" class="srelease grid-x">
-
+            <div
+                v-if="Release"
+                class="srelease grid-x"
+            >
                 <div class="srelease-info auto cell">
-                    <p class="srelease-info-title">{{Release.Name}}</p>
+                    <p class="srelease-info-title">
+                        {{ Release.Name }}
+                    </p>
                     <p>
                         <strong>by</strong>
-                        <span v-for="artists in artists">
+                        <span
+                            v-for="artist in artists"
+                            :key="artist"
+                        >
                             <router-link
-                            :to="{ name: 'releases', query: {artists: artists} }"
-                            class="srelease-info-artist"
-                            title="Find all releases by this artist"
+                                :to="{ name: 'releases', query: { artists: artist } }"
+                                class="srelease-info-artist"
+                                title="Find all releases by this artist"
                             >
-                                {{artists}}
+                                {{ artist }}
                             </router-link>
-                            <span> </span>
+                            <span />
                         </span>
                     </p>
 
                     <br>
-                    <span class="srelease-info-type">{{Release.Type}}</span>
-                    <span class="srelease-info-rating"><icon name="star"></icon> {{Release.Rating}}</span>
-                    <span class="srelease-info-votes"><icon name="users"></icon> {{Release.Votes}}</span>
-                    <span class="srelease-info-date"><icon name="calendar"></icon> {{Release.Date}}</span>
+                    <span class="srelease-info-type">{{ Release.Type }}</span>
+                    <span class="srelease-info-rating"><icon name="star" /> {{ Release.Rating }}</span>
+                    <span class="srelease-info-votes"><icon name="users" /> {{ Release.Votes }}</span>
+                    <span class="srelease-info-date"><icon name="calendar" /> {{ Release.Date }}</span>
                     <router-link
-                        :to="{ name: 'releases', query: {labels: Release.Label} }"
+                        :to="{ name: 'releases', query: { labels: Release.Label } }"
                         class="srelease-info-label"
                         title="Find all releases by this label"
-                        >
-                        <icon name="picture-o"></icon> {{Release.Label}}
+                    >
+                        <icon name="picture-o" /> {{ Release.Label }}
                     </router-link>
-                    <p class="srelease-info-genres"><icon name="music"></icon> {{Release.Genres}}</p>
+                    <p class="srelease-info-genres">
+                        <icon name="music" /> {{ Release.Genres }}
+                    </p>
                     <div class="srelease-extra grid-y">
-                        <div v-html="Release.Info" class="srelease-extra-info cell"></div>
+                        <div
+                            class="srelease-extra-info cell"
+                            v-html="Release.Info"
+                        />
                         <div class="cell grid-x">
-                            <div v-html="Release.Links" class="srelease-extra-links auto cell"></div>
+                            <div
+                                class="srelease-extra-links auto cell"
+                                v-html="Release.Links"
+                            />
                             <div class="srelease-extra-tofreake small-4 cell">
-                                <a v-bind:href="freakeurl+'/'+Release.ReleaseId" class="button" target="_blank"><icon name="external-link-square"></icon> Link</a>
+                                <a
+                                    :href="freakeurl+'/'+Release.ReleaseId"
+                                    class="button"
+                                    target="_blank"
+                                ><icon name="external-link-square" /> Link</a>
                             </div>
                         </div>
                     </div>
                 </div>
-                <img v-bind:src="freakeurl+Release.Cover" class="srelease-cover">
+                <img
+                    :src="freakeurl+Release.Cover"
+                    class="srelease-cover"
+                >
             </div>
         </div>
 
-        <Getlow></Getlow>
-
+        <Getlow />
     </div>
 </template>
 
 <script>
-import Logo from './Logo'
-import Getlow from './Getlow'
-import axios from 'axios'
-import 'vue-awesome/icons'
-import Icon from 'vue-awesome/components/Icon'
+import Logo from "./Logo"
+import Getlow from "./Getlow"
+import axios from "axios"
+import "vue-awesome/icons"
+import Icon from "vue-awesome/components/Icon"
 
 export default {
+    name: "Single",
     components: {
         Logo,
         Getlow,
         Icon
     },
-    name: 'Single',
     data () {
         return {
             freakeurl: this.freakeUrl,
@@ -77,29 +98,35 @@ export default {
             artists: []
         }
     },
+    created: function () {
+        // get release id from url params
+        var releaseId = this.$route.params.id
+        this.getSingleRelease(releaseId)
+        this.getUpdatedInfo(releaseId)
+    },
     methods: {
         getSingleRelease: function (releaseid) {
-            axios.get(this.apiUrl + '/releases', {
+            axios.get(this.apiUrl + "/releases", {
                 params: {
                     ID: releaseid
                 }
             }).then(response => {
                 this.Release = response.data
                 var shortDate = new Date(response.data.Date)
-                this.Release.Date = shortDate.toLocaleString('ru', {
-                    year: 'numeric',
-                    month: 'numeric',
-                    day: 'numeric'
+                this.Release.Date = shortDate.toLocaleString("ru", {
+                    year: "numeric",
+                    month: "numeric",
+                    day: "numeric"
                 })
-                this.artists = response.data.Artists.split(', ')
-                document.title = this.Release.Name + ' | ' + this.appName
+                this.artists = response.data.Artists.split(", ")
+                document.title = this.Release.Name + " | " + this.appName
             })
-            .catch(e => {
-                console.log(e)
-            })
+                .catch(e => {
+                    console.log(e)
+                })
         },
         getUpdatedInfo: function (releaseid) {
-            axios.get(this.apiUrl + '/releases', {
+            axios.get(this.apiUrl + "/releases", {
                 params: {
                     ID: releaseid,
                     update: true
@@ -109,16 +136,10 @@ export default {
                     this.Release = response.data
                 }
             })
-            .catch(e => {
-                console.log(e)
-            })
+                .catch(e => {
+                    console.log(e)
+                })
         }
-    },
-    created: function () {
-        // get release id from url params
-        var releaseId = this.$route.params.id
-        this.getSingleRelease(releaseId)
-        this.getUpdatedInfo(releaseId)
     }
 }
 </script>

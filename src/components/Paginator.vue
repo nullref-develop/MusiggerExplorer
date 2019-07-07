@@ -1,40 +1,75 @@
- <template id="pagination-template">
+<template id="pagination-template">
     <div class="pagination grid-x">
         <div class="pagination-left">
-            <a href="#" v-if="hasPrev()" @click.prevent="changePage(prevPage)">
-                <icon name="chevron-left" scale="0.8"></icon>&nbsp;<span class="pagination-prevnext">Previous</span>
+            <a
+                v-if="hasPrev()"
+                href="#"
+                @click.prevent="changePage(prevPage)"
+            >
+                <icon
+                    name="chevron-left"
+                    scale="0.8"
+                />&nbsp;<span class="pagination-prevnext">Previous</span>
             </a>
         </div>
         <div class="pagination-mid">
             <ul>
-                <li v-if="hasFirst()"><a href="#" @click.prevent="changePage(1)">1</a></li>
-                <li v-if="hasFirst()">. . .</li>
-                <li v-for="page in pages">
-                    <a href="#" @click.prevent="changePage(page)" :class="{ current: current == page }">
+                <li v-if="hasFirst()">
+                    <a
+                        href="#"
+                        @click.prevent="changePage(1)"
+                    >1</a>
+                </li>
+                <li v-if="hasFirst()">
+                    . . .
+                </li>
+                <li
+                    v-for="page in pages"
+                    :key="page"
+                >
+                    <a
+                        href="#"
+                        :class="{ current: current === page }"
+                        @click.prevent="changePage(page)"
+                    >
                         {{ page }}
                     </a>
                 </li>
-                <li v-if="hasLast()">. . .</li>
-                <li v-if="hasLast()"><a href="#" @click.prevent="changePage(totalPages)">{{ totalPages }}</a></li>
+                <li v-if="hasLast()">
+                    . . .
+                </li>
+                <li v-if="hasLast()">
+                    <a
+                        href="#"
+                        @click.prevent="changePage(totalPages)"
+                    >{{ totalPages }}</a>
+                </li>
             </ul>
         </div>
         <div class="pagination-right">
-            <a href="#" v-if="hasNext()" @click.prevent="changePage(nextPage)">
-                <span class="pagination-prevnext">Next</span>&nbsp;<icon name="chevron-right" scale="0.8"></icon>
+            <a
+                v-if="hasNext()"
+                href="#"
+                @click.prevent="changePage(nextPage)"
+            >
+                <span class="pagination-prevnext">Next</span>&nbsp;<icon
+                    name="chevron-right"
+                    scale="0.8"
+                />
             </a>
         </div>
     </div>
 </template>
 
 <script>
-import 'vue-awesome/icons'
-import Icon from 'vue-awesome/components/Icon'
+import "vue-awesome/icons"
+import Icon from "vue-awesome/components/Icon"
 
 export default {
+    name: "Pagination",
     components: {
         Icon
     },
-    name: 'pagination',
     props: {
         current: {
             default: 1,
@@ -58,19 +93,19 @@ export default {
         },
         genres: {
             type: String,
-            default: ''
+            default: ""
         },
         labels: {
             type: String,
-            default: ''
+            default: ""
         },
         types: {
             type: String,
-            default: ''
+            default: ""
         },
         title: {
             type: String,
-            default: ''
+            default: ""
         }
     },
     computed: {
@@ -113,7 +148,7 @@ export default {
             return this.current < this.totalPages
         },
         changePage: function (page) {
-            this.$emit('page-changed', page, this.votes, this.perPage, this.genres, this.labels, this.types, '', this.title)
+            this.$emit("page-changed", page, this.votes, this.perPage, this.genres, this.labels, this.types, "", this.title)
         }
     }
 }

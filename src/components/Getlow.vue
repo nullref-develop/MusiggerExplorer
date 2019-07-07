@@ -5,14 +5,24 @@
                 <h1>Musigger</h1>
             </div>
             <div class="musigger-icon medium-2 small-3 cell">
-                <img src="../assets/icon.svg" />
+                <img src="../assets/icon.svg">
             </div>
         </div>
         <div class="grid-x">
             <div class="large-2 medium-4 small-12 cell">
                 <ul>
-                    <li><a href="https://github.com/Musigger" target="_blank">GitHub</a></li>
-                    <li><a href="https://www.facebook.com/nullrdv/" target="_blank">NRDV</a></li>
+                    <li>
+                        <a
+                            href="https://github.com/Musigger"
+                            target="_blank"
+                        >GitHub</a>
+                    </li>
+                    <li>
+                        <a
+                            href="https://www.facebook.com/nullrdv/"
+                            target="_blank"
+                        >NRDV</a>
+                    </li>
                 </ul>
             </div>
             <div class="large-10 medium-8 small-12 cell">

@@ -1,43 +1,70 @@
 <template>
     <div>
-        <div v-if="isLoading" id="loader">
+        <div
+            v-if="isLoading"
+            id="loader"
+        >
             <div class="loader">
                 <ul>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
+                    <li />
+                    <li />
+                    <li />
+                    <li />
+                    <li />
+                    <li />
                 </ul>
             </div>
         </div>
         <div class="grid-container">
-
             <Filtration
-                :artistsQueryP="artistsQuery"
-                :genresQueryP="genresQuery"
-                :typesQueryP="typesQuery"
-                :labelsQueryP="labelsQuery"
-                :titleQueryP="titleQuery"
-                :votesP="votes"
-                :currentPageP="currentPage"
-                :perPageP="perPage"
+                :artists-query-p="artistsQuery"
+                :genres-query-p="genresQuery"
+                :types-query-p="typesQuery"
+                :labels-query-p="labelsQuery"
+                :title-query-p="titleQuery"
+                :votes-p="votes"
+                :current-page-p="currentPage"
+                :per-page-p="perPage"
                 @filter-changed="getAllReleases"
-            ></Filtration>
+            />
 
             <div class="releases grid-x">
-                <div v-for="Releases in Releases" :key="Releases.Id" class="small-12 medium-6 large-4 cell">
-                    <router-link :to="{ name: 'release', params: { id: Releases.Id} }" class="release-item grid-x">
-                        <img class="release-cover cell" v-bind:src="freakeurl+Releases.MiniCover" />
+                <div
+                    v-for="Release in Releases"
+                    :key="Release.Id"
+                    class="small-12 medium-6 large-4 cell"
+                >
+                    <router-link
+                        :to="{ name: 'release', params: { id: Release.Id } }"
+                        class="release-item grid-x"
+                    >
+                        <img
+                            class="release-cover cell"
+                            :src="freakeurl+Release.MiniCover"
+                        >
                         <div class="release-info cell auto grid-y">
-                            <p class="release-info-title cell">{{ Releases.Name }}</p>
-                            <p class="release-info-label cell">{{ Releases.Label }}</p>
+                            <p class="release-info-title cell">
+                                {{ Release.Name }}
+                            </p>
+                            <p class="release-info-label cell">
+                                {{ Release.Label }}
+                            </p>
                             <div class="release-info-summary cell">
-                                <span><icon name="play" scale="0.8"></icon> {{ Releases.Type }}&nbsp;&nbsp;</span>
-                                <span><icon name="users" scale="0.8"></icon> {{ Releases.Votes }}</span>
+                                <span><icon
+                                    name="play"
+                                    scale="0.8"
+                                /> {{ Release.Type }}&nbsp;&nbsp;</span>
+                                <span><icon
+                                    name="users"
+                                    scale="0.8"
+                                /> {{ Release.Votes }}</span>
                             </div>
-                            <p class="release-info-genres cell"><icon name="music" scale="0.8"></icon> {{ Releases.Genres }}</p>
+                            <p class="release-info-genres cell">
+                                <icon
+                                    name="music"
+                                    scale="0.8"
+                                /> {{ Release.Genres }}
+                            </p>
                         </div>
                     </router-link>
                 </div>
@@ -53,35 +80,34 @@
                 :types="typesQuery"
                 :title="titleQuery"
                 @page-changed="getAllReleases"
-            ></Paginator>
+            />
 
-            <Getlow></Getlow>
-
+            <Getlow />
         </div>
     </div>
 </template>
 
 <script>
-import Filtration from './Filtration'
-import Paginator from './Paginator'
-import Getlow from './Getlow'
-import axios from 'axios'
-import 'vue-awesome/icons'
-import Icon from 'vue-awesome/components/Icon'
+import Filtration from "./Filtration"
+import Paginator from "./Paginator"
+import Getlow from "./Getlow"
+import axios from "axios"
+import "vue-awesome/icons"
+import Icon from "vue-awesome/components/Icon"
 
 export default {
+    name: "Finder",
     components: {
         Filtration,
         Paginator,
         Getlow,
         Icon
     },
-    name: 'Finder',
     data: function () {
         return {
             // urls
             freakeurl: this.freakeUrl,
-            api: this.apiUrl + '/releases',
+            api: this.apiUrl + "/releases",
             // releases
             Releases: [],
             // for pagination
@@ -90,63 +116,14 @@ export default {
             currentPage: 1,
             votes: 0,
             // selected item in strings
-            labelsQuery: '',
-            genresQuery: '',
-            typesQuery: '',
-            artistsQuery: '',
-            titleQuery: '',
+            labelsQuery: "",
+            genresQuery: "",
+            typesQuery: "",
+            artistsQuery: "",
+            titleQuery: "",
             // disable url rewrite on first app launch
             firstLaunch: true,
             isLoading: true
-        }
-    },
-    methods: {
-        getAllReleases: function (page, votes, perPage, selectedGenres, selectedLabels, selectedTypes, artists, title) {
-            this.isLoading = true
-            var options = {
-                params: {
-                    p: page,
-                    votes: votes,
-                    perPage: perPage,
-                    genres: selectedGenres,
-                    labels: selectedLabels,
-                    types: selectedTypes,
-                    artists: artists,
-                    title: title
-                }
-            }
-            axios.get(this.api, options).then(response => {
-                this.Releases = response.data
-                this.totalReleases = parseInt(response.headers['x-total'])
-                // update from filtration
-                this.currentPage = page
-                this.page = page
-                this.votes = votes
-                this.perPage = perPage
-                this.genresQuery = selectedGenres
-                this.labelsQuery = selectedLabels
-                this.typesQuery = selectedTypes
-                this.artistsQuery = artists
-                this.titleQuery = title
-                // update url query when something changed (except first app launch)
-                if (!this.firstLaunch) {
-                    this.$router.replace({query: {
-                        p: options.params.p,
-                        votes: options.params.votes,
-                        perPage: options.params.perPage,
-                        genres: options.params.genres,
-                        labels: options.params.labels,
-                        types: options.params.types,
-                        artists: this.artistsQuery,
-                        title: options.params.title
-                    }})
-                }
-                this.firstLaunch = false
-                this.isLoading = false
-            })
-            .catch(e => {
-                console.log(e)
-            })
         }
     },
     created: function () {
@@ -172,6 +149,55 @@ export default {
         }
         // get genres and releases (that fits the filter)
         this.getAllReleases(this.currentPage, this.votes, this.perPage, this.genresQuery, this.labelsQuery, this.typesQuery, this.artistsQuery, this.titleQuery)
+    },
+    methods: {
+        getAllReleases: function (page, votes, perPage, selectedGenres, selectedLabels, selectedTypes, artists, title) {
+            this.isLoading = true
+            var options = {
+                params: {
+                    p: page,
+                    votes: votes,
+                    perPage: perPage,
+                    genres: selectedGenres,
+                    labels: selectedLabels,
+                    types: selectedTypes,
+                    artists: artists,
+                    title: title
+                }
+            }
+            axios.get(this.api, options).then(response => {
+                this.Releases = response.data
+                this.totalReleases = parseInt(response.headers["x-total"])
+                // update from filtration
+                this.currentPage = page
+                this.page = page
+                this.votes = votes
+                this.perPage = perPage
+                this.genresQuery = selectedGenres
+                this.labelsQuery = selectedLabels
+                this.typesQuery = selectedTypes
+                this.artistsQuery = artists
+                this.titleQuery = title
+                // update url query when something changed (except first app launch)
+                if (!this.firstLaunch) {
+                    this.$router.replace({ query: {
+                        p: options.params.p,
+                        votes: options.params.votes,
+                        perPage: options.params.perPage,
+                        genres: options.params.genres,
+                        labels: options.params.labels,
+                        types: options.params.types,
+                        artists: this.artistsQuery,
+                        title: options.params.title
+                    } })
+                }
+                this.firstLaunch = false
+                this.isLoading = false
+            })
+                .catch(e => {
+                    console.log(e)
+                })
+        }
     }
 }
 </script>
