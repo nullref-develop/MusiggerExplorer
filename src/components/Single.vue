@@ -33,18 +33,18 @@
 
                     <br>
                     <span class="srelease-info-type">{{ Release.Type }}</span>
-                    <span class="srelease-info-rating"><icon name="star" /> {{ Release.Rating }}</span>
-                    <span class="srelease-info-votes"><icon name="users" /> {{ Release.Votes }}</span>
-                    <span class="srelease-info-date"><icon name="calendar" /> {{ Release.Date }}</span>
+                    <span class="srelease-info-rating"><v-icon name="star" /> {{ Release.Rating }}</span>
+                    <span class="srelease-info-votes"><v-icon name="users" /> {{ Release.Votes }}</span>
+                    <span class="srelease-info-date"><v-icon name="calendar" /> {{ Release.Date }}</span>
                     <router-link
                         :to="{ name: 'releases', query: { labels: Release.Label } }"
                         class="srelease-info-label"
                         title="Find all releases by this label"
                     >
-                        <icon name="picture-o" /> {{ Release.Label }}
+                        <v-icon name="image" /> {{ Release.Label }}
                     </router-link>
                     <p class="srelease-info-genres">
-                        <icon name="music" /> {{ Release.Genres }}
+                        <v-icon name="music" /> {{ Release.Genres }}
                     </p>
                     <div class="srelease-extra grid-y">
                         <div
@@ -61,13 +61,13 @@
                                     :href="freakeurl+'/'+Release.ReleaseId"
                                     class="button"
                                     target="_blank"
-                                ><icon name="external-link-square" /> Link</a>
+                                ><v-icon name="external-link-square-alt" /> Link</a>
                             </div>
                         </div>
                     </div>
                 </div>
                 <img
-                    :src="freakeurl+Release.Cover"
+                    :src="Release.Cover"
                     class="srelease-cover"
                 >
             </div>
@@ -89,7 +89,7 @@ export default {
     components: {
         Logo,
         Getlow,
-        Icon
+        "v-icon": Icon
     },
     data () {
         return {
@@ -112,6 +112,12 @@ export default {
                 }
             }).then(response => {
                 this.Release = response.data
+                this.setFavicon(this.freakeUrl + response.data.Cover, "shortcut icon")
+                this.setFavicon(this.freakeUrl + response.data.Cover, "icon")
+                this.setFavicon(this.freakeUrl + response.data.Cover, "apple-touch-icon")
+                this.setMetaImage(this.freakeUrl + response.data.Cover, "twitter")
+                this.setMetaImage(this.freakeUrl + response.data.Cover, "og")
+                this.Release.Cover = this.freakeUrl + response.data.Cover
                 var shortDate = new Date(response.data.Date)
                 this.Release.Date = shortDate.toLocaleString("ru", {
                     year: "numeric",
@@ -139,6 +145,41 @@ export default {
                 .catch(() => {
                     // console.log(e)
                 })
+        },
+        setFavicon: function (URL, Type) {
+            var link = document.querySelector("link[rel*='icon']") || document.createElement("link")
+            link.type = "image/jpeg"
+            link.rel = Type
+            link.href = URL
+            document.getElementsByTagName("head")[0].appendChild(link)
+        },
+        setMetaImage: function (URL, Type) {
+            let meta = null
+            switch (Type) {
+            case "twitter":
+                meta = document.querySelector("meta[name*='twitter:image']") || document.createElement("meta")
+                meta.name = "twitter:image"
+                meta.content = URL
+                break
+            case "og":
+                meta = document.querySelector("meta[property*='og:image']") || document.createElement("meta")
+                meta.property = "og:image"
+                meta.content = URL
+                break
+            default:
+                break
+            }
+            document.getElementsByTagName("head")[0].appendChild(meta)
+        }
+    },
+    metaInfo() {
+        return {
+            title: this.Release.Name,
+            meta: [
+                { name: "description", content: this.Release.Info },
+                { property: "og:description", content: this.Release.Info },
+                { property: "og:title", content: this.Release.Name }
+            ]
         }
     }
 }

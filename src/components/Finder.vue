@@ -198,6 +198,15 @@ export default {
                     // console.log(e)
                 })
         }
+    },
+    metaInfo() {
+        return {
+            meta: [
+                { name: "description", content: "Web application for searching and filtering music releases. Musigger provides flexible release filtering engine that sorts by genres, types, labels, votes and even artists." },
+                { property: "og:description", content: "Web application for searching and filtering music releases. Musigger provides flexible release filtering engine that sorts by genres, types, labels, votes and even artists." },
+                { property: "og:title", content: "Musigger - Search and filter music releases" }
+            ]
+        }
     }
 }
 </script>
