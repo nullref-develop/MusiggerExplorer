@@ -1,20 +1,6 @@
 <template>
-    <div>
-        <div
-            v-if="isLoading"
-            id="loader"
-        >
-            <div class="loader">
-                <ul>
-                    <li />
-                    <li />
-                    <li />
-                    <li />
-                    <li />
-                    <li />
-                </ul>
-            </div>
-        </div>
+    <div id="finder">
+        <preloader v-if="IsLoading" />
         <div class="grid-container">
             <Filtration
                 :artists-query-p="artistsQuery"
@@ -88,21 +74,25 @@
 </template>
 
 <script>
-import Filtration from "./Filtration"
-import Paginator from "./Paginator"
-import Getlow from "./Getlow"
 import axios from "axios"
 import "vue-awesome/icons"
 import Icon from "vue-awesome/components/Icon"
+import LoadingState from "@/mixins/LoadingState"
+import Preloader from "@/components/shared/Preloader"
+import Filtration from "./Filtration"
+import Paginator from "./Paginator"
+import Getlow from "./Getlow"
 
 export default {
     name: "Finder",
     components: {
+        "preloader": Preloader,
         Filtration,
         Paginator,
         Getlow,
         Icon
     },
+    mixins: [LoadingState],
     data: function () {
         return {
             // urls
@@ -122,8 +112,7 @@ export default {
             artistsQuery: "",
             titleQuery: "",
             // disable url rewrite on first app launch
-            firstLaunch: true,
-            isLoading: true
+            firstLaunch: true
         }
     },
     created: function () {
@@ -152,7 +141,7 @@ export default {
     },
     methods: {
         getAllReleases: function (page, votes, perPage, selectedGenres, selectedLabels, selectedTypes, artists, title) {
-            this.isLoading = true
+            this.switchLoading()
             var options = {
                 params: {
                     p: page,
@@ -192,7 +181,7 @@ export default {
                     } })
                 }
                 this.firstLaunch = false
-                this.isLoading = false
+                this.switchLoading()
             })
                 .catch(() => {
                     // console.log(e)

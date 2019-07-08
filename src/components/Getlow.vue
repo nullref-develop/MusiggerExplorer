@@ -32,12 +32,26 @@
         </div>
         <div class="grid-x">
             <div class="footer-down small-12 cell">
-                <span>Version 1.2</span>
+                <span>Version {{ Version }}</span>
                 <span class="madeby">Developed by NRDV</span>
             </div>
         </div>
     </footer>
 </template>
+
+<script>
+import pjson from "../../package.json"
+
+export default {
+    name: "GetLow",
+    computed: {
+        Version() {
+            return pjson.version
+        }
+    }
+}
+</script>
+
 
 <style lang="scss">
 @import "~foundation-sites/scss/foundation";

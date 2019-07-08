@@ -1,5 +1,6 @@
 <template>
-    <div class="grid-container">
+    <div id="single" class="grid-container">
+        <preloader v-if="IsLoading" />
         <div class="releaseinner">
             <div class="logodiv grid-x">
                 <Logo />
@@ -78,19 +79,23 @@
 </template>
 
 <script>
-import Logo from "./Logo"
-import Getlow from "./Getlow"
 import axios from "axios"
 import "vue-awesome/icons"
 import Icon from "vue-awesome/components/Icon"
+import LoadingState from "@/mixins/LoadingState"
+import Preloader from "@/components/shared/Preloader"
+import Logo from "./Logo"
+import Getlow from "./Getlow"
 
 export default {
     name: "Single",
     components: {
+        "preloader": Preloader,
         Logo,
         Getlow,
         "v-icon": Icon
     },
+    mixins: [LoadingState],
     data () {
         return {
             freakeurl: this.freakeUrl,
@@ -106,27 +111,29 @@ export default {
     },
     methods: {
         getSingleRelease: function (releaseid) {
+            this.switchLoading()
             axios.get(this.apiUrl + "/releases", {
                 params: {
                     ID: releaseid
                 }
-            }).then(response => {
-                this.Release = response.data
-                this.setFavicon(this.freakeUrl + response.data.Cover, "shortcut icon")
-                this.setFavicon(this.freakeUrl + response.data.Cover, "icon")
-                this.setFavicon(this.freakeUrl + response.data.Cover, "apple-touch-icon")
-                this.setMetaImage(this.freakeUrl + response.data.Cover, "twitter")
-                this.setMetaImage(this.freakeUrl + response.data.Cover, "og")
-                this.Release.Cover = this.freakeUrl + response.data.Cover
-                var shortDate = new Date(response.data.Date)
-                this.Release.Date = shortDate.toLocaleString("ru", {
-                    year: "numeric",
-                    month: "numeric",
-                    day: "numeric"
-                })
-                this.artists = response.data.Artists.split(", ")
-                document.title = this.Release.Name + " | " + this.appName
             })
+                .then(response => {
+                    this.Release = response.data
+                    this.setFavicon(this.freakeUrl + response.data.Cover, "shortcut icon")
+                    this.setFavicon(this.freakeUrl + response.data.Cover, "icon")
+                    this.setFavicon(this.freakeUrl + response.data.Cover, "apple-touch-icon")
+                    this.setMetaImage(this.freakeUrl + response.data.Cover, "twitter")
+                    this.setMetaImage(this.freakeUrl + response.data.Cover, "og")
+                    this.Release.Cover = this.freakeUrl + response.data.Cover
+                    var shortDate = new Date(response.data.Date)
+                    this.Release.Date = shortDate.toLocaleString("ru", {
+                        year: "numeric",
+                        month: "numeric",
+                        day: "numeric"
+                    })
+                    this.artists = response.data.Artists.split(", ")
+                    this.switchLoading()
+                })
                 .catch(() => {
                     // console.log(e)
                 })
