@@ -96,8 +96,8 @@ export default {
     data: function () {
         return {
             // urls
-            freakeurl: this.freakeUrl,
-            api: this.apiUrl + "/releases",
+            freakeurl: process.env.VUE_APP_FREAKE_URL,
+            api: process.env.VUE_APP_API_URL + "/releases",
             // releases
             Releases: [],
             // for pagination
@@ -116,7 +116,7 @@ export default {
         }
     },
     created: function () {
-        document.title = this.appName
+        document.title = process.env.VUE_APP_TITLE_FULL
         // Parse query from url and apply to filter
         this.currentPage = (this.$route.query.p) ? parseInt(this.$route.query.p) : this.currentPage
         this.votes = (this.$route.query.votes) ? parseInt(this.$route.query.votes) : this.votes

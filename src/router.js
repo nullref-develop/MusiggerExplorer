@@ -3,7 +3,7 @@ import Router from "vue-router"
 
 Vue.use(Router)
 
-export default new Router({
+let router = new Router({
     mode: "history",
     base: process.env.BASE_URL,
     routes: [
@@ -19,3 +19,14 @@ export default new Router({
         }
     ]
 })
+
+router.afterEach((to) => {
+    document.querySelectorAll("link[rel=canonical]").forEach(e => e.parentNode.removeChild(e))
+    let head = document.getElementsByTagName("head")[0]
+    let link = document.createElement("link")
+    link.rel = "canonical"
+    link.href = "https://" + window.location.hostname + to.path
+    head.appendChild(link)
+})
+
+export default router

@@ -1,14 +1,14 @@
 <template>
-    <a
+    <router-link
+        :to="{ name: 'releases' }"
         class="logo cell"
-        href="/"
         title="Back to the jungle"
     >
         <img
             class="logo-img"
             src="../assets/logo.svg"
         >
-    </a>
+    </router-link>
 </template>
 
 <style lang="scss">

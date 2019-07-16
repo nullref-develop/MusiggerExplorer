@@ -191,8 +191,8 @@ export default {
     data: function() {
         return {
             // urls
-            apiGenres: this.apiUrl + "/genres",
-            apiLabels: this.apiUrl + "/labels",
+            apiGenres: process.env.VUE_APP_API_URL + "/genres",
+            apiLabels: process.env.VUE_APP_API_URL + "/labels",
             // for pagination
             currentPage: 1,
             // for filter

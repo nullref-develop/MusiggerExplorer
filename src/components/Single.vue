@@ -59,7 +59,7 @@
                             />
                             <div class="srelease-extra-tofreake small-4 cell">
                                 <a
-                                    :href="freakeurl+'/'+Release.ReleaseId"
+                                    :href="FreakeUrl+'/'+Release.ReleaseId"
                                     class="button"
                                     target="_blank"
                                 ><v-icon name="external-link-square-alt" /> Link</a>
@@ -98,7 +98,7 @@ export default {
     mixins: [LoadingState],
     data () {
         return {
-            freakeurl: this.freakeUrl,
+            FreakeUrl: process.env.VUE_APP_FREAKE_URL,
             Release: {},
             artists: []
         }
@@ -112,19 +112,19 @@ export default {
     methods: {
         getSingleRelease: function (releaseid) {
             this.switchLoading()
-            axios.get(this.apiUrl + "/releases", {
+            axios.get(process.env.VUE_APP_API_URL + "/releases", {
                 params: {
                     ID: releaseid
                 }
             })
                 .then(response => {
                     this.Release = response.data
-                    this.setFavicon(this.freakeUrl + response.data.Cover, "shortcut icon")
-                    this.setFavicon(this.freakeUrl + response.data.Cover, "icon")
-                    this.setFavicon(this.freakeUrl + response.data.Cover, "apple-touch-icon")
-                    this.setMetaImage(this.freakeUrl + response.data.Cover, "twitter")
-                    this.setMetaImage(this.freakeUrl + response.data.Cover, "og")
-                    this.Release.Cover = this.freakeUrl + response.data.Cover
+                    this.setFavicon(this.FreakeUrl + response.data.Cover, "shortcut icon")
+                    this.setFavicon(this.FreakeUrl + response.data.Cover, "icon")
+                    this.setFavicon(this.FreakeUrl + response.data.Cover, "apple-touch-icon")
+                    this.setMetaImage(this.FreakeUrl + response.data.Cover, "twitter")
+                    this.setMetaImage(this.FreakeUrl + response.data.Cover, "og")
+                    this.Release.Cover = this.FreakeUrl + response.data.Cover
                     var shortDate = new Date(response.data.Date)
                     this.Release.Date = shortDate.toLocaleString("ru", {
                         year: "numeric",
@@ -139,7 +139,7 @@ export default {
                 })
         },
         getUpdatedInfo: function (releaseid) {
-            axios.get(this.apiUrl + "/releases", {
+            axios.get(process.env.VUE_APP_API_URL + "/releases", {
                 params: {
                     ID: releaseid,
                     update: true
