@@ -190,6 +190,8 @@ export default {
     },
     metaInfo() {
         return {
+            title: VUE_APP_TITLE_FULL,
+            titleTemplate: VUE_APP_TITLE_FULL,
             meta: [
                 { name: "description", content: "Web application for searching and filtering music releases. Musigger provides flexible release filtering engine that sorts by genres, types, labels, votes and even artists." },
                 { property: "og:description", content: "Web application for searching and filtering music releases. Musigger provides flexible release filtering engine that sorts by genres, types, labels, votes and even artists." },
