@@ -82,6 +82,7 @@
 import axios from "axios"
 import "vue-awesome/icons"
 import Icon from "vue-awesome/components/Icon"
+import Helpers from "@/utils/Helpers"
 import LoadingState from "@/mixins/LoadingState"
 import Preloader from "@/components/shared/Preloader"
 import Logo from "./Logo"
@@ -119,11 +120,11 @@ export default {
             })
                 .then(response => {
                     this.Release = response.data
-                    this.setFavicon(this.FreakeUrl + response.data.Cover, "shortcut icon")
-                    this.setFavicon(this.FreakeUrl + response.data.Cover, "icon")
-                    this.setFavicon(this.FreakeUrl + response.data.Cover, "apple-touch-icon")
-                    this.setMetaImage(this.FreakeUrl + response.data.Cover, "twitter")
-                    this.setMetaImage(this.FreakeUrl + response.data.Cover, "og")
+                    Helpers.setFavicon(this.FreakeUrl + response.data.Cover, "shortcut icon")
+                    Helpers.setFavicon(this.FreakeUrl + response.data.Cover, "icon")
+                    Helpers.setFavicon(this.FreakeUrl + response.data.Cover, "apple-touch-icon")
+                    Helpers.setMetaImage(this.FreakeUrl + response.data.Cover, "twitter")
+                    Helpers.setMetaImage(this.FreakeUrl + response.data.Cover, "og")
                     this.Release.Cover = this.FreakeUrl + response.data.Cover
                     var shortDate = new Date(response.data.Date)
                     this.Release.Date = shortDate.toLocaleString("ru", {
@@ -152,31 +153,6 @@ export default {
                 .catch(() => {
                     // console.log(e)
                 })
-        },
-        setFavicon: function (URL, Type) {
-            var link = document.querySelector("link[rel*='icon']") || document.createElement("link")
-            link.type = "image/jpeg"
-            link.rel = Type
-            link.href = URL
-            document.getElementsByTagName("head")[0].appendChild(link)
-        },
-        setMetaImage: function (URL, Type) {
-            let meta = null
-            switch (Type) {
-            case "twitter":
-                meta = document.querySelector("meta[name*='twitter:image']") || document.createElement("meta")
-                meta.name = "twitter:image"
-                meta.content = URL
-                break
-            case "og":
-                meta = document.querySelector("meta[property*='og:image']") || document.createElement("meta")
-                meta.property = "og:image"
-                meta.content = URL
-                break
-            default:
-                break
-            }
-            document.getElementsByTagName("head")[0].appendChild(meta)
         }
     },
     metaInfo() {

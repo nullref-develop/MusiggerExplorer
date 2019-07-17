@@ -77,6 +77,7 @@
 import axios from "axios"
 import "vue-awesome/icons"
 import Icon from "vue-awesome/components/Icon"
+import Helpers from "@/utils/Helpers"
 import LoadingState from "@/mixins/LoadingState"
 import Preloader from "@/components/shared/Preloader"
 import Filtration from "./Filtration"
@@ -116,6 +117,11 @@ export default {
         }
     },
     created: function () {
+        Helpers.setFavicon("/img/icons/favicon.ico", "shortcut icon")
+        Helpers.setFavicon("/img/icons/favicon-32x32.png", "icon")
+        Helpers.setFavicon("/img/icons/apple-touch-icon.png", "apple-touch-icon")
+        Helpers.setMetaImage("http://www.musigger.com/img/icons/android-chrome-512x512.png", "twitter")
+        Helpers.setMetaImage("http://www.musigger.com/img/icons/android-chrome-512x512.png", "og")
         document.title = process.env.VUE_APP_TITLE_FULL
         // Parse query from url and apply to filter
         this.currentPage = (this.$route.query.p) ? parseInt(this.$route.query.p) : this.currentPage
