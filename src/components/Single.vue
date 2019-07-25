@@ -119,20 +119,7 @@ export default {
                 }
             })
                 .then(response => {
-                    this.Release = response.data
-                    Helpers.setFavicon(this.FreakeUrl + response.data.Cover, "shortcut icon")
-                    Helpers.setFavicon(this.FreakeUrl + response.data.Cover, "icon")
-                    Helpers.setFavicon(this.FreakeUrl + response.data.Cover, "apple-touch-icon")
-                    Helpers.setMetaImage(this.FreakeUrl + response.data.Cover, "twitter")
-                    Helpers.setMetaImage(this.FreakeUrl + response.data.Cover, "og")
-                    this.Release.Cover = this.FreakeUrl + response.data.Cover
-                    var shortDate = new Date(response.data.Date)
-                    this.Release.Date = shortDate.toLocaleString("ru", {
-                        year: "numeric",
-                        month: "numeric",
-                        day: "numeric"
-                    })
-                    this.artists = response.data.Artists.split(", ")
+                    this.setReleaseData(response.data)
                     this.switchLoading()
                 })
                 .catch(() => {
@@ -146,13 +133,28 @@ export default {
                     update: true
                 }
             }).then(response => {
-                if (response.status === 200) {
-                    this.Release = response.data
-                }
+                if (response.status === 200)
+                    this.setReleaseData(response.data)
             })
                 .catch(() => {
                     // console.log(e)
                 })
+        },
+        setReleaseData: function (payload) {
+            this.Release = payload
+            Helpers.setFavicon(this.FreakeUrl + payload.Cover, "shortcut icon")
+            Helpers.setFavicon(this.FreakeUrl + payload.Cover, "icon")
+            Helpers.setFavicon(this.FreakeUrl + payload.Cover, "apple-touch-icon")
+            Helpers.setMetaImage(this.FreakeUrl + payload.Cover, "twitter")
+            Helpers.setMetaImage(this.FreakeUrl + payload.Cover, "og")
+            this.Release.Cover = this.FreakeUrl + payload.Cover
+            var shortDate = new Date(payload.Date)
+            this.Release.Date = shortDate.toLocaleString("ru", {
+                year: "numeric",
+                month: "numeric",
+                day: "numeric"
+            })
+            this.artists = payload.Artists.split(", ")
         }
     },
     metaInfo() {
