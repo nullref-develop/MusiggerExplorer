@@ -223,6 +223,9 @@ export default {
             margin: 0;
             line-height: 1em;
             font-size: 1.2em;
+            > * {
+                margin-right: 0.25em;
+            }
         }
         .srelease-info-title {
             font-size: 2.2em;
