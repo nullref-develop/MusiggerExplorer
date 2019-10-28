@@ -76,6 +76,7 @@
                 <img
                     :src="Release.Cover"
                     class="srelease-cover"
+                    :alt="Release.Name"
                 >
             </div>
         </div>

@@ -7,6 +7,7 @@
         <img
             class="logo-img"
             src="../assets/logo.svg"
+            alt="Musigger"
         >
     </router-link>
 </template>

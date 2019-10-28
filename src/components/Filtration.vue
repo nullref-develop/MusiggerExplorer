@@ -119,6 +119,9 @@
                     :class="{ active: showFilter }"
                     class="filter-button button"
                     type="button"
+                    role="button"
+                    alt="Show/hide filters panel"
+                    aria-label="Show/hide filters panel"
                     @click="showFilter = !showFilter"
                 >
                     <icon name="chevron-down" scale="0.7" />
@@ -128,6 +131,9 @@
                         v-if="showFilter"
                         class="clearfilter-button filter-button button"
                         type="button"
+                        role="button"
+                        alt="Clear filter"
+                        aria-label="Clear filter"
                         @click="clearFilter"
                     >
                         <icon name="trash" scale="0.8" />

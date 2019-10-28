@@ -27,6 +27,7 @@
                         <img
                             class="release-cover cell"
                             :src="freakeurl+Release.MiniCover"
+                            :alt="Release.Name"
                         >
                         <div class="release-info cell auto grid-y">
                             <p class="release-info-title cell">

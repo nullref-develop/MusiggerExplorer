@@ -5,7 +5,7 @@
                 <h1>Musigger</h1>
             </div>
             <div class="musigger-icon medium-2 small-3 cell">
-                <img src="../assets/icon.svg">
+                <img src="../assets/icon.svg" alt="Musigger logo">
             </div>
         </div>
         <div class="grid-x">
@@ -15,12 +15,14 @@
                         <a
                             href="https://github.com/Musigger"
                             target="_blank"
+                            rel="noopener"
                         >GitHub</a>
                     </li>
                     <li>
                         <a
                             href="https://www.facebook.com/nullrdv/"
                             target="_blank"
+                            rel="noopener"
                         >NRDV</a>
                     </li>
                 </ul>
