@@ -44,9 +44,9 @@
                     >
                         <v-icon name="image" /> {{ Release.Label }}
                     </router-link>
-                    <p class="srelease-info-genres">
+                    <span class="srelease-info-genres">
                         <v-icon name="music" /> {{ Release.Genres }}
-                    </p>
+                    </span>
                     <div class="srelease-extra grid-y">
                         <div
                             class="srelease-extra-info cell"
@@ -64,6 +64,12 @@
                                     target="_blank"
                                 ><v-icon name="external-link-square-alt" /> Link</a>
                             </div>
+                        </div>
+
+                        <br>
+                        <br>
+                        <div class="cell grid-y">
+                            <vue-disqus :shortname="TITLE" :identifier="$route.params.id.toString()" :url="URL" />
                         </div>
                     </div>
                 </div>
@@ -102,6 +108,14 @@ export default {
             FreakeUrl: process.env.VUE_APP_FREAKE_URL,
             Release: {},
             artists: []
+        }
+    },
+    computed: {
+        URL() {
+            return "https://" + window.location.hostname + this.$route.path
+        },
+        TITLE() {
+            return process.env.VUE_APP_TITLE
         }
     },
     created: function () {
@@ -251,21 +265,20 @@ export default {
         .srelease-info-type,
         .srelease-info-rating,
         .srelease-info-votes,
-        .srelease-info-date {
-            width: max-content;
+        .srelease-info-date,
+        .srelease-info-genres,
+        .srelease-info-label {
             font-weight: bold;
             display: inline;
-            margin-right: 1.5em;
+            margin-right: 1em;
+            line-height: 2;
+            white-space: nowrap;
         }
         .srelease-info-type {
             border: 2px solid black;
             font-size: 1em;
             line-height: 1em;
             padding: 2px 4px;
-        }
-        .srelease-info-genres {
-            margin-top: 0.4em;
-            color: $color-darkgrey;
         }
     }
     .srelease-extra {
@@ -281,6 +294,9 @@ export default {
         .srelease-extra-tofreake {
             text-align: right;
             overflow: hidden;
+            > a {
+                color: lightgray;
+            }
         }
         ul, ol {
             padding: 0;
