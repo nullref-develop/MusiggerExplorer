@@ -14,6 +14,12 @@
                 @filter-changed="getAllReleases"
             />
 
+            <h2 class="headtitle">Hyped relases by week</h2>
+            <Top
+                :weeks="1"
+                :count="6"
+            />
+
             <div class="releases grid-x">
                 <div
                     v-for="Release in Releases"
@@ -81,6 +87,7 @@ import Icon from "vue-awesome/components/Icon"
 import Helpers from "@/utils/Helpers"
 import LoadingState from "@/mixins/LoadingState"
 import Preloader from "@/components/shared/Preloader"
+import Top from "./Top"
 import Filtration from "./Filtration"
 import Paginator from "./Paginator"
 import Getlow from "./Getlow"
@@ -89,6 +96,7 @@ export default {
     name: "Finder",
     components: {
         "preloader": Preloader,
+        Top,
         Filtration,
         Paginator,
         Getlow,
@@ -212,6 +220,13 @@ export default {
 <style lang="scss">
 @import "~foundation-sites/scss/foundation";
 @import "../assets/app.scss";
+
+.headtitle {
+    display: inline-block;
+    background-color: $color-level1;
+    padding: 0.6em 1.2em;
+    margin: 0 0 0.2em 0;
+}
 
 .grid-container {
     max-width: 100em;
