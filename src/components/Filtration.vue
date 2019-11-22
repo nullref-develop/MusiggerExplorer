@@ -1,8 +1,8 @@
 <template>
     <div class="filter">
         <transition name="slide-fade">
-            <div v-if="showFilter" class="grid-x grid-margin-x">
-                <div class="filter-item small-12 cell">
+            <div v-if="showFilter" class="grid-x grid-margin-x" style="margin-bottom: 1em;">
+                <div class="filter-item large-9 medium-9 cell">
                     <label>Search</label>
                     <input
                         v-model="titleQuery"
@@ -13,7 +13,17 @@
                         @keyup="filterInput"
                     >
                 </div>
-                <div class="filter-item small-12 cell">
+                <div class="filter-item large-3 medium-3 cell">
+                    <label>Releases per page</label>
+                    <input
+                        v-model.number="perPage"
+                        type="number"
+                        class="finder-input"
+                        @change="filterInput"
+                        @keyup="filterInput"
+                    >
+                </div>
+                <div class="filter-item large-3 medium-6 cell">
                     <label>Genres</label>
                     <multiselect
                         v-model="selectedGenres"
@@ -23,7 +33,7 @@
                         @input="filterInput"
                     />
                 </div>
-                <div class="filter-item large-6 medium-12 cell">
+                <div class="filter-item large-3 medium-6 cell">
                     <label>Types</label>
                     <multiselect
                         v-model="selectedTypes"
@@ -33,7 +43,7 @@
                         @input="filterInput"
                     />
                 </div>
-                <div class="filter-item large-6 medium-12 cell">
+                <div class="filter-item large-3 medium-6 cell">
                     <label>Labels</label>
                     <multiselect
                         v-model="selectedLabels"
@@ -45,20 +55,10 @@
                         @remove="filterInput"
                     />
                 </div>
-                <div class="filter-item large-6 medium-12 cell">
+                <div class="filter-item large-3 medium-6 cell">
                     <label>Votes</label>
                     <input
                         v-model.number="votes"
-                        type="number"
-                        class="finder-input"
-                        @change="filterInput"
-                        @keyup="filterInput"
-                    >
-                </div>
-                <div class="filter-item large-6 medium-12 cell">
-                    <label>Releases per page</label>
-                    <input
-                        v-model.number="perPage"
                         type="number"
                         class="finder-input"
                         @change="filterInput"
@@ -89,7 +89,7 @@
                             {{ typesQuery }}&nbsp;&nbsp;
                         </span>
                         <span v-if="labelsQuery">
-                            <icon name="picture-o" scale="0.8" />
+                            <icon name="tag" scale="0.8" />
                             {{ labelsQuery }}&nbsp;&nbsp;
                         </span>
                         <span v-if="votes">
@@ -363,8 +363,11 @@ export default {
             white-space: nowrap;
             display: inline-block;
             text-overflow: ellipsis;
-            margin: 0.5em 0 0.3em;
+            margin: 0.5em 1em 0.3em 0;
             line-height: 1.2em;
+            &:last-child {
+                margin-right: 0;
+            }
         }
         .filter-infotext {
             @media #{$small-only} {
@@ -412,6 +415,7 @@ export default {
         background: #ffffff;
         box-shadow: none;
         background-color: $color-background;
+        margin-bottom: 0.5em;
     }
     @media #{$small-only} {
         padding: 1em;
