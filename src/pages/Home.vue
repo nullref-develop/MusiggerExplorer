@@ -13,14 +13,18 @@
                 :per-page-p="perPage"
                 @filter-changed="getAllReleases"
             />
-
-            <h2 class="headtitle">Hyped</h2>
+            
+            <div class="head">
+                <h2 class="head-title">Hyped /week</h2>
+            </div>
             <Top
                 :weeks="1"
                 :count="6"
             />
 
-            <h2 class="headtitle">Flow</h2>
+            <div class="head">
+                <h2 class="head-title">Flow /all</h2>
+            </div>
             <div class="releases grid-x">
                 <div
                     v-for="Release in Releases"
@@ -221,11 +225,14 @@ export default {
 @import "~foundation-sites/scss/foundation";
 @import "../assets/app.scss";
 
-.headtitle {
-    display: inline-block;
+.head {
     background-color: $color-level1;
-    padding: 0.6em 1.2em;
+    display: block;
     margin: 0 0.2em 0.2em 0.2em;
+    .head-title {
+        padding: 0.6em 1.2em;
+        margin: 0;
+    }
 }
 
 .grid-container {
