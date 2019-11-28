@@ -25,7 +25,7 @@
                     >
                         <img
                             class="release-cover cell"
-                            :src="freakeurl+Release.MiniCover"
+                            :src="filesurl+Release.MiniCover"
                             :alt="Release.Name"
                         >
                         <div class="release-info cell auto grid-y">
@@ -97,7 +97,7 @@ export default {
     data: function () {
         return {
             // urls
-            freakeurl: process.env.VUE_APP_FREAKE_URL,
+            filesurl: process.env.VUE_APP_FILES_URL,
             api: process.env.VUE_APP_API_URL + "/releases",
             // releases
             Releases: [],

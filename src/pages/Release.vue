@@ -59,7 +59,7 @@
                             />
                             <div class="srelease-extra-tofreake small-4 cell">
                                 <a
-                                    :href="FreakeUrl+'/'+Release.ReleaseId"
+                                    :href="`http://freake.ru/${Release.ReleaseId}`"
                                     class="button"
                                     target="_blank"
                                 ><v-icon name="external-link-square-alt" /> Link</a>
@@ -106,7 +106,7 @@ export default {
     mixins: [LoadingState],
     data () {
         return {
-            FreakeUrl: process.env.VUE_APP_FREAKE_URL,
+            filesurl: process.env.VUE_APP_FILES_URL,
             Release: {},
             artists: []
         }
@@ -157,12 +157,12 @@ export default {
         },
         setReleaseData: function (payload) {
             this.Release = payload
-            Helpers.setFavicon(this.FreakeUrl + payload.Cover, "shortcut icon")
-            Helpers.setFavicon(this.FreakeUrl + payload.Cover, "icon")
-            Helpers.setFavicon(this.FreakeUrl + payload.Cover, "apple-touch-icon")
-            Helpers.setMetaImage(this.FreakeUrl + payload.Cover, "twitter")
-            Helpers.setMetaImage(this.FreakeUrl + payload.Cover, "og")
-            this.Release.Cover = this.FreakeUrl + payload.Cover
+            Helpers.setFavicon(this.filesurl + payload.Cover, "shortcut icon")
+            Helpers.setFavicon(this.filesurl + payload.Cover, "icon")
+            Helpers.setFavicon(this.filesurl + payload.Cover, "apple-touch-icon")
+            Helpers.setMetaImage(this.filesurl + payload.Cover, "twitter")
+            Helpers.setMetaImage(this.filesurl + payload.Cover, "og")
+            this.Release.Cover = this.filesurl + payload.Cover
             var shortDate = new Date(payload.Date)
             this.Release.Date = shortDate.toLocaleString("ru", {
                 year: "numeric",

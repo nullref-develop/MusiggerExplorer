@@ -14,7 +14,7 @@
                 >
                     <div
                         class="release-item-img"
-                        :style="`background-image:url(`+freakeurl+Release.Cover+`);`"
+                        :style="`background-image:url(`+filesurl+Release.Cover+`);`"
                     />
                     <div class="release-info cell auto grid-y">
                         <p class="release-info-title cell">
@@ -53,7 +53,7 @@ export default {
     data: function () {
         return {
             // urls
-            freakeurl: process.env.VUE_APP_FREAKE_URL,
+            filesurl: process.env.VUE_APP_FILES_URL,
             api: process.env.VUE_APP_API_URL + "/toptrax",
             // releases
             Releases: []

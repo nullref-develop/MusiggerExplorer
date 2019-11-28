@@ -96,21 +96,6 @@
                             <icon name="users" scale="0.8" />
                             {{ votes }}&nbsp;&nbsp;
                         </span>
-                        <!-- If no one filter is set -->
-                        <span
-                            v-if="
-                                !artistsQuery &&
-                                    !genresQuery &&
-                                    !typesQuery &&
-                                    !labelsQuery &&
-                                    !votes &&
-                                    !titleQuery
-                            "
-                            class="filter-infotext"
-                        >
-                            Push the button to show the filters
-                            <icon name="angle-double-right" scale="0.8" />
-                        </span>
                     </div>
                 </transition>
             </div>
@@ -139,6 +124,24 @@
                         <icon name="trash" scale="0.8" />
                         Clear filter
                     </button>
+                </transition>
+                <transition name="fade">
+                    <!-- If no one filter is set -->
+                    <span
+                        v-if="
+                            !artistsQuery &&
+                                !genresQuery &&
+                                !typesQuery &&
+                                !labelsQuery &&
+                                !votes &&
+                                !titleQuery &&
+                                !showFilter
+                        "
+                        class="filterinfotext"
+                    >
+                        Push the button to show the filters
+                        <icon name="angle-double-right" scale="0.8" />
+                    </span>
                 </transition>
             </div>
         </div>
@@ -369,11 +372,6 @@ export default {
                 margin-right: 0;
             }
         }
-        .filter-infotext {
-            @media #{$small-only} {
-                display: none;
-            }
-        }
         .genres {
             max-width: 30em;
         }
@@ -404,8 +402,6 @@ export default {
     .clearfilter-button {
         margin-right: 2em;
     }
-    .filter-item {
-    }
     .finder-input {
         min-height: 2.5em;
         display: block;
@@ -419,6 +415,18 @@ export default {
     }
     @media #{$small-only} {
         padding: 1em;
+    }
+    .filterinfotext {
+        margin: 0.5em 1em 0.3em 0;
+        line-height: 1.2em;
+        overflow: hidden;
+        word-wrap: none;
+        white-space: nowrap;
+        float: right;
+        text-overflow: ellipsis;
+        @media #{$small-only} {
+            display: none;
+        }
     }
 }
 </style>
