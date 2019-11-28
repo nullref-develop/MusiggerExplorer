@@ -18,8 +18,18 @@
                 <h2 class="head-title">Hyped /week</h2>
             </div>
             <Top
-                :weeks="1"
-                :count="6"
+                :weeks=1
+                :count=6
+                :per-line=6
+            />
+
+            <div class="head">
+                <h2 class="head-title">Hyped /month</h2>
+            </div>
+            <Top
+                :weeks=4
+                :count=12
+                :perline=12
             />
 
             <div class="head">

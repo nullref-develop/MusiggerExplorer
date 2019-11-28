@@ -4,11 +4,13 @@
             <div
                 v-for="Release in Releases"
                 :key="Release.Id"
-                class="small-6 medium-4 large-2 cell"
+                class="cell"
+                :class="`small-${((12/perline)*3 < 4) ? 4 : (12/perline)*3} medium-${(12/perline)*2} large-${12/perline}`"
             >
                 <router-link
                     :to="{ name: 'release', params: { id: Release.Id } }"
                     class="release-item grid-y"
+                    :class="{ 'is-small': (perline > 6) }"
                 >
                     <div
                         class="release-item-img"
@@ -40,6 +42,10 @@ export default {
             type: Number
         },
         count: {
+            default: 6,
+            type: Number
+        },
+        perline: {
             default: 6,
             type: Number
         }
@@ -97,6 +103,28 @@ export default {
         .release-info-label {
             white-space: nowrap;
             text-overflow: ellipsis;
+        }
+        &.is-small {
+            height: 186px;
+            @media #{$small-only} {
+                height: 170px;
+            }
+            .release-info {
+                margin: 0.6em 0.6em;
+                .release-info-title {
+                    font-size: 1.1em;
+                }
+                .release-info-label {
+                    font-size: 0.8em;
+                }
+            }
+            .release-item-img {
+                height: 126px;
+                @media #{$small-only} {
+                    height: 120px;
+            
+                }
+            }
         }
     }
 }
