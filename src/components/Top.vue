@@ -5,35 +5,22 @@
             <div
                 v-for="Release in Releases"
                 :key="Release.Id"
-                class="small-12 medium-6 large-4 cell"
+                class="small-6 medium-4 large-2 cell"
             >
                 <router-link
                     :to="{ name: 'release', params: { id: Release.Id } }"
-                    class="release-item grid-x"
+                    class="release-item grid-y"
                 >
-                    <img
-                        class="release-cover cell"
-                        :src="freakeurl+Release.MiniCover"
-                        :alt="Release.Name"
-                    >
+                    <div
+                        class="release-item-img"
+                        :style="`background-image:url(`+freakeurl+Release.Cover+`);`"
+                    />
                     <div class="release-info cell auto grid-y">
                         <p class="release-info-title cell">
                             {{ Release.Name }}
                         </p>
                         <p class="release-info-label cell">
                             {{ Release.Label }}
-                        </p>
-                        <div class="release-info-summary cell">
-                            <span><icon
-                                name="play"
-                                scale="0.8"
-                            /> {{ Release.Type }}&nbsp;&nbsp;</span>
-                        </div>
-                        <p class="release-info-genres cell">
-                            <icon
-                                name="music"
-                                scale="0.8"
-                            /> {{ Release.Genres }}
                         </p>
                     </div>
                 </router-link>
@@ -45,15 +32,13 @@
 <script>
 import axios from "axios"
 import "vue-awesome/icons"
-import Icon from "vue-awesome/components/Icon"
 import LoadingState from "@/mixins/LoadingState"
 import Preloader from "@/components/shared/Preloader"
 
 export default {
     name: "Top",
     components: {
-        "preloader": Preloader,
-        Icon
+        "preloader": Preloader
     },
     mixins: [LoadingState],
     props: {
@@ -101,6 +86,27 @@ export default {
 @import "../assets/app.scss";
 
 #top {
-    margin-bottom: 2em;
+    margin-bottom: 0.2em;
+    .release-item {
+        height: 330px;
+        @media #{$small-only} {
+            height: 240px;
+        }
+        .release-item-img {
+            width: unset;
+            height: 260px;
+            content: "";
+            background-size: cover;
+            background-position: 50%;
+            @media #{$small-only} {
+                height: 180px;
+            }
+        }
+        .release-info-title,
+        .release-info-label {
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+    }
 }
 </style>

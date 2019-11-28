@@ -14,12 +14,13 @@
                 @filter-changed="getAllReleases"
             />
 
-            <h2 class="headtitle">Hyped relases by week</h2>
+            <h2 class="headtitle">Hyped</h2>
             <Top
                 :weeks="1"
                 :count="6"
             />
 
+            <h2 class="headtitle">Flow</h2>
             <div class="releases grid-x">
                 <div
                     v-for="Release in Releases"
@@ -225,7 +226,7 @@ export default {
     display: inline-block;
     background-color: $color-level1;
     padding: 0.6em 1.2em;
-    margin: 0 0 0.2em 0;
+    margin: 0 0.2em 0.2em 0.2em;
 }
 
 .grid-container {
