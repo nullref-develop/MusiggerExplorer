@@ -1,6 +1,6 @@
 <template>
     <router-link
-        :to="{ name: 'releases' }"
+        :to="{ name: 'home' }"
         class="logo cell"
         title="Back to the jungle"
     >

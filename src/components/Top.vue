@@ -1,6 +1,5 @@
 <template>
     <div id="top">
-        <preloader v-if="IsLoading" />
         <div class="releases grid-x">
             <div
                 v-for="Release in Releases"
@@ -32,15 +31,9 @@
 <script>
 import axios from "axios"
 import "vue-awesome/icons"
-import LoadingState from "@/mixins/LoadingState"
-import Preloader from "@/components/shared/Preloader"
 
 export default {
     name: "Top",
-    components: {
-        "preloader": Preloader
-    },
-    mixins: [LoadingState],
     props: {
         weeks: {
             default: 1,
@@ -65,7 +58,6 @@ export default {
     },
     methods: {
         getTopTrax: function() {
-            this.switchLoading()
             var options = {
                 params: {
                     weeks: this.weeks,
@@ -74,7 +66,6 @@ export default {
             }
             axios.get(this.api, options).then(response => {
                 this.Releases = response.data
-                this.switchLoading()
             })
         }
     }

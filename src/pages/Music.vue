@@ -1,5 +1,5 @@
 <template>
-    <div id="finder">
+    <div id="music">
         <preloader v-if="IsLoading" />
         <div class="grid-container">
             <Filtration
@@ -13,14 +13,6 @@
                 :per-page-p="perPage"
                 @filter-changed="getAllReleases"
             />
-
-            <h2 class="headtitle">Hyped</h2>
-            <Top
-                :weeks="1"
-                :count="6"
-            />
-
-            <h2 class="headtitle">Flow</h2>
             <div class="releases grid-x">
                 <div
                     v-for="Release in Releases"
@@ -88,16 +80,14 @@ import Icon from "vue-awesome/components/Icon"
 import Helpers from "@/utils/Helpers"
 import LoadingState from "@/mixins/LoadingState"
 import Preloader from "@/components/shared/Preloader"
-import Top from "./Top"
-import Filtration from "./Filtration"
-import Paginator from "./Paginator"
-import Getlow from "./Getlow"
+import Filtration from "@/components/Filtration"
+import Paginator from "@/components/Paginator"
+import Getlow from "@/components/Getlow"
 
 export default {
     name: "Finder",
     components: {
         "preloader": Preloader,
-        Top,
         Filtration,
         Paginator,
         Getlow,

@@ -92,8 +92,8 @@ import Icon from "vue-awesome/components/Icon"
 import Helpers from "@/utils/Helpers"
 import LoadingState from "@/mixins/LoadingState"
 import Preloader from "@/components/shared/Preloader"
-import Logo from "./Logo"
-import Getlow from "./Getlow"
+import Logo from "@/components/Logo"
+import Getlow from "@/components/Getlow"
 
 export default {
     name: "Single",
