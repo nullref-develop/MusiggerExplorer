@@ -334,16 +334,6 @@ export default {
 .margin-0 {
     margin: 0;
 }
-.fade-enter-active {
-    transition: opacity 0.5s;
-}
-.fade-leave-active {
-    transition: opacity 0.2s;
-}
-.fade-enter,
-.fade-leave-to {
-    opacity: 0;
-}
 .slide-fade-enter-active,
 .slide-fade-leave-active {
     transition: all 0.1s ease;

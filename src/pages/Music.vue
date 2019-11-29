@@ -1,6 +1,8 @@
 <template>
     <div id="music">
-        <preloader v-if="IsLoading" />
+        <transition name="fadeout">
+            <preloader v-if="IsLoading" />
+        </transition>
         <div class="grid-container">
             <Filtration
                 :artists-query-p="artistsQuery"

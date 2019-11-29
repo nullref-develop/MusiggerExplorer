@@ -1,6 +1,8 @@
 <template>
     <div id="single" class="grid-container">
-        <preloader v-if="IsLoading" />
+        <transition name="fadeout">
+            <preloader v-if="IsLoading" />
+        </transition>
         <div class="releaseinner">
             <div class="logodiv grid-x">
                 <Logo />

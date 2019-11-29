@@ -107,9 +107,11 @@ blockquote {
 #loader {
     position: absolute;
     width: 100%;
-    height: 100%;
+    height: 100vh;
     background: white;
     z-index: 1;
+    top: 0;
+    left: 0;
     .loader{
         position:fixed;
         margin: auto;
@@ -171,5 +173,29 @@ blockquote {
 #loader li:nth-child(6){
   left : 75px;
   animation: sequence2 1s ease infinite 0.5s;
+}
+
+.fade-enter-active {
+    transition: opacity 0.5s;
+}
+.fade-leave-active {
+    transition: opacity 0.2s;
+}
+.fade-enter,
+.fade-leave-to {
+    opacity: 0;
+}
+
+.fadeout-enter-active {
+    transition: opacity 0s;
+}
+.fadeout-leave-active {
+    transition: opacity 0.5s;
+}
+.fadeout-enter {
+    opacity: 1;
+}
+.fadeout-leave-to {
+    opacity: 0;
 }
 </style>
