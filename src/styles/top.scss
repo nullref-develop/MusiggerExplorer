@@ -1,0 +1,46 @@
+#top {
+    margin-bottom: 0.2em;
+    .release-item {
+        height: 330px;
+        @media #{$small-only} {
+            height: 240px;
+        }
+        .release-item-img {
+            width: unset;
+            height: 260px;
+            content: "";
+            background-size: cover;
+            background-position: 50%;
+            @media #{$small-only} {
+                height: 180px;
+            }
+        }
+        .release-info-title,
+        .release-info-label {
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+        &.is-small {
+            height: 186px;
+            @media #{$small-only} {
+                height: 170px;
+            }
+            .release-info {
+                margin: 0.6em 0.6em;
+                .release-info-title {
+                    font-size: 1.1em;
+                }
+                .release-info-label {
+                    font-size: 0.8em;
+                }
+            }
+            .release-item-img {
+                height: 126px;
+                @media #{$small-only} {
+                    height: 120px;
+
+                }
+            }
+        }
+    }
+}

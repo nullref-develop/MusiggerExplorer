@@ -1,0 +1,220 @@
+.releases {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+.release-item {
+    background: $color-level1;
+    height: 148px;
+    color: black !important;
+    margin: 0.2em;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    overflow: hidden;
+    font-weight: normal;
+    @media #{$small-only} {
+        height: 100px;
+    }
+    &:hover {
+        transform: scale(1.02);
+        box-shadow: 0 14px 28px rgba(0,0,0,0.15), 0 10px 10px rgba(0,0,0,0.12);
+    }
+    .release-cover {
+        width: 148px;
+        height: 148px;
+        @media #{$small-only} {
+            width: 100px;
+            height: 100px;
+        }
+    }
+    .release-info {
+        margin: 0.6em 1.2em;
+        overflow: hidden;
+        line-height: 1.2em;
+        .release-info-title {
+            font-size: 1.5em;
+            line-height: 1.2em;
+            margin: 0;
+            font-weight: bold;
+            max-height: 2.4em;
+            overflow: hidden;
+            @media #{$small-only} {
+                max-height: 1.2em;
+            }
+        }
+        .release-info-label {
+            margin: 0 0 0.5em 0;
+        }
+        .release-info-summary span,
+        .release-info-genres {
+            line-height: 1.1em;
+            font-size: 0.9em;
+            color: gray;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin: 0;
+        }
+    }
+    @media #{$small-only} {
+        font-size: 0.9em;
+    }
+}
+
+.releaseinner {
+    background-color: $color-level1;
+    padding: 2em;
+    margin: 0 0.2em 0.2em 0.2em;
+    .logodiv {
+        padding: 2em 2em 0;
+        @media #{$small-only} {
+            padding: 2em 1em 0;
+        }
+    }
+    @media #{$small-only} {
+        padding: 0;
+    }
+    iframe,
+    embed,
+    object {
+        display: block;
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 100% !important;
+        overflow: hidden;
+    }
+}
+.releaseinner + footer {
+    padding: 0 4em !important;
+    @media #{$small-only} {
+        padding: 0 1em !important;
+    }
+}
+.srelease {
+    padding: 2em 0 2em;
+    justify-content: space-between;
+    .srelease-cover {
+        width: 30em;
+        height: 30em;
+        padding: 0 2em;
+        @media #{$small-only} {
+            width: 100%;
+            height: 100%;
+            font-size: 0.9em;
+        }
+    }
+    .srelease-info {
+        padding: 0 2em;
+        align-self: center;
+        flex-basis: auto;
+        max-width: 40em;
+        @media (min-width: 1680px) {
+            max-width: 57em;
+        }
+        @media (max-width: 1400px) {
+            width: 100%;
+            max-width: 100%;
+        }
+        @media (max-width: 768px) {
+            padding: 0 1em;
+        }
+        p {
+            margin: 0;
+            line-height: 1em;
+            font-size: 1.2em;
+            > * {
+                margin-right: 0.25em;
+            }
+        }
+        .srelease-info-title {
+            font-size: 2.2em;
+            line-height: 1.2em;
+            font-weight: bold;
+            margin-bottom: 0.1em;
+            @media #{$small-only} {
+                font-size: 1.8em;
+                line-height: 1.1em;
+            }
+        }
+        .srelease-info-label,
+        .srelease-info-artist {
+            display: inline-block;
+            color: black;
+            border-bottom: 2px solid black;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .srelease-info-artist {
+            margin-bottom: 1em;
+        }
+        .srelease-info-type,
+        .srelease-info-rating,
+        .srelease-info-votes,
+        .srelease-info-date,
+        .srelease-info-genres,
+        .srelease-info-label {
+            font-weight: bold;
+            display: inline;
+            margin-right: 1em;
+            line-height: 2;
+            white-space: nowrap;
+        }
+        .srelease-info-type {
+            border: 2px solid black;
+            font-size: 1em;
+            line-height: 1em;
+            padding: 2px 4px;
+        }
+    }
+    .srelease-extra {
+        margin-top: 2em;
+        padding: 0;
+        overflow: hidden;
+        .srelease-extra-info {
+            margin-bottom: 1em;
+        }
+        .srelease-extra-links {
+            overflow: hidden;
+        }
+        .srelease-extra-tofreake {
+            text-align: right;
+            overflow: hidden;
+            > a {
+                color: lightgray;
+            }
+        }
+        ul, ol {
+            padding: 0;
+            margin: 0 0 1em 0;
+            .link-head {
+                font-weight: bold;
+            }
+            li {
+                overflow: hidden;
+                white-space: pre;
+                text-overflow: ellipsis;
+            }
+        }
+        ol {
+            padding-left: 1em;
+            li {
+                overflow: visible;
+            }
+        }
+        ul {
+            list-style: none;
+        }
+    }
+    @media (max-width: 1400px) {
+        flex-flow: column-reverse nowrap;
+        padding: 2em;
+        .srelease-cover {
+            padding: 0;
+            align-self: center;
+            margin-bottom: 2em;
+        }
+    }
+    @media #{$small-only} {
+        padding: 2em 1em;
+    }
+}

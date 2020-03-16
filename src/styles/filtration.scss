@@ -1,0 +1,88 @@
+.margin-0 {
+    margin: 0;
+}
+.slide-fade-enter-active,
+.slide-fade-leave-active {
+    transition: all 0.1s ease;
+}
+.slide-fade-enter,
+.slide-fade-leave-to {
+    transform: translateY(-1em);
+    opacity: 0;
+}
+.filter {
+    padding: 1em 2em;
+    background-color: $color-level1;
+    margin: 0 0.2em 0.4em 0.2em;
+    .filter-mini {
+        overflow: hidden;
+        word-wrap: none;
+        span {
+            max-width: 20em;
+            overflow: hidden;
+            white-space: nowrap;
+            display: inline-block;
+            text-overflow: ellipsis;
+            margin: 0.5em 1em 0.3em 0;
+            line-height: 1.2em;
+            &:last-child {
+                margin-right: 0;
+            }
+        }
+        .genres {
+            max-width: 30em;
+        }
+    }
+    label {
+        font-size: 1em;
+        font-weight: normal;
+    }
+    .filter-button {
+        background-color: transparent;
+        // background-color: $color-background;
+        color: black;
+        float: right;
+        svg {
+            transition: background 0.3s ease;
+            transition: transform 0.3s ease;
+        }
+        &:hover {
+            color: $color-level1;
+            background-color: $color-accent;
+        }
+        &.active {
+            svg {
+                transform: rotate(180deg);
+            }
+        }
+    }
+    .clearfilter-button {
+        margin-right: 2em;
+    }
+    .finder-input {
+        min-height: 2.5em;
+        display: block;
+        padding: 0.8em;
+        border-radius: 0;
+        border: none;
+        background: #ffffff;
+        box-shadow: none;
+        background-color: $color-background;
+        margin-bottom: 0.5em;
+    }
+    @media #{$small-only} {
+        padding: 1em;
+    }
+    .filterinfotext {
+        margin: 0.5em 1em 0.3em 0;
+        line-height: 1.2em;
+        overflow: hidden;
+        word-wrap: none;
+        white-space: nowrap;
+        float: right;
+        text-overflow: ellipsis;
+        @media #{$small-only} {
+            display: none;
+        }
+    }
+}
