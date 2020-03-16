@@ -1,7 +1,7 @@
 const Helpers = {
 
-    setFavicon: function (URL, Type) {
-        let link = document.querySelector(`link[rel="${Type}"]`)
+    setFavicon(URL, Type) {
+        const link = document.querySelector(`link[rel="${Type}"]`)
         link.type = "image/jpeg"
         link.rel = Type
         link.href = URL
@@ -9,7 +9,7 @@ const Helpers = {
         link.replaceWith(link)
     },
 
-    setMetaImage: function (URL, Type) {
+    setMetaImage(URL, Type) {
         let meta = null
         switch (Type) {
         case "twitter":
@@ -27,7 +27,7 @@ const Helpers = {
         }
         meta.replaceWith(meta)
     }
-    
+
 }
 
 export default Helpers

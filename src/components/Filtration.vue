@@ -149,12 +149,12 @@
 </template>
 
 <script>
-import Logo from "./Logo"
 import Multiselect from "vue-multiselect"
 import axios from "axios"
 import debounce from "tiny-debounce"
 import "vue-awesome/icons"
 import Icon from "vue-awesome/components/Icon"
+import Logo from "./Logo"
 
 export default {
     name: "Filtration",
@@ -197,11 +197,11 @@ export default {
             type: Number
         }
     },
-    data: function() {
+    data() {
         return {
             // urls
-            apiGenres: process.env.VUE_APP_API_URL + "/genres",
-            apiLabels: process.env.VUE_APP_API_URL + "/labels",
+            apiGenres: `${process.env.VUE_APP_API_URL}/genres`,
+            apiLabels: `${process.env.VUE_APP_API_URL}/labels`,
             // for pagination
             currentPage: 1,
             // for filter
@@ -223,7 +223,7 @@ export default {
             titleQuery: ""
         }
     },
-    created: function() {
+    created() {
         // Parse query from parent component and apply to filter
         if (this.genresQueryP) {
             this.selectedGenres = this.genresQueryP.split(",")
@@ -249,20 +249,17 @@ export default {
         // casting of variable types
         filterInput: debounce(
             // задержка поиска при пользовательском вводе
-            function() {
+            () => {
                 this.currentPage = 1 // reset current page when filter change
-                this.typesQuery =
-                    this.selectedTypes != null
-                        ? this.selectedTypes.join()
-                        : null
-                this.labelsQuery =
-                    this.selectedLabels != null
-                        ? this.selectedLabels.join()
-                        : null
-                this.genresQuery =
-                    this.selectedGenres != null
-                        ? this.selectedGenres.join()
-                        : null
+                this.typesQuery = this.selectedTypes != null
+                    ? this.selectedTypes.join()
+                    : null
+                this.labelsQuery = this.selectedLabels != null
+                    ? this.selectedLabels.join()
+                    : null
+                this.genresQuery = this.selectedGenres != null
+                    ? this.selectedGenres.join()
+                    : null
                 this.$emit(
                     "filter-changed",
                     this.currentPage,
@@ -277,7 +274,7 @@ export default {
             },
             1000
         ),
-        clearFilter: function() {
+        clearFilter() {
             this.labelsQuery = ""
             this.genresQuery = ""
             this.typesQuery = ""
@@ -301,28 +298,31 @@ export default {
                 this.titleQuery
             )
         },
-        getAllGenres: function() {
+        getAllGenres() {
             axios
                 .get(this.apiGenres)
-                .then(response => {
+                .then((response) => {
                     this.genres = response.data
                 })
                 .catch(() => {
                     // console.log(e)
                 })
         },
-        getLabels: debounce(function() {
-            this.isLoading = true
-            axios
-                .get(this.apiLabels)
-                .then(response => {
-                    this.labels = response.data
-                    this.isLoading = false
-                })
-                .catch(() => {
-                    // console.log(e)
-                })
-        }, 1000)
+        getLabels: debounce(
+            () => {
+                this.isLoading = true
+                axios
+                    .get(this.apiLabels)
+                    .then((response) => {
+                        this.labels = response.data
+                        this.isLoading = false
+                    })
+                    .catch(() => {
+                        // console.log(e)
+                    })
+            },
+            1000
+        )
     }
 }
 </script>

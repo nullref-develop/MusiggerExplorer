@@ -5,7 +5,9 @@
                 v-for="Release in Releases"
                 :key="Release.Id"
                 class="cell"
-                :class="`small-${((12/perline)*3 < 4) ? 4 : (12/perline)*3} medium-${(12/perline)*2} large-${12/perline}`"
+                :class="
+                    `small-${((12/perline)*3 < 4) ? 4 : (12/perline)*3} medium-${(12/perline)*2} large-${12/perline}`
+                "
             >
                 <router-link
                     :to="{ name: 'release', params: { id: Release.Id } }"
@@ -50,11 +52,11 @@ export default {
             type: Number
         }
     },
-    data: function () {
+    data() {
         return {
             // urls
             filesurl: process.env.VUE_APP_FILES_URL,
-            api: process.env.VUE_APP_API_URL + "/toptrax",
+            api: `${process.env.VUE_APP_API_URL}/toptrax`,
             // releases
             Releases: []
         }
@@ -63,14 +65,14 @@ export default {
         this.getTopTrax()
     },
     methods: {
-        getTopTrax: function() {
-            var options = {
+        getTopTrax() {
+            const options = {
                 params: {
                     weeks: this.weeks,
                     count: this.count
                 }
             }
-            axios.get(this.api, options).then(response => {
+            axios.get(this.api, options).then((response) => {
                 this.Releases = response.data
             })
         }
@@ -122,7 +124,7 @@ export default {
                 height: 126px;
                 @media #{$small-only} {
                     height: 120px;
-            
+
                 }
             }
         }

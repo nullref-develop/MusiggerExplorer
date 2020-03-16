@@ -29,6 +29,7 @@
             </div>
             <div class="large-10 medium-8 small-12 cell">
                 <strong>What musigger is?</strong>
+                <!-- eslint-disable-next-line max-len -->
                 <p>Web application (music digger) for searching and filtering music releases. Musigger provides flexible release filtering engine that sorts by genres, types, labels, votes and even artists. Also it offers superrior perfomance and modern design. Music collection updates every day. Can you belive it, here you can download every release without registration and sms!</p>
             </div>
         </div>
@@ -101,7 +102,7 @@ footer {
     }
     @media #{$small-only} {
         padding: 0 1em;
-        font-size: 0.9em;    
+        font-size: 0.9em;
     }
 }
 </style>

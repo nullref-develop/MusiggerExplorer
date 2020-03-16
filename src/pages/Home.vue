@@ -15,7 +15,7 @@
                 :per-page-p="perPage"
                 @filter-changed="getAllReleases"
             />
-            
+
             <div class="head">
                 <h2 class="head-title">Hyped /week</h2>
             </div>
@@ -112,7 +112,7 @@ import Getlow from "@/components/Getlow"
 export default {
     name: "Finder",
     components: {
-        "preloader": Preloader,
+        preloader: Preloader,
         Top,
         Filtration,
         Paginator,
@@ -120,11 +120,11 @@ export default {
         Icon
     },
     mixins: [LoadingState],
-    data: function () {
+    data() {
         return {
             // urls
             filesurl: process.env.VUE_APP_FILES_URL,
-            api: process.env.VUE_APP_API_URL + "/releases",
+            api: `${process.env.VUE_APP_API_URL}/releases`,
             // releases
             Releases: [],
             // for pagination
@@ -142,7 +142,7 @@ export default {
             firstLaunch: true
         }
     },
-    created: function () {
+    created() {
         Helpers.setFavicon("/img/icons/favicon.ico", "shortcut icon")
         Helpers.setFavicon("/img/icons/favicon-32x32.png", "icon")
         Helpers.setFavicon("/img/icons/apple-touch-icon.png", "apple-touch-icon")
@@ -150,9 +150,15 @@ export default {
         Helpers.setMetaImage("http://www.musigger.com/img/icons/android-chrome-512x512.png", "og")
         document.title = process.env.VUE_APP_TITLE_FULL
         // Parse query from url and apply to filter
-        this.currentPage = (this.$route.query.p) ? parseInt(this.$route.query.p) : this.currentPage
-        this.votes = (this.$route.query.votes) ? parseInt(this.$route.query.votes) : this.votes
-        this.perPage = (this.$route.query.perPage) ? parseInt(this.$route.query.perPage) : this.perPage
+        this.currentPage = (this.$route.query.p)
+            ? parseInt(this.$route.query.p, 10)
+            : this.currentPage
+        this.votes = (this.$route.query.votes)
+            ? parseInt(this.$route.query.votes, 10)
+            : this.votes
+        this.perPage = (this.$route.query.perPage)
+            ? parseInt(this.$route.query.perPage, 10)
+            : this.perPage
         if (this.$route.query.genres) {
             this.genresQuery = this.$route.query.genres
         }
@@ -169,40 +175,52 @@ export default {
             this.titleQuery = this.$route.query.title
         }
         // get genres and releases (that fits the filter)
-        this.getAllReleases(this.currentPage, this.votes, this.perPage, this.genresQuery, this.labelsQuery, this.typesQuery, this.artistsQuery, this.titleQuery)
+        this.getAllReleases(
+            this.currentPage,
+            this.votes,
+            this.perPage,
+            this.genresQuery,
+            this.labelsQuery,
+            this.typesQuery,
+            this.artistsQuery,
+            this.titleQuery
+        )
     },
     methods: {
-        getAllReleases: function (page, votes, perPage, selectedGenres, selectedLabels, selectedTypes, artists, title) {
-            var options = {
+        getAllReleases(page, votes, perPage, selectedGenres, selectedLabels, selectedTypes, artists, title) {
+            const options = {
                 params: {
                     p: page,
-                    votes: votes,
-                    perPage: perPage,
+                    votes,
+                    perPage,
                     genres: selectedGenres,
                     labels: selectedLabels,
                     types: selectedTypes,
-                    artists: artists,
-                    title: title
+                    artists,
+                    title
                 }
             }
             if (!this.firstLaunch || Object.keys(this.$route.query).length !== 0) {
-                this.$router.push({ path: "music", query: {
-                    p: options.params.p,
-                    votes: options.params.votes,
-                    perPage: options.params.perPage,
-                    genres: options.params.genres,
-                    labels: options.params.labels,
-                    types: options.params.types,
-                    artists: this.artistsQuery,
-                    title: options.params.title
-                } })
+                this.$router.push({
+                    path: "music",
+                    query: {
+                        p: options.params.p,
+                        votes: options.params.votes,
+                        perPage: options.params.perPage,
+                        genres: options.params.genres,
+                        labels: options.params.labels,
+                        types: options.params.types,
+                        artists: this.artistsQuery,
+                        title: options.params.title
+                    }
+                })
             }
             else {
                 this.firstLaunch = false
                 this.switchLoading()
-                axios.get(this.api, options).then(response => {
+                axios.get(this.api, options).then((response) => {
                     this.Releases = response.data
-                    this.totalReleases = parseInt(response.headers["x-total"])
+                    this.totalReleases = parseInt(response.headers["x-total"], 10)
                     // update from filtration
                     this.currentPage = page
                     this.page = page

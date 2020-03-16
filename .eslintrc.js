@@ -2,6 +2,8 @@ module.exports = {
     root: true,
 
     env: {
+        browser: true,
+        es6: true,
         node: true
     },
 
@@ -9,7 +11,7 @@ module.exports = {
         parser: "babel-eslint"
     },
 
-    extends: ["eslint:recommended", "plugin:vue/recommended"],
+    extends: ["plugin:vue/recommended", "eslint:recommended", "@vue/airbnb"],
 
     rules: {
         "no-console": process.env.NODE_ENV === "production" ? "error" : "off",
@@ -17,6 +19,12 @@ module.exports = {
         indent: ["error", 4],
         quotes: ["error", "double"],
         semi: ["error", "never"],
+        "import/extensions": 0,
+        "import/prefer-default-export": 0,
+        "no-underscore-dangle": 0,
+        "brace-style": ["error", "stroustrup", { allowSingleLine: true }],
+        "no-shadow": 0,
+        "max-len": ["error", { code: 120, ignoreStrings: true, ignoreRegExpLiterals: true }],
         "keyword-spacing": [
             "error",
             {
@@ -31,8 +39,6 @@ module.exports = {
         "vue/object-curly-spacing": ["error", "always"],
         "block-spacing": ["error", "always"],
         "vue/block-spacing": ["error", "always"],
-        "brace-style": ["error", "stroustrup"],
-        "vue/brace-style": ["error", "stroustrup"],
         "comma-dangle": ["error", "never"],
         "vue/comma-dangle": ["error", "never"],
         eqeqeq: ["error", "smart"],

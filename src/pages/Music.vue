@@ -89,18 +89,18 @@ import Getlow from "@/components/Getlow"
 export default {
     name: "Finder",
     components: {
-        "preloader": Preloader,
+        preloader: Preloader,
         Filtration,
         Paginator,
         Getlow,
         Icon
     },
     mixins: [LoadingState],
-    data: function () {
+    data() {
         return {
             // urls
             filesurl: process.env.VUE_APP_FILES_URL,
-            api: process.env.VUE_APP_API_URL + "/releases",
+            api: `${process.env.VUE_APP_API_URL}/releases`,
             // releases
             Releases: [],
             // for pagination
@@ -118,7 +118,7 @@ export default {
             firstLaunch: true
         }
     },
-    created: function () {
+    created() {
         Helpers.setFavicon("/img/icons/favicon.ico", "shortcut icon")
         Helpers.setFavicon("/img/icons/favicon-32x32.png", "icon")
         Helpers.setFavicon("/img/icons/apple-touch-icon.png", "apple-touch-icon")
@@ -126,9 +126,15 @@ export default {
         Helpers.setMetaImage("http://www.musigger.com/img/icons/android-chrome-512x512.png", "og")
         document.title = process.env.VUE_APP_TITLE_FULL
         // Parse query from url and apply to filter
-        this.currentPage = (this.$route.query.p) ? parseInt(this.$route.query.p) : this.currentPage
-        this.votes = (this.$route.query.votes) ? parseInt(this.$route.query.votes) : this.votes
-        this.perPage = (this.$route.query.perPage) ? parseInt(this.$route.query.perPage) : this.perPage
+        this.currentPage = (this.$route.query.p)
+            ? parseInt(this.$route.query.p, 10)
+            : this.currentPage
+        this.votes = (this.$route.query.votes)
+            ? parseInt(this.$route.query.votes, 10)
+            : this.votes
+        this.perPage = (this.$route.query.perPage)
+            ? parseInt(this.$route.query.perPage, 10)
+            : this.perPage
         if (this.$route.query.genres) {
             this.genresQuery = this.$route.query.genres
         }
@@ -145,26 +151,44 @@ export default {
             this.titleQuery = this.$route.query.title
         }
         // get genres and releases (that fits the filter)
-        this.getAllReleases(this.currentPage, this.votes, this.perPage, this.genresQuery, this.labelsQuery, this.typesQuery, this.artistsQuery, this.titleQuery)
+        this.getAllReleases(
+            this.currentPage,
+            this.votes,
+            this.perPage,
+            this.genresQuery,
+            this.labelsQuery,
+            this.typesQuery,
+            this.artistsQuery,
+            this.titleQuery
+        )
     },
     methods: {
-        getAllReleases: function (page, votes, perPage, selectedGenres, selectedLabels, selectedTypes, artists, title) {
+        getAllReleases(
+            page,
+            votes,
+            perPage,
+            selectedGenres,
+            selectedLabels,
+            selectedTypes,
+            artists,
+            title
+        ) {
             this.switchLoading()
-            var options = {
+            const options = {
                 params: {
                     p: page,
-                    votes: votes,
-                    perPage: perPage,
+                    votes,
+                    perPage,
                     genres: selectedGenres,
                     labels: selectedLabels,
                     types: selectedTypes,
-                    artists: artists,
-                    title: title
+                    artists,
+                    title
                 }
             }
-            axios.get(this.api, options).then(response => {
+            axios.get(this.api, options).then((response) => {
                 this.Releases = response.data
-                this.totalReleases = parseInt(response.headers["x-total"])
+                this.totalReleases = parseInt(response.headers["x-total"], 10)
                 // update from filtration
                 this.currentPage = page
                 this.page = page
@@ -177,16 +201,18 @@ export default {
                 this.titleQuery = title
                 // update url query when something changed (except first app launch)
                 if (!this.firstLaunch) {
-                    this.$router.replace({ query: {
-                        p: options.params.p,
-                        votes: options.params.votes,
-                        perPage: options.params.perPage,
-                        genres: options.params.genres,
-                        labels: options.params.labels,
-                        types: options.params.types,
-                        artists: this.artistsQuery,
-                        title: options.params.title
-                    } })
+                    this.$router.replace({
+                        query: {
+                            p: options.params.p,
+                            votes: options.params.votes,
+                            perPage: options.params.perPage,
+                            genres: options.params.genres,
+                            labels: options.params.labels,
+                            types: options.params.types,
+                            artists: this.artistsQuery,
+                            title: options.params.title
+                        }
+                    })
                 }
                 this.firstLaunch = false
                 this.switchLoading()

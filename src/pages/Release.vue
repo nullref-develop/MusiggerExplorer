@@ -100,13 +100,13 @@ import Getlow from "@/components/Getlow"
 export default {
     name: "Single",
     components: {
-        "preloader": Preloader,
+        preloader: Preloader,
         Logo,
         Getlow,
         "v-icon": Icon
     },
     mixins: [LoadingState],
-    data () {
+    data() {
         return {
             filesurl: process.env.VUE_APP_FILES_URL,
             Release: {},
@@ -115,27 +115,27 @@ export default {
     },
     computed: {
         URL() {
-            return "https://" + window.location.hostname + this.$route.path
+            return `https://${window.location.hostname}${this.$route.path}`
         },
         TITLE() {
             return process.env.VUE_APP_TITLE
         }
     },
-    created: function () {
+    created() {
         // get release id from url params
-        var releaseId = this.$route.params.id
+        const releaseId = this.$route.params.id
         this.getSingleRelease(releaseId)
         this.getUpdatedInfo(releaseId)
     },
     methods: {
-        getSingleRelease: function (releaseid) {
+        getSingleRelease(releaseid) {
             this.switchLoading()
-            axios.get(process.env.VUE_APP_API_URL + "/releases", {
+            axios.get(`${process.env.VUE_APP_API_URL}/releases`, {
                 params: {
                     ID: releaseid
                 }
             })
-                .then(response => {
+                .then((response) => {
                     this.setReleaseData(response.data)
                     this.switchLoading()
                 })
@@ -143,21 +143,20 @@ export default {
                     // console.log(e)
                 })
         },
-        getUpdatedInfo: function (releaseid) {
-            axios.get(process.env.VUE_APP_API_URL + "/releases", {
+        getUpdatedInfo(releaseid) {
+            axios.get(`${process.env.VUE_APP_API_URL}/releases`, {
                 params: {
                     ID: releaseid,
                     update: true
                 }
-            }).then(response => {
-                if (response.status === 200)
-                    this.setReleaseData(response.data)
+            }).then((response) => {
+                if (response.status === 200) { this.setReleaseData(response.data) }
             })
                 .catch(() => {
                     // console.log(e)
                 })
         },
-        setReleaseData: function (payload) {
+        setReleaseData(payload) {
             this.Release = payload
             Helpers.setFavicon(this.filesurl + payload.Cover, "shortcut icon")
             Helpers.setFavicon(this.filesurl + payload.Cover, "icon")
@@ -165,7 +164,7 @@ export default {
             Helpers.setMetaImage(this.filesurl + payload.Cover, "twitter")
             Helpers.setMetaImage(this.filesurl + payload.Cover, "og")
             this.Release.Cover = this.filesurl + payload.Cover
-            var shortDate = new Date(payload.Date)
+            const shortDate = new Date(payload.Date)
             this.Release.Date = shortDate.toLocaleString("ru", {
                 year: "numeric",
                 month: "numeric",

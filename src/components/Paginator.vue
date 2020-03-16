@@ -109,45 +109,45 @@ export default {
         }
     },
     computed: {
-        pages: function () {
-            var pages = []
-            for (var i = this.rangeStart; i <= this.rangeEnd; i++) {
+        pages() {
+            const pages = []
+            for (let i = this.rangeStart; i <= this.rangeEnd; i += 1) {
                 pages.push(i)
             }
             return pages
         },
-        rangeStart: function () {
-            var start = this.current - this.pageRange
+        rangeStart() {
+            const start = this.current - this.pageRange
             return (start > 0) ? start : 1
         },
-        rangeEnd: function () {
-            var end = this.current + this.pageRange
+        rangeEnd() {
+            const end = this.current + this.pageRange
             return (end < this.totalPages) ? end : this.totalPages
         },
-        totalPages: function () {
+        totalPages() {
             return Math.ceil(this.total / this.perPage)
         },
-        nextPage: function () {
+        nextPage() {
             return this.current + 1
         },
-        prevPage: function () {
+        prevPage() {
             return this.current - 1
         }
     },
     methods: {
-        hasFirst: function () {
+        hasFirst() {
             return this.rangeStart !== 1
         },
-        hasLast: function () {
+        hasLast() {
             return this.rangeEnd < this.totalPages
         },
-        hasPrev: function () {
+        hasPrev() {
             return this.current > 1
         },
-        hasNext: function () {
+        hasNext() {
             return this.current < this.totalPages
         },
-        changePage: function (page) {
+        changePage(page) {
             this.$emit("page-changed", page, this.votes, this.perPage, this.genres, this.labels, this.types, "", this.title)
         }
     }
@@ -176,7 +176,7 @@ export default {
             background-color: $color-accent;
         }
         @media #{$small-only} {
-            padding: 6px 12px; 
+            padding: 6px 12px;
         }
     }
     .pagination-mid ul {
