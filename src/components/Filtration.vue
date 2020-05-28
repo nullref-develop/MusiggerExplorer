@@ -107,7 +107,7 @@
                     role="button"
                     alt="Show/hide filters panel"
                     aria-label="Show/hide filters panel"
-                    @click="showFilter = !showFilter"
+                    @click="ShowFilter()"
                 >
                     <icon name="chevron-down" scale="0.7" />
                 </button>
@@ -220,7 +220,8 @@ export default {
             genresQuery: "",
             typesQuery: "",
             artistsQuery: "",
-            titleQuery: ""
+            titleQuery: "",
+            LabelLoaded: false
         }
     },
     created() {
@@ -249,7 +250,7 @@ export default {
         // casting of variable types
         filterInput: debounce(
             // задержка поиска при пользовательском вводе
-            () => {
+            function () {
                 this.currentPage = 1 // reset current page when filter change
                 this.typesQuery = this.selectedTypes != null
                     ? this.selectedTypes.join()
@@ -308,21 +309,18 @@ export default {
                     // console.log(e)
                 })
         },
-        getLabels: debounce(
-            () => {
-                this.isLoading = true
-                axios
-                    .get(this.apiLabels)
-                    .then((response) => {
-                        this.labels = response.data
-                        this.isLoading = false
-                    })
-                    .catch(() => {
-                        // console.log(e)
-                    })
-            },
-            1000
-        )
+        getLabels() {
+            this.LabelLoaded = true
+            axios
+                .get(this.apiLabels)
+                .then((response) => {
+                    this.labels = response.data
+                })
+        },
+        ShowFilter() {
+            this.showFilter = !this.showFilter
+            if (this.labels.length === 0 && !this.LabelLoaded) this.getLabels()
+        }
     }
 }
 </script>

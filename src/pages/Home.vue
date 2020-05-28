@@ -242,7 +242,9 @@ export default {
             title: process.env.VUE_APP_TITLE_FULL,
             titleTemplate: process.env.VUE_APP_TITLE_FULL,
             meta: [
+                // eslint-disable-next-line max-len
                 { name: "description", content: "Web application for searching and filtering music releases. Musigger provides flexible release filtering engine that sorts by genres, types, labels, votes and even artists." },
+                // eslint-disable-next-line max-len
                 { property: "og:description", content: "Web application for searching and filtering music releases. Musigger provides flexible release filtering engine that sorts by genres, types, labels, votes and even artists." },
                 { property: "og:title", content: "Musigger - Search and filter music releases" }
             ]
