@@ -173,53 +173,55 @@ export default {
             artists,
             title
         ) {
-            this.switchLoading()
-            const options = {
-                params: {
-                    p: page,
-                    votes,
-                    perPage,
-                    genres: selectedGenres,
-                    labels: selectedLabels,
-                    types: selectedTypes,
-                    artists,
-                    title
-                }
-            }
-            axios.get(this.api, options).then((response) => {
-                this.Releases = response.data
-                this.totalReleases = parseInt(response.headers["x-total"], 10)
-                // update from filtration
-                this.currentPage = page
-                this.page = page
-                this.votes = votes
-                this.perPage = perPage
-                this.genresQuery = selectedGenres
-                this.labelsQuery = selectedLabels
-                this.typesQuery = selectedTypes
-                this.artistsQuery = artists
-                this.titleQuery = title
-                // update url query when something changed (except first app launch)
-                if (!this.firstLaunch) {
-                    this.$router.replace({
-                        query: {
-                            p: options.params.p,
-                            votes: options.params.votes,
-                            perPage: options.params.perPage,
-                            genres: options.params.genres,
-                            labels: options.params.labels,
-                            types: options.params.types,
-                            artists: this.artistsQuery,
-                            title: options.params.title
-                        }
-                    })
-                }
-                this.firstLaunch = false
+            if (!this.IsLoading) {
                 this.switchLoading()
-            })
-                .catch(() => {
-                    // console.log(e)
+                const options = {
+                    params: {
+                        p: page,
+                        votes,
+                        perPage,
+                        genres: selectedGenres,
+                        labels: selectedLabels,
+                        types: selectedTypes,
+                        artists,
+                        title
+                    }
+                }
+                axios.get(this.api, options).then((response) => {
+                    this.Releases = response.data
+                    this.totalReleases = parseInt(response.headers["x-total"], 10)
+                    // update from filtration
+                    this.currentPage = page
+                    this.page = page
+                    this.votes = votes
+                    this.perPage = perPage
+                    this.genresQuery = selectedGenres
+                    this.labelsQuery = selectedLabels
+                    this.typesQuery = selectedTypes
+                    this.artistsQuery = artists
+                    this.titleQuery = title
+                    // update url query when something changed (except first app launch)
+                    if (!this.firstLaunch) {
+                        this.$router.replace({
+                            query: {
+                                p: options.params.p,
+                                votes: options.params.votes,
+                                perPage: options.params.perPage,
+                                genres: options.params.genres,
+                                labels: options.params.labels,
+                                types: options.params.types,
+                                artists: this.artistsQuery,
+                                title: options.params.title
+                            }
+                        })
+                    }
+                    this.firstLaunch = false
+                    this.switchLoading()
                 })
+                    .catch(() => {
+                        // console.log(e)
+                    })
+            }
         }
     },
     metaInfo() {
