@@ -40,6 +40,7 @@
                     <span class="srelease-info-votes"><v-icon name="users" /> {{ Release.Votes }}</span>
                     <span class="srelease-info-date"><v-icon name="calendar" /> {{ Release.Date }}</span>
                     <router-link
+                        v-if="Release.Label !== ''"
                         :to="{ name: 'releases', query: { labels: Release.Label } }"
                         class="srelease-info-label"
                         title="Find all releases by this label"
