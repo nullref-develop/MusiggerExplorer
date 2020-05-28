@@ -150,9 +150,10 @@ export default {
                     ID: releaseid,
                     update: true
                 }
-            }).then((response) => {
-                if (response.status === 200) { this.setReleaseData(response.data) }
             })
+                .then((response) => {
+                    if (response.status === 200) { this.setReleaseData(response.data) }
+                })
                 .catch(() => {
                     // console.log(e)
                 })
@@ -172,6 +173,19 @@ export default {
                 day: "numeric"
             })
             this.artists = payload.Artists.split(", ")
+            setTimeout(this.countDownloads, 100)
+        },
+        countDownloads(releaseid = this.$route.params.id) {
+            const links = document.querySelectorAll("a:not([class])")
+            for (let i = 0; i < links.length; i += 1) {
+                links[i].addEventListener("click", function () {
+                    const URL = `${process.env.VUE_APP_API_URL}/download/${releaseid}`
+                    axios({
+                        method: "GET",
+                        url: URL
+                    })
+                })
+            }
         }
     },
     metaInfo() {

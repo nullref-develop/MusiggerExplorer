@@ -16,6 +16,7 @@
                             href="https://github.com/Musigger"
                             target="_blank"
                             rel="noopener"
+                            class="footerlink"
                         >GitHub</a>
                     </li>
                     <li>
@@ -23,6 +24,7 @@
                             href="https://www.facebook.com/nullrdv/"
                             target="_blank"
                             rel="noopener"
+                            class="footerlink"
                         >NRDV</a>
                     </li>
                 </ul>
