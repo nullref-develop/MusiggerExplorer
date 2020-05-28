@@ -36,6 +36,8 @@
         <div class="grid-x">
             <div class="footer-down small-12 cell">
                 <span>Version {{ Version }}</span>
+                <span> &nbsp; / &nbsp; </span>
+                <span>{{ DBdate }}</span>
                 <span class="madeby">Developed by NRDV</span>
             </div>
         </div>
@@ -43,14 +45,27 @@
 </template>
 
 <script>
+import axios from "axios"
 import pjson from "../../package.json"
 
 export default {
     name: "GetLow",
+    data() {
+        return {
+            DBdate: "DB update date is loading..."
+        }
+    },
     computed: {
         Version() {
             return pjson.version
         }
+    },
+    created() {
+        axios
+            .get(`${process.env.VUE_APP_API_URL}/info`)
+            .then((response) => {
+                this.DBdate = response.data
+            })
     }
 }
 </script>

@@ -305,9 +305,6 @@ export default {
                 .then((response) => {
                     this.genres = response.data
                 })
-                .catch(() => {
-                    // console.log(e)
-                })
         },
         getLabels() {
             this.LabelLoaded = true
