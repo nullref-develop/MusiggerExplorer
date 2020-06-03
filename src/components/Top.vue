@@ -37,7 +37,7 @@ import axios from "axios"
 import "vue-awesome/icons"
 
 export default {
-    name: "Top",
+    name: "TopTrax",
     props: {
         weeks: {
             default: 1,

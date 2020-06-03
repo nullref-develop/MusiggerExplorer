@@ -38,9 +38,11 @@
         <div class="grid-x">
             <div class="footer-down small-12 cell">
                 <span>Version {{ Version }}</span>
-                <span> &nbsp; / &nbsp; </span>
-                <span>{{ DBdate }}</span>
-                <span class="madeby">Developed by NRDV</span>
+                <span class="footer-down-date">
+                    <span class="footer-down-date-slash"> &nbsp; / &nbsp; </span>
+                    {{ DBdate }}
+                </span>
+                <span>Developed by NRDV</span>
             </div>
         </div>
     </footer>
@@ -51,10 +53,10 @@ import axios from "axios"
 import pjson from "../../package.json"
 
 export default {
-    name: "GetLow",
+    name: "Footer",
     data() {
         return {
-            DBdate: "DB update date is loading..."
+            DBdate: ""
         }
     },
     computed: {

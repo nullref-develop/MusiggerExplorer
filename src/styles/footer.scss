@@ -30,12 +30,23 @@ footer {
     }
     .footer-down {
         padding: 2em 0;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        @media #{$small-only} {
+            flex-direction: column;
+        }
         span {
             font-size: 0.8em;
             font-weight: bold;
         }
-        .madeby {
-            float: right;
+        .footer-down-date {
+            flex-grow: 1;
+            .footer-down-date-slash {
+                @media #{$small-only} {
+                    display: none;
+                }
+            }
         }
     }
     @media #{$small-only} {
