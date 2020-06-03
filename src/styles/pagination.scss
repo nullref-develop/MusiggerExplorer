@@ -20,11 +20,23 @@
             padding: 6px 12px;
         }
     }
-    .pagination-mid ul {
+    .pagination-mid {
         display: flex;
-        flex-direction: row;
-        list-style: none;
-        margin: 0;
+        flex: 1;
+        justify-content: center;
+        ul {
+            display: flex;
+            flex-direction: row;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+    }
+    .pagination-left,
+    .pagination-right {
+        @media #{$small-only} {
+            display: none;
+        }
     }
     .pagination-prevnext {
         @media #{$small-only} {
