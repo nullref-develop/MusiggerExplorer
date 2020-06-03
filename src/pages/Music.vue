@@ -1,6 +1,6 @@
 <template>
     <div id="music">
-        <transition name="fadeout">
+        <transition name="fade">
             <preloader v-if="IsLoading" />
         </transition>
         <div class="grid-container">
