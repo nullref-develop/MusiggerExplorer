@@ -12,6 +12,16 @@
                         @change="filterInput"
                         @keyup="filterInput"
                     >
+                    <button
+                        v-if="SpeechRecognition.Available"
+                        class="button"
+                        type="button"
+                        role="button"
+                        style="border: 2px solid #f0f0f0;"
+                        @click="speechRecognise()"
+                    >
+                        Say it (beta)
+                    </button>
                 </div>
                 <div class="filter-item large-3 medium-3 cell">
                     <label>Releases per page</label>
@@ -111,38 +121,34 @@
                 >
                     <icon name="chevron-down" scale="0.7" />
                 </button>
-                <transition name="fade">
-                    <button
-                        v-if="showFilter"
-                        class="clearfilter-button filter-button button"
-                        type="button"
-                        role="button"
-                        alt="Clear filter"
-                        aria-label="Clear filter"
-                        @click="clearFilter"
-                    >
-                        <icon name="trash" scale="0.8" />
-                        Clear filter
-                    </button>
-                </transition>
-                <transition name="fade">
-                    <!-- If no one filter is set -->
-                    <span
-                        v-if="
-                            !artistsQuery &&
-                                !genresQuery &&
-                                !typesQuery &&
-                                !labelsQuery &&
-                                !votes &&
-                                !titleQuery &&
-                                !showFilter
-                        "
-                        class="filterinfotext"
-                    >
-                        Push the button to show the filters
-                        <icon name="angle-double-right" scale="0.8" />
-                    </span>
-                </transition>
+                <button
+                    v-if="showFilter"
+                    class="clearfilter-button filter-button button"
+                    type="button"
+                    role="button"
+                    alt="Clear filter"
+                    aria-label="Clear filter"
+                    @click="clearFilter"
+                >
+                    <icon name="trash" scale="0.8" />
+                    Clear filter
+                </button>
+                <!-- If no one filter is set -->
+                <span
+                    v-if="
+                        !artistsQuery &&
+                            !genresQuery &&
+                            !typesQuery &&
+                            !labelsQuery &&
+                            !votes &&
+                            !titleQuery &&
+                            !showFilter
+                    "
+                    class="filterinfotext"
+                >
+                    Push the button to show the filters
+                    <icon name="angle-double-right" scale="0.8" />
+                </span>
             </div>
         </div>
     </div>
@@ -221,7 +227,10 @@ export default {
             typesQuery: "",
             artistsQuery: "",
             titleQuery: "",
-            LabelLoaded: false
+            LabelLoaded: false,
+            SpeechRecognition: {
+                Available: false
+            }
         }
     },
     created() {
@@ -245,6 +254,7 @@ export default {
         this.perPage = this.perPageP
         // load full list of genres from web api
         this.getAllGenres()
+        this.speechCheckAvailability()
     },
     methods: {
         // casting of variable types
@@ -317,6 +327,49 @@ export default {
         ShowFilter() {
             this.showFilter = !this.showFilter
             if (this.labels.length === 0 && !this.LabelLoaded) this.getLabels()
+        },
+        speechCheckAvailability() {
+            if (("webkitSpeechRecognition" in window)) {
+                this.SpeechRecognition.Available = true
+            }
+            else console.warn("Web Speech API is not supported by this browser.")
+        },
+        speechCapitalize(text) {
+            const sentence = text.split(" ")
+            for (let i = 0, x = sentence.length; i < x; i += 1) {
+                sentence[i] = sentence[i][0].toUpperCase() + sentence[i].substr(1)
+            }
+            return sentence.join(" ")
+        },
+        speechRecognise() {
+            /* eslint-disable no-use-before-define */
+            /* eslint-disable no-undef */
+            const SpeechRecognition = SpeechRecognition || webkitSpeechRecognition
+            const SpeechRecognitionEvent = SpeechRecognitionEvent || webkitSpeechRecognitionEvent
+            const recognition = new SpeechRecognition()
+            const vm = this
+            recognition.continuous = false
+            recognition.lang = "en-US"
+            recognition.interimResults = false
+            recognition.maxAlternatives = 1
+
+            recognition.start()
+
+            recognition.onresult = function (event) {
+                console.log(`Result: ${event.results[0][0].transcript}`)
+                vm.titleQuery = vm.speechCapitalize(event.results[0][0].transcript)
+                vm.filterInput()
+                console.log(`Confidence: ${event.results[0][0].confidence}`)
+            }
+
+            recognition.onspeechend = function () {
+                recognition.stop()
+                console.log("Analyzing...")
+            }
+
+            recognition.onerror = function (event) {
+                console.error(`Error occurred in recognition: ${event.error}`)
+            }
         }
     }
 }
