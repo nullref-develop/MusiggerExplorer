@@ -258,7 +258,6 @@ export default {
             },
             1500
         ),
-        // casting of variable types
         filter() {
             this.currentPage = 1 // reset current page when filter change
             this.typesQuery = this.selectedTypes != null
