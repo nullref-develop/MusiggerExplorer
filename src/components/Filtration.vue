@@ -198,7 +198,8 @@ export default {
                 Status: {
                     Ready: false,
                     Listening: false,
-                    Analyzing: false
+                    Analyzing: false,
+                    Complete: false
                 }
             },
             SearchBar: {
@@ -362,34 +363,57 @@ export default {
             this.SpeechRecognition.Status.Ready = true
         },
         speechRecognise() {
+            const vm = this
+            let Timer = null
             if (
                 !this.SpeechRecognition.Status.Ready
                 || this.SpeechRecognition.Status.Listening
                 || this.SpeechRecognition.Status.Analyzing
             ) return
-            const vm = this
 
             this.SpeechRecognition.RecognitionEngine.start()
+            console.log("Waiting for speech...")
+            this.SpeechRecognition.Status.Complete = false
             this.SpeechRecognition.Status.Listening = true
 
             this.SpeechRecognition.RecognitionEngine.onresult = function (event) {
+                clearInterval(Timer)
+                const log = `%cBest result: ${event.results[0][0].transcript}. Confidence: ${event.results[0][0].confidence}.`
+                if (event.results[0][0].confidence < 0.6) console.log(log, "color: darkred;")
+                else if (event.results[0][0].confidence < 0.8) console.log(log, "color: darkorange;")
+                else if (event.results[0][0].confidence < 0.9) console.log(log, "color: olive;")
+                else console.log(log, "color: green;")
+
                 vm.SpeechRecognition.Status.Listening = false
                 vm.SpeechRecognition.Status.Analyzing = false
+                vm.SpeechRecognition.Status.Complete = true
                 vm.titleQuery = vm.speechCapitalize(event.results[0][0].transcript)
                 vm.filter()
-                // console.log(`Confidence: ${event.results[0][0].confidence}`)
             }
 
             this.SpeechRecognition.RecognitionEngine.onspeechend = function () {
-                vm.SpeechRecognition.Status.Listening = false
-                vm.SpeechRecognition.Status.Analyzing = true
+                if (!vm.SpeechRecognition.Status.Complete) {
+                    console.log("Processing in progress")
+                    vm.SpeechRecognition.Status.Listening = false
+                    vm.SpeechRecognition.Status.Analyzing = true
+                }
                 vm.SpeechRecognition.RecognitionEngine.stop()
+
+                Timer = setInterval(stopRecognition, 5000)
             }
 
             this.SpeechRecognition.RecognitionEngine.onerror = function (event) {
+                console.error(`Error occurred in this.SpeechRecognition.RecognitionEngine: ${event.error}`)
                 vm.SpeechRecognition.Status.Listening = false
                 vm.SpeechRecognition.Status.Analyzing = false
-                console.error(`Error occurred in this.SpeechRecognition.RecognitionEngine: ${event.error}`)
+            }
+
+            function stopRecognition() {
+                console.error("Web Speech API is not responding")
+                vm.SpeechRecognition.Status.Listening = false
+                vm.SpeechRecognition.Status.Analyzing = false
+                vm.SpeechRecognition.Status.Complete = false
+                clearInterval(Timer)
             }
         }
     }

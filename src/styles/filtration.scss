@@ -29,14 +29,13 @@
         color: black;
         float: right;
         cursor: pointer;
-        transition: transform 400ms;
         user-select: none;
         padding: 0;
         border: 0;
-        transition: all 0.2s ease;
+        transition: all 0.4s ease;
         .line {
             fill:none;
-            transition: all 0.2s ease;
+            transition: all 0.4s ease;
             stroke: black;
             stroke-width: 4.5;
             stroke-linecap:round;

@@ -14,7 +14,7 @@ module.exports = {
     extends: ["plugin:vue/recommended", "eslint:recommended", "@vue/airbnb"],
 
     rules: {
-        "no-console": process.env.NODE_ENV === "production" ? "error" : "off",
+        "no-console": "warn",
         "no-debugger": process.env.NODE_ENV === "production" ? "error" : "off",
         indent: ["error", 4],
         quotes: ["error", "double"],
