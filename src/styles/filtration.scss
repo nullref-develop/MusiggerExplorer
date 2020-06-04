@@ -14,23 +14,9 @@
     padding: 1em 2em;
     background-color: $color-level1;
     margin: 0 0.2em 0.4em 0.2em;
-    .filter-mini {
-        overflow: hidden;
-        word-wrap: none;
-        span {
-            max-width: 20em;
-            overflow: hidden;
-            white-space: nowrap;
-            display: inline-block;
-            text-overflow: ellipsis;
-            margin: 0.5em 1em 0.3em 0;
-            line-height: 1.2em;
-            &:last-child {
-                margin-right: 0;
-            }
-        }
-        .genres {
-            max-width: 30em;
+    .cell.shrink {
+        @media #{$small-only} {
+            margin: 0;
         }
     }
     label {
@@ -39,25 +25,69 @@
     }
     .filter-button {
         background-color: transparent;
-        // background-color: $color-background;
+        min-height: 40px;
         color: black;
         float: right;
-        svg {
-            transition: background 0.3s ease;
-            transition: transform 0.3s ease;
+        cursor: pointer;
+        transition: transform 400ms;
+        user-select: none;
+        padding: 0;
+        border: 0;
+        transition: all 0.2s ease;
+        .line {
+            fill:none;
+            transition: all 0.2s ease;
+            stroke: black;
+            stroke-width: 4.5;
+            stroke-linecap:round;
         }
-        &:hover {
-            color: $color-level1;
-            background-color: $color-accent;
+        .top {
+            stroke-dasharray: 40 121;
+        }
+        .bottom {
+            stroke-dasharray: 40 121;
         }
         &.active {
-            svg {
-                transform: rotate(180deg);
+            transform: rotate(45deg);
+            .top {
+                stroke-dashoffset: -68px;
+            }
+            .bottom {
+                stroke-dashoffset: -68px;
+            }
+        }
+        &:hover {
+            color: $color-accent;
+            fill: $color-accent;
+            .line {
+                stroke: $color-accent;
             }
         }
     }
     .clearfilter-button {
-        margin-right: 2em;
+        margin-right: 1em;
+        padding: 0;
+        &:hover {
+            color: red;
+        }
+        @media #{$small-only} {
+            display: none;
+        }
+    }
+    .speech-button {
+        border: 1px solid $color-background;
+        &:hover,
+        &:active {
+            border-color: $color-accent;
+            color: $color-accent;
+            background-color: transparent !important;
+        }
+        @media #{$small-only} {
+            &:hover {
+                border-color: $color-background;
+                color: $color-darkgrey;
+            }
+        }
     }
     .finder-input {
         min-height: 2.5em;
@@ -69,6 +99,32 @@
         box-shadow: none;
         background-color: $color-background;
         margin-bottom: 0.5em;
+        &.is-search {
+            flex-grow: unset;
+            flex-basis: auto;
+            margin-bottom: 0;
+            width: 24rem;
+            background: transparent;
+            border: 1px solid $color-background;
+            transition: all 0.3s ease;
+            @media #{$small-only} {
+                width: auto;
+                flex-grow: 1;
+                flex-basis: inherit;
+                box-sizing: border-box;
+                border: none;
+                box-shadow: inset 0px 0px 0px 1px $color-background;;
+            }
+            &:hover {
+                border-color: $color-accent;
+            }
+            &:focus,
+            &:not(:placeholder-shown) {
+                flex-grow: 1;
+                background-color: $color-background;
+                border: none;
+            }
+        }
     }
     @media #{$small-only} {
         padding: 1em;
