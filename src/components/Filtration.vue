@@ -392,13 +392,12 @@ export default {
             }
 
             this.SpeechRecognition.RecognitionEngine.onspeechend = function () {
-                if (!vm.SpeechRecognition.Status.Complete) {
-                    console.log("Processing in progress")
-                    vm.SpeechRecognition.Status.Listening = false
-                    vm.SpeechRecognition.Status.Analyzing = true
-                }
-                vm.SpeechRecognition.RecognitionEngine.stop()
+                if (vm.SpeechRecognition.Status.Complete) return
 
+                console.log("Processing in progress")
+                vm.SpeechRecognition.Status.Listening = false
+                vm.SpeechRecognition.Status.Analyzing = true
+                vm.SpeechRecognition.RecognitionEngine.stop()
                 Timer = setInterval(stopRecognition, 5000)
             }
 
