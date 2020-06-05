@@ -200,11 +200,12 @@ export default {
                     Listening: false,
                     Analyzing: false,
                     Complete: false
-                }
+                },
+                Timer: null
             },
             SearchBar: {
                 Focused: false,
-                Placeholder: "Search by artist/title"
+                Placeholder: "Search by artist or title"
             }
         }
     },
@@ -328,7 +329,7 @@ export default {
         searchChangeFocus() {
             if (this.SearchBar.Focused) {
                 this.SearchBar.Focused = false
-                this.SearchBar.Placeholder = "Search by artist/title"
+                this.SearchBar.Placeholder = "Search by artist or title"
             }
             else {
                 this.SearchBar.Focused = true
@@ -364,12 +365,11 @@ export default {
         },
         speechRecognise() {
             const vm = this
-            let Timer = null
-            if (
-                !this.SpeechRecognition.Status.Ready
-                || this.SpeechRecognition.Status.Listening
-                || this.SpeechRecognition.Status.Analyzing
-            ) return
+            if (this.SpeechRecognition.Status.Listening || this.SpeechRecognition.Status.Analyzing) {
+                this.speechStopRecognise()
+                return
+            }
+            if (!this.SpeechRecognition.Status.Ready) return
 
             this.SpeechRecognition.RecognitionEngine.start()
             console.log("Waiting for speech...")
@@ -377,16 +377,15 @@ export default {
             this.SpeechRecognition.Status.Listening = true
 
             this.SpeechRecognition.RecognitionEngine.onresult = function (event) {
-                clearInterval(Timer)
+                if (vm.SpeechRecognition.Status.Complete) return
+                vm.speechStopTimer()
                 const log = `%cBest result: ${event.results[0][0].transcript}. Confidence: ${event.results[0][0].confidence}.`
                 if (event.results[0][0].confidence < 0.6) console.log(log, "color: darkred;")
                 else if (event.results[0][0].confidence < 0.8) console.log(log, "color: darkorange;")
                 else if (event.results[0][0].confidence < 0.9) console.log(log, "color: olive;")
                 else console.log(log, "color: green;")
 
-                vm.SpeechRecognition.Status.Listening = false
-                vm.SpeechRecognition.Status.Analyzing = false
-                vm.SpeechRecognition.Status.Complete = true
+                vm.speechSetStatusComplete()
                 vm.titleQuery = vm.speechCapitalize(event.results[0][0].transcript)
                 vm.filter()
             }
@@ -398,7 +397,7 @@ export default {
                 vm.SpeechRecognition.Status.Listening = false
                 vm.SpeechRecognition.Status.Analyzing = true
                 vm.SpeechRecognition.RecognitionEngine.stop()
-                Timer = setInterval(stopRecognition, 5000)
+                vm.SpeechRecognition.Timer = setTimeout(stopRecognition, 5000)
             }
 
             this.SpeechRecognition.RecognitionEngine.onerror = function (event) {
@@ -408,12 +407,25 @@ export default {
             }
 
             function stopRecognition() {
+                vm.SpeechRecognition.RecognitionEngine.stop()
                 console.error("Web Speech API is not responding")
-                vm.SpeechRecognition.Status.Listening = false
-                vm.SpeechRecognition.Status.Analyzing = false
-                vm.SpeechRecognition.Status.Complete = false
-                clearInterval(Timer)
+                vm.speechSetStatusComplete()
+                vm.speechStopTimer()
             }
+        },
+        speechStopRecognise() {
+            this.SpeechRecognition.RecognitionEngine.abort()
+            console.log("Speech recognition is stopped by user")
+            this.speechSetStatusComplete()
+            this.speechStopTimer()
+        },
+        speechSetStatusComplete() {
+            this.SpeechRecognition.Status.Listening = false
+            this.SpeechRecognition.Status.Analyzing = false
+            this.SpeechRecognition.Status.Complete = true
+        },
+        speechStopTimer() {
+            if (this.SpeechRecognition.Timer) clearInterval(this.SpeechRecognition.Timer)
         }
     }
 }

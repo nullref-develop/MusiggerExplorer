@@ -61,6 +61,13 @@
             .line {
                 stroke: $color-accent;
             }
+            @media #{$small-only} {
+                color: black;
+                fill: black;
+                .line {
+                    stroke: black;
+                }
+            }
         }
     }
     .clearfilter-button {
@@ -75,6 +82,7 @@
     }
     .speech-button {
         border: 1px solid $color-background;
+        max-height: 40px;
         &:hover,
         &:active {
             border-color: $color-accent;
