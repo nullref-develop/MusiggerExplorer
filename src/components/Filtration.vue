@@ -67,23 +67,7 @@
                         @blur="searchChangeFocus"
                         @input="filterInput"
                     >
-                    <button
-                        v-if="SpeechRecognition.Available"
-                        class="speech-button button shrink cell"
-                        type="button"
-                        role="button"
-                        alt="Voice search"
-                        aria-label="Voice search"
-                        @click="speechRecognise()"
-                    >
-                        <icon
-                            :name="SpeechRecognitionIcon"
-                            :pulse="SpeechRecognitionIconPulse"
-                            :spin="SpeechRecognitionIconSpin"
-                            :color="(SpeechRecognition.Status.Listening) ? 'red' : ''"
-                            scale="0.9"
-                        />
-                    </button>
+                    <SpeechRecognition @voice-recognition-result="speechRecogintionResult" />
                 </div>
             </div>
             <div class="shrink cell">
@@ -124,13 +108,15 @@ import debounce from "tiny-debounce"
 import "vue-awesome/icons"
 import Icon from "vue-awesome/components/Icon"
 import Logo from "./Logo"
+import SpeechRecognition from "./SpeechRecognition"
 
 export default {
     name: "Filtration",
     components: {
         Multiselect,
+        Icon,
         Logo,
-        Icon
+        SpeechRecognition
     },
     props: {
         artistsQueryP: {
@@ -191,37 +177,10 @@ export default {
             artistsQuery: "",
             titleQuery: "",
             LabelLoaded: false,
-            SpeechRecognition: {
-                Available: false,
-                RecognitionAPI: null,
-                RecognitionEngine: null,
-                Status: {
-                    Ready: false,
-                    Listening: false,
-                    Analyzing: false,
-                    Complete: false
-                },
-                Timer: null
-            },
             SearchBar: {
                 Focused: false,
                 Placeholder: "Search by artist or title"
             }
-        }
-    },
-    computed: {
-        SpeechRecognitionIcon() {
-            if (this.SpeechRecognition.Status.Listening) return "circle-notch"
-            if (this.SpeechRecognition.Status.Analyzing) return "spinner"
-            return "microphone"
-        },
-        SpeechRecognitionIconPulse() {
-            if (this.SpeechRecognition.Status.Analyzing) return true
-            return false
-        },
-        SpeechRecognitionIconSpin() {
-            if (this.SpeechRecognition.Status.Listening) return true
-            return false
         }
     },
     created() {
@@ -245,8 +204,6 @@ export default {
         this.perPage = this.perPageP
         // load full list of genres from web api
         this.getAllGenres()
-        // check speech recognition availability
-        this.speechCheckAvailability()
         // if params exist - show filter panel
         if (this.genresQueryP || this.labelsQueryP || this.typesQueryP || this.artistsQuery || this.votes || this.perPage !== 24) {
             this.showFilter = true
@@ -336,96 +293,9 @@ export default {
                 this.SearchBar.Placeholder = "Enter the name of the artist/release or click the button on the right and just say it"
             }
         },
-        speechCheckAvailability() {
-            if (("webkitSpeechRecognition" in window)) {
-                this.SpeechRecognition.Available = true
-                this.speechInitialize()
-            }
-            // else console.warn("Web Speech API is not supported by this browser.")
-        },
-        speechCapitalize(text) {
-            const sentence = text.split(" ")
-            for (let i = 0, x = sentence.length; i < x; i += 1) {
-                sentence[i] = sentence[i][0].toUpperCase() + sentence[i].substr(1)
-            }
-            return sentence.join(" ")
-        },
-        speechInitialize() {
-            /* eslint-disable no-use-before-define */
-            /* eslint-disable no-undef */
-            this.SpeechRecognition.RecognitionAPI = webkitSpeechRecognition
-            this.SpeechRecognition.RecognitionEngine = new this.SpeechRecognition.RecognitionAPI()
-
-            this.SpeechRecognition.RecognitionEngine.continuous = false
-            this.SpeechRecognition.RecognitionEngine.lang = "en-US"
-            this.SpeechRecognition.RecognitionEngine.interimResults = false
-            this.SpeechRecognition.RecognitionEngine.maxAlternatives = 1
-
-            this.SpeechRecognition.Status.Ready = true
-        },
-        speechRecognise() {
-            const vm = this
-            if (this.SpeechRecognition.Status.Listening || this.SpeechRecognition.Status.Analyzing) {
-                this.speechStopRecognise()
-                return
-            }
-            if (!this.SpeechRecognition.Status.Ready) return
-
-            this.SpeechRecognition.RecognitionEngine.start()
-            console.log("Waiting for speech...")
-            this.SpeechRecognition.Status.Complete = false
-            this.SpeechRecognition.Status.Listening = true
-
-            this.SpeechRecognition.RecognitionEngine.onresult = function (event) {
-                if (vm.SpeechRecognition.Status.Complete) return
-                vm.speechStopTimer()
-                const log = `%cBest result: ${event.results[0][0].transcript}. Confidence: ${event.results[0][0].confidence}.`
-                if (event.results[0][0].confidence < 0.6) console.log(log, "color: darkred;")
-                else if (event.results[0][0].confidence < 0.8) console.log(log, "color: darkorange;")
-                else if (event.results[0][0].confidence < 0.9) console.log(log, "color: olive;")
-                else console.log(log, "color: green;")
-
-                vm.speechSetStatusComplete()
-                vm.titleQuery = vm.speechCapitalize(event.results[0][0].transcript)
-                vm.filter()
-            }
-
-            this.SpeechRecognition.RecognitionEngine.onspeechend = function () {
-                if (vm.SpeechRecognition.Status.Complete) return
-
-                console.log("Processing in progress")
-                vm.SpeechRecognition.Status.Listening = false
-                vm.SpeechRecognition.Status.Analyzing = true
-                vm.SpeechRecognition.RecognitionEngine.stop()
-                vm.SpeechRecognition.Timer = setTimeout(stopRecognition, 5000)
-            }
-
-            this.SpeechRecognition.RecognitionEngine.onerror = function (event) {
-                console.error(`Error occurred in this.SpeechRecognition.RecognitionEngine: ${event.error}`)
-                vm.SpeechRecognition.Status.Listening = false
-                vm.SpeechRecognition.Status.Analyzing = false
-            }
-
-            function stopRecognition() {
-                vm.SpeechRecognition.RecognitionEngine.stop()
-                console.error("Web Speech API is not responding")
-                vm.speechSetStatusComplete()
-                vm.speechStopTimer()
-            }
-        },
-        speechStopRecognise() {
-            this.SpeechRecognition.RecognitionEngine.abort()
-            console.log("Speech recognition is stopped by user")
-            this.speechSetStatusComplete()
-            this.speechStopTimer()
-        },
-        speechSetStatusComplete() {
-            this.SpeechRecognition.Status.Listening = false
-            this.SpeechRecognition.Status.Analyzing = false
-            this.SpeechRecognition.Status.Complete = true
-        },
-        speechStopTimer() {
-            if (this.SpeechRecognition.Timer) clearInterval(this.SpeechRecognition.Timer)
+        speechRecogintionResult(result) {
+            this.titleQuery = result
+            this.filter()
         }
     }
 }
