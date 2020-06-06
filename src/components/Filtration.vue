@@ -58,6 +58,7 @@
             <Logo />
             <div class="auto cell">
                 <div class="filter-item auto cell grid-x">
+                    <SpeechRecognition @voice-recognition-result="speechRecogintionResult" />
                     <input
                         v-model="titleQuery"
                         type="text"
@@ -67,7 +68,6 @@
                         @blur="searchChangeFocus"
                         @input="filterInput"
                     >
-                    <SpeechRecognition @voice-recognition-result="speechRecogintionResult" />
                 </div>
             </div>
             <div class="shrink cell">
@@ -214,8 +214,7 @@ export default {
             // задержка поиска при пользовательском вводе
             function () {
                 this.filter()
-            },
-            1500
+            }, 1500
         ),
         filter() {
             this.currentPage = 1 // reset current page when filter change

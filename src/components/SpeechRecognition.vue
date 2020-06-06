@@ -66,7 +66,7 @@ export default {
                 this.Available = true
                 this.speechInitialize()
             }
-            else console.warn("Web Speech API is not supported by this browser.")
+            // else console.warn("Web Speech API is not supported by this browser.")
         },
         speechCapitalize(text) {
             const sentence = text.split(" ")
@@ -97,18 +97,18 @@ export default {
             if (!this.Status.Ready) return
 
             this.RecognitionEngine.start()
-            console.log("Waiting for speech...")
+            // console.log("Waiting for speech...")
             this.Status.Complete = false
             this.Status.Listening = true
 
             this.RecognitionEngine.onresult = function (event) {
                 if (vm.Status.Complete) return
                 vm.speechStopTimer()
-                const log = `%cBest result: ${event.results[0][0].transcript}. Confidence: ${event.results[0][0].confidence}.`
-                if (event.results[0][0].confidence < 0.6) console.log(log, "color: darkred;")
-                else if (event.results[0][0].confidence < 0.8) console.log(log, "color: darkorange;")
-                else if (event.results[0][0].confidence < 0.9) console.log(log, "color: olive;")
-                else console.log(log, "color: green;")
+                // const log = `%cBest result: ${event.results[0][0].transcript}. Confidence: ${event.results[0][0].confidence}.`
+                // if (event.results[0][0].confidence < 0.6) console.log(log, "color: darkred;")
+                // else if (event.results[0][0].confidence < 0.8) console.log(log, "color: darkorange;")
+                // else if (event.results[0][0].confidence < 0.9) console.log(log, "color: olive;")
+                // else console.log(log, "color: green;")
 
                 vm.speechSetStatusComplete()
                 vm.$emit("voice-recognition-result", vm.speechCapitalize(event.results[0][0].transcript))
@@ -117,29 +117,29 @@ export default {
             this.RecognitionEngine.onspeechend = function () {
                 if (vm.Status.Complete) return
 
-                console.log("Processing in progress")
+                // console.log("Processing in progress")
                 vm.Status.Listening = false
                 vm.Status.Analyzing = true
                 vm.RecognitionEngine.stop()
                 vm.Timer = setTimeout(stopRecognition, 5000)
             }
 
-            this.RecognitionEngine.onerror = function (event) {
-                console.error(`Error occurred in this.RecognitionEngine: ${event.error}`)
+            this.RecognitionEngine.onerror = function () {
+                // console.error(`Error occurred in this.RecognitionEngine: ${event.error}`)
                 vm.Status.Listening = false
                 vm.Status.Analyzing = false
             }
 
             function stopRecognition() {
                 vm.RecognitionEngine.stop()
-                console.error("Web Speech API is not responding")
+                // console.error("Web Speech API is not responding")
                 vm.speechSetStatusComplete()
                 vm.speechStopTimer()
             }
         },
         speechStopRecognise() {
             this.RecognitionEngine.abort()
-            console.log("Speech recognition is stopped by user")
+            // console.log("Speech recognition is stopped by user")
             this.speechSetStatusComplete()
             this.speechStopTimer()
         },
