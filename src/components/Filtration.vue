@@ -19,9 +19,7 @@
                         :options="labels"
                         :multiple="true"
                         placeholder="Select record label"
-                        @search-change="getLabels"
-                        @close="filterInput"
-                        @remove="filterInput"
+                        @input="filterInput"
                     />
                 </div>
                 <div class="filter-item large-2 medium-4 cell">
@@ -103,10 +101,10 @@
 
 <script>
 import Multiselect from "vue-multiselect"
-import axios from "axios"
 import debounce from "tiny-debounce"
 import "vue-awesome/icons"
 import Icon from "vue-awesome/components/Icon"
+import { GENRE_LIST_REQUEST, LABEL_LIST_REQUEST } from "@/store/actions/music"
 import Logo from "./Logo"
 import SpeechRecognition from "./SpeechRecognition"
 
@@ -154,18 +152,12 @@ export default {
     },
     data() {
         return {
-            // urls
-            apiGenres: `${process.env.VUE_APP_API_URL}/genres`,
-            apiLabels: `${process.env.VUE_APP_API_URL}/labels`,
             // for pagination
             currentPage: 1,
             // for filter
             showFilter: false,
-            isLoading: false,
             selectedLabels: null,
-            labels: [],
             selectedGenres: null,
-            genres: [],
             selectedTypes: null,
             types: ["Album", "Single", "EP", "LP", "Compilation", "Radioshow"],
             votes: 0,
@@ -176,11 +168,18 @@ export default {
             typesQuery: "",
             artistsQuery: "",
             titleQuery: "",
-            LabelLoaded: false,
             SearchBar: {
                 Focused: false,
                 Placeholder: "Search by artist or title"
             }
+        }
+    },
+    computed: {
+        genres() {
+            return this.$store.state.Music.Genres
+        },
+        labels() {
+            return this.$store.state.Music.Labels
         }
     },
     created() {
@@ -264,23 +263,18 @@ export default {
             )
         },
         getAllGenres() {
-            axios
-                .get(this.apiGenres)
-                .then((response) => {
-                    this.genres = response.data
-                })
+            if (!this.$store.getters.IS_GENRES_LOADED) {
+                this.$store.dispatch(GENRE_LIST_REQUEST)
+            }
         },
         getLabels() {
-            this.LabelLoaded = true
-            axios
-                .get(this.apiLabels)
-                .then((response) => {
-                    this.labels = response.data
-                })
+            if (!this.$store.getters.IS_LABELS_LOADED) {
+                this.$store.dispatch(LABEL_LIST_REQUEST)
+            }
         },
         ShowFilter() {
             this.showFilter = !this.showFilter
-            if (this.labels.length === 0 && !this.LabelLoaded) this.getLabels()
+            this.getLabels()
         },
         searchChangeFocus() {
             if (this.SearchBar.Focused) {
