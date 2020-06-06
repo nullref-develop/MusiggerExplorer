@@ -1,4 +1,20 @@
+import Vue from "vue"
+import Notifications from "vue-notification"
+
+Vue.use(Notifications)
+
 const Helpers = {
+
+    notify(type = "error", message = "", duration = 5000) {
+        Vue.notify({
+            group: "all",
+            speed: 1000,
+            type,
+            text: message,
+            duration,
+            animationName: "fade"
+        })
+    },
 
     setFavicon(URL, Type) {
         const link = document.querySelector(`link[rel="${Type}"]`)

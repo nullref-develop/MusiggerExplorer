@@ -49,27 +49,23 @@
 </template>
 
 <script>
-import axios from "axios"
+import { INFO_REQUEST } from "@/store/actions/info"
 import pjson from "../../package.json"
 
 export default {
     name: "Footer",
-    data() {
-        return {
-            DBdate: ""
-        }
-    },
     computed: {
         Version() {
             return pjson.version
+        },
+        DBdate() {
+            return this.$store.state.Info.UpdateDate
         }
     },
     created() {
-        axios
-            .get(`${process.env.VUE_APP_API_URL}/info`)
-            .then((response) => {
-                this.DBdate = response.data
-            })
+        if (!this.$store.getters.IS_DB_UPDATE_DATE_LOADED) {
+            this.$store.dispatch(INFO_REQUEST)
+        }
     }
 }
 </script>
