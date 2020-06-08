@@ -33,8 +33,9 @@
 </template>
 
 <script>
-import axios from "axios"
 import "vue-awesome/icons"
+
+import { TOP_LIST_REQUEST } from "@/store/actions/release"
 
 export default {
     name: "TopTrax",
@@ -54,11 +55,14 @@ export default {
     },
     data() {
         return {
-            // urls
-            filesurl: process.env.VUE_APP_FILES_URL,
-            api: `${process.env.VUE_APP_API_URL}/toptrax`,
-            // releases
-            Releases: []
+            filesurl: process.env.VUE_APP_FILES_URL
+        }
+    },
+    computed: {
+        Releases() {
+            if (this.weeks === 1) return this.$store.state.Release.TopWeekReleases
+            if (this.weeks === 4) return this.$store.state.Release.TopMonthReleases
+            return []
         }
     },
     created() {
@@ -66,14 +70,9 @@ export default {
     },
     methods: {
         getTopTrax() {
-            const options = {
-                params: {
-                    weeks: this.weeks,
-                    count: this.count
-                }
-            }
-            axios.get(this.api, options).then((response) => {
-                this.Releases = response.data
+            this.$store.dispatch(TOP_LIST_REQUEST, {
+                weeks: this.weeks,
+                count: this.count
             })
         }
     }
