@@ -13,11 +13,6 @@ const router = new Router({
             component: () => import("./pages/Home.vue")
         },
         {
-            path: "/music",
-            name: "music",
-            component: () => import("./pages/Music.vue")
-        },
-        {
             path: "/release/:id",
             name: "release",
             component: () => import("./pages/Release.vue")

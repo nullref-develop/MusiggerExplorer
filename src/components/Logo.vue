@@ -1,6 +1,6 @@
 <template>
-    <router-link
-        :to="{ name: 'home' }"
+    <a
+        href="/"
         class="logo cell"
         title="Back to the jungle"
     >
@@ -9,5 +9,5 @@
             src="../assets/logo.svg"
             alt="Musigger"
         >
-    </router-link>
+    </a>
 </template>

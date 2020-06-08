@@ -24,7 +24,7 @@
                             :key="artist"
                         >
                             <router-link
-                                :to="{ name: 'music', query: { artists: artist } }"
+                                :to="{ name: 'home', query: { artists: artist } }"
                                 class="srelease-info-artist"
                                 title="Find all releases by this artist"
                             >
@@ -41,7 +41,7 @@
                     <span class="srelease-info-date"><v-icon name="calendar" /> {{ Release.Date }}</span>
                     <router-link
                         v-if="Release.Label !== ''"
-                        :to="{ name: 'music', query: { labels: Release.Label } }"
+                        :to="{ name: 'home', query: { labels: Release.Label } }"
                         class="srelease-info-label"
                         title="Find all releases by this label"
                     >

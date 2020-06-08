@@ -16,27 +16,29 @@
                 @filter-changed="getAllReleases"
             />
 
-            <div class="head">
-                <h2 class="head-title">Hyped /week</h2>
-            </div>
-            <Top
-                :weeks="1"
-                :count="6"
-                :per-line="6"
-            />
+            <template v-if="ShowTop">
+                <div class="head">
+                    <h2 class="head-title">Hyped /week</h2>
+                </div>
+                <Top
+                    :weeks="1"
+                    :count="6"
+                    :per-line="6"
+                />
 
-            <div class="head">
-                <h2 class="head-title">Hyped /month</h2>
-            </div>
-            <Top
-                :weeks="4"
-                :count="12"
-                :perline="12"
-            />
+                <div class="head">
+                    <h2 class="head-title">Hyped /month</h2>
+                </div>
+                <Top
+                    :weeks="4"
+                    :count="12"
+                    :perline="12"
+                />
+                <div class="head">
+                    <h2 class="head-title">Flow /all</h2>
+                </div>
+            </template>
 
-            <div class="head">
-                <h2 class="head-title">Flow /all</h2>
-            </div>
             <div class="releases grid-x">
                 <div
                     v-for="Release in Releases"
@@ -82,7 +84,7 @@
 
             <Paginator
                 :current="currentPage"
-                :total="totalReleases"
+                :total="TotalReleases"
                 :per-page="perPage"
                 :votes="votes"
                 :genres="genresQuery"
@@ -98,7 +100,6 @@
 </template>
 
 <script>
-import axios from "axios"
 import "vue-awesome/icons"
 import Icon from "vue-awesome/components/Icon"
 import Helpers from "@/utils/Helpers"
@@ -108,6 +109,7 @@ import Top from "@/components/Top"
 import Filtration from "@/components/Filtration"
 import Paginator from "@/components/Paginator"
 import Getlow from "@/components/Getlow"
+import { RELEASE_LIST_REQUEST } from "@/store/actions/release"
 
 export default {
     name: "Finder",
@@ -124,11 +126,7 @@ export default {
         return {
             // urls
             filesurl: process.env.VUE_APP_FILES_URL,
-            api: `${process.env.VUE_APP_API_URL}/releases`,
-            // releases
-            Releases: [],
             // for pagination
-            totalReleases: 0,
             perPage: 24,
             currentPage: 1,
             votes: 0,
@@ -139,7 +137,16 @@ export default {
             artistsQuery: "",
             titleQuery: "",
             // disable url rewrite on first app launch
-            firstLaunch: true
+            firstLaunch: true,
+            ShowTop: true
+        }
+    },
+    computed: {
+        Releases() {
+            return this.$store.state.Release.Releases
+        },
+        TotalReleases() {
+            return this.$store.state.Release.ReleasesTotal
         }
     },
     created() {
@@ -189,38 +196,51 @@ export default {
     methods: {
         getAllReleases(page, votes, perPage, selectedGenres, selectedLabels, selectedTypes, artists, title) {
             const options = {
-                params: {
-                    p: page,
-                    votes,
-                    perPage,
-                    genres: selectedGenres,
-                    labels: selectedLabels,
-                    types: selectedTypes,
-                    artists,
-                    title
-                }
+                p: page,
+                votes,
+                perPage,
+                genres: selectedGenres,
+                labels: selectedLabels,
+                types: selectedTypes,
+                artists,
+                title
             }
             if (!this.firstLaunch || Object.keys(this.$route.query).length !== 0) {
-                this.$router.push({
-                    path: "music",
+                this.$router.replace({
                     query: {
-                        p: options.params.p,
-                        votes: options.params.votes,
-                        perPage: options.params.perPage,
-                        genres: options.params.genres,
-                        labels: options.params.labels,
-                        types: options.params.types,
+                        p: options.p,
+                        votes: options.votes,
+                        perPage: options.perPage,
+                        genres: options.genres,
+                        labels: options.labels,
+                        types: options.types,
                         artists: this.artistsQuery,
-                        title: options.params.title
+                        title: options.title
                     }
                 })
             }
-            else {
-                this.firstLaunch = false
-                this.switchLoading()
-                axios.get(this.api, options).then((response) => {
-                    this.Releases = response.data
-                    this.totalReleases = parseInt(response.headers["x-total"], 10)
+            if (Object.keys(this.$route.query).length !== 0) this.ShowTop = false
+            if (
+                Object.keys(this.$route.query).length !== 0
+                /* eslint-disable eqeqeq */
+                && this.$route.query.p == 1
+                && this.$route.query.votes == 0
+                && this.$route.query.perPage == 24
+                && this.$route.query.genres === ""
+                && this.$route.query.labels === ""
+                && this.$route.query.types === ""
+                && this.$route.query.artists === ""
+                && this.$route.query.title === ""
+            ) {
+                this.ShowTop = true
+                this.$router.replace({ query: null })
+            }
+
+            this.firstLaunch = false
+
+            this.switchLoading()
+            this.$store.dispatch(RELEASE_LIST_REQUEST, options)
+                .then(() => {
                     // update from filtration
                     this.currentPage = page
                     this.page = page
@@ -234,7 +254,6 @@ export default {
                     // update url query when something changed (except first app launch)
                     this.switchLoading()
                 })
-            }
         }
     },
     metaInfo() {
