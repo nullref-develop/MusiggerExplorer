@@ -70,10 +70,15 @@ export default {
     },
     methods: {
         getTopTrax() {
-            this.$store.dispatch(TOP_LIST_REQUEST, {
-                weeks: this.weeks,
-                count: this.count
-            })
+            if (
+                (this.weeks === 1 && this.count === 6 && !this.$store.getters.IS_TOP_WEEK_RELEASES_LOADED)
+                || (this.weeks === 4 && this.count === 12 && !this.$store.getters.IS_TOP_MONTH_RELEASES_LOADED)
+            ) {
+                this.$store.dispatch(TOP_LIST_REQUEST, {
+                    weeks: this.weeks,
+                    count: this.count
+                })
+            }
         }
     }
 }

@@ -182,6 +182,12 @@ export default {
         },
         labels() {
             return this.$store.state.Music.Labels
+        },
+        IsFilterDefault() {
+            if (this.genresParam || this.labelsParam || this.typesParam || this.Votes || this.ReleasesPerPage !== 24 || this.ArtistsQuery) {
+                return false
+            }
+            return true
         }
     },
     created() {
@@ -190,7 +196,7 @@ export default {
         // load full list of genres from web api
         this.getAllGenres()
         // if params exist - show filter panel and load label's list
-        if (this.genresParam || this.labelsParam || this.typesParam || this.ArtistsQuery || this.Votes || this.ReleasesPerPage !== 24) {
+        if (!this.IsFilterDefault) {
             this.ShowFilter = true
             this.getLabels()
         }
@@ -252,28 +258,30 @@ export default {
             { trailing: false }
         ),
         clearFilter() {
-            this.LabelsQuery = ""
-            this.GenresQuery = ""
-            this.TypesQuery = ""
-            this.ArtistsQuery = ""
-            this.TitleQuery = ""
-            this.LabelsSelected = null
-            this.GenresSelected = null
-            this.TypesSelected = null
-            this.CurrentPage = 1
-            this.Votes = 0
-            this.ReleasesPerPage = 24
-            this.$emit(
-                "filter-changed",
-                this.CurrentPage,
-                this.Votes,
-                this.ReleasesPerPage,
-                this.GenresQuery,
-                this.LabelsQuery,
-                this.TypesQuery,
-                this.ArtistsQuery,
-                this.TitleQuery
-            )
+            if (!this.IsFilterDefault || this.TitleQuery) {
+                this.LabelsQuery = ""
+                this.GenresQuery = ""
+                this.TypesQuery = ""
+                this.ArtistsQuery = ""
+                this.TitleQuery = ""
+                this.LabelsSelected = null
+                this.GenresSelected = null
+                this.TypesSelected = null
+                this.CurrentPage = 1
+                this.Votes = 0
+                this.ReleasesPerPage = 24
+                this.$emit(
+                    "filter-changed",
+                    this.CurrentPage,
+                    this.Votes,
+                    this.ReleasesPerPage,
+                    this.GenresQuery,
+                    this.LabelsQuery,
+                    this.TypesQuery,
+                    this.ArtistsQuery,
+                    this.TitleQuery
+                )
+            }
         },
         getAllGenres() {
             if (!this.$store.getters.IS_GENRES_LOADED) {
