@@ -5,14 +5,14 @@
         </transition>
         <div class="grid-container">
             <Filtration
-                :artists-query-p="artistsQuery"
-                :genres-query-p="genresQuery"
-                :types-query-p="typesQuery"
-                :labels-query-p="labelsQuery"
-                :title-query-p="titleQuery"
-                :votes-p="votes"
-                :current-page-p="currentPage"
-                :per-page-p="perPage"
+                :title-param="titleQuery"
+                :genres-param="genresQuery"
+                :labels-param="labelsQuery"
+                :types-param="typesQuery"
+                :votes-param="votes"
+                :releases-per-page-param="perPage"
+                :current-page-param="currentPage"
+                :artists-param="artistsQuery"
                 @filter-changed="getAllReleases"
             />
 
