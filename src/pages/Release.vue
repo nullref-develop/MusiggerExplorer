@@ -97,6 +97,7 @@ import LoadingState from "@/mixins/LoadingState"
 import Preloader from "@/components/shared/Preloader"
 import Logo from "@/components/Logo"
 import Getlow from "@/components/Getlow"
+import { RELEASE_REQUEST } from "@/store/actions/release"
 
 export default {
     name: "Single",
@@ -124,54 +125,47 @@ export default {
     },
     created() {
         // get release id from url params
-        const releaseId = this.$route.params.id
-        this.getSingleRelease(releaseId)
-        this.getUpdatedInfo(releaseId)
+        this.getSingleRelease(this.$route.params.id)
     },
     methods: {
         getSingleRelease(releaseid) {
-            this.switchLoading()
-            axios.get(`${process.env.VUE_APP_API_URL}/releases`, {
-                params: {
+            const ReleaseData = this.$store.getters.GET_RELEASE_BY_ID(parseInt(releaseid, 10))
+            if (ReleaseData) this.setReleaseData(ReleaseData)
+            else {
+                this.switchLoading()
+                this.$store.dispatch(RELEASE_REQUEST, {
                     ID: releaseid
-                }
-            })
-                .then((response) => {
-                    this.setReleaseData(response.data)
-                    this.switchLoading()
                 })
-                .catch(() => {
-                    // console.log(e)
-                })
-        },
-        getUpdatedInfo(releaseid) {
-            axios.get(`${process.env.VUE_APP_API_URL}/releases`, {
-                params: {
-                    ID: releaseid,
-                    update: true
-                }
-            })
-                .then((response) => {
-                    if (response.status === 200) { this.setReleaseData(response.data) }
-                })
-                .catch(() => {
-                    // console.log(e)
-                })
+                    .then((response) => {
+                        this.setReleaseData(response.data)
+                        this.$store.dispatch(RELEASE_REQUEST, {
+                            ID: releaseid,
+                            update: true
+                        })
+                            .then((response) => {
+                                if (response.status === 200) this.setReleaseData(response.data)
+                            })
+                    })
+                    .finally(() => this.switchLoading())
+            }
         },
         setReleaseData(payload) {
-            this.Release = payload
+            const shortDate = new Date(payload.Date)
+            const ReleaseDate = shortDate.toLocaleString("ru", {
+                year: "numeric",
+                month: "numeric",
+                day: "numeric"
+            })
+            const ReleaseCover = this.filesurl + payload.Cover
+
+            Object.assign(this.Release, payload, { Date: ReleaseDate }, { Cover: ReleaseCover })
+
             Helpers.setFavicon(this.filesurl + payload.Cover, "shortcut icon")
             Helpers.setFavicon(this.filesurl + payload.Cover, "icon")
             Helpers.setFavicon(this.filesurl + payload.Cover, "apple-touch-icon")
             Helpers.setMetaImage(this.filesurl + payload.Cover, "twitter")
             Helpers.setMetaImage(this.filesurl + payload.Cover, "og")
-            this.Release.Cover = this.filesurl + payload.Cover
-            const shortDate = new Date(payload.Date)
-            this.Release.Date = shortDate.toLocaleString("ru", {
-                year: "numeric",
-                month: "numeric",
-                day: "numeric"
-            })
+
             this.artists = payload.Artists.split(", ")
             setTimeout(this.countDownloads, 100)
         },
