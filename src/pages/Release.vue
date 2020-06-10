@@ -89,8 +89,8 @@
 </template>
 
 <script>
-import axios from "axios"
 import "vue-awesome/icons"
+import HTTP from "@/http"
 import Icon from "vue-awesome/components/Icon"
 import Helpers from "@/utils/Helpers"
 import LoadingState from "@/mixins/LoadingState"
@@ -160,11 +160,11 @@ export default {
 
             Object.assign(this.Release, payload, { Date: ReleaseDate }, { Cover: ReleaseCover })
 
-            Helpers.setFavicon(this.FilesUrl + payload.Cover, "shortcut icon")
-            Helpers.setFavicon(this.FilesUrl + payload.Cover, "icon")
-            Helpers.setFavicon(this.FilesUrl + payload.Cover, "apple-touch-icon")
-            Helpers.setMetaImage(this.FilesUrl + payload.Cover, "twitter")
-            Helpers.setMetaImage(this.FilesUrl + payload.Cover, "og")
+            Helpers.setFavicon(this.FilesUrl + payload.MiniCover, "shortcut icon")
+            Helpers.setFavicon(this.FilesUrl + payload.MiniCover, "icon")
+            Helpers.setFavicon(this.FilesUrl + payload.MiniCover, "apple-touch-icon")
+            Helpers.setMetaImage(this.FilesUrl + payload.MiniCover, "twitter")
+            Helpers.setMetaImage(this.FilesUrl + payload.MiniCover, "og")
 
             this.artists = payload.Artists.split(", ")
             setTimeout(this.countDownloads, 100)
@@ -173,10 +173,9 @@ export default {
             const links = document.querySelectorAll("a:not([class])")
             for (let i = 0; i < links.length; i += 1) {
                 links[i].addEventListener("click", function () {
-                    const URL = `${process.env.VUE_APP_API_URL}/download/${releaseid}`
-                    axios({
-                        method: "GET",
-                        url: URL
+                    HTTP({
+                        url: `download/${releaseid}`,
+                        method: "GET"
                     })
                 })
             }
