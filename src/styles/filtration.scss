@@ -81,7 +81,7 @@
         }
     }
     .speech-button {
-        border: 1px solid $color-background;
+        border: 1px solid $color-lightgrey;
         max-height: 40px;
         &:hover,
         &:active {
@@ -112,7 +112,7 @@
             margin-bottom: 0;
             width: 24rem;
             background: transparent;
-            border: 1px solid $color-background;
+            border: 1px solid $color-lightgrey;
             transition: all 0.3s ease;
             @media #{$small-only} {
                 width: auto;
@@ -120,7 +120,7 @@
                 flex-basis: inherit;
                 box-sizing: border-box;
                 border: none;
-                box-shadow: inset 0px 0px 0px 1px $color-background;;
+                box-shadow: inset 0px 0px 0px 1px $color-lightgrey;
             }
             &:hover {
                 border-color: $color-accent;

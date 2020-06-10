@@ -109,6 +109,7 @@ blockquote {
     margin-right: 0 !important;
     transition: all 0.2s ease-out;
     &:hover {
+        cursor: pointer;
         filter: sepia(1) brightness(90%) hue-rotate(150deg) ;
     }
     .logo-img {
