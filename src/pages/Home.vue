@@ -5,14 +5,14 @@
         </transition>
         <div class="grid-container">
             <Filtration
-                :title-param="titleQuery"
-                :genres-param="genresQuery"
-                :labels-param="labelsQuery"
-                :types-param="typesQuery"
-                :votes-param="votes"
-                :releases-per-page-param="perPage"
-                :current-page-param="currentPage"
-                :artists-param="artistsQuery"
+                :title-param="TitleQuery"
+                :genres-param="GenresQuery"
+                :labels-param="LabelsQuery"
+                :types-param="TypesQuery"
+                :votes-param="Votes"
+                :releases-per-page-param="ReleasesPerPage"
+                :current-page-param="CurrentPage"
+                :artists-param="ArtistsQuery"
                 @filter-changed="getAllReleases"
             />
 
@@ -51,7 +51,7 @@
                     >
                         <img
                             class="release-cover cell"
-                            :src="filesurl+Release.MiniCover"
+                            :src="FilesUrl+Release.MiniCover"
                             :alt="Release.Name"
                         >
                         <div class="release-info cell auto grid-y">
@@ -83,14 +83,14 @@
             </div>
 
             <Paginator
-                :current="currentPage"
+                :current="CurrentPage"
                 :total="TotalReleases"
-                :per-page="perPage"
-                :votes="votes"
-                :genres="genresQuery"
-                :labels="labelsQuery"
-                :types="typesQuery"
-                :title="titleQuery"
+                :per-page="ReleasesPerPage"
+                :votes="Votes"
+                :genres="GenresQuery"
+                :labels="LabelsQuery"
+                :types="TypesQuery"
+                :title="TitleQuery"
                 @page-changed="getAllReleases"
             />
 
@@ -124,20 +124,18 @@ export default {
     mixins: [LoadingState],
     data() {
         return {
-            // urls
-            filesurl: process.env.VUE_APP_FILES_URL,
-            // for pagination
-            perPage: 24,
-            currentPage: 1,
-            votes: 0,
-            // selected item in strings
-            labelsQuery: "",
-            genresQuery: "",
-            typesQuery: "",
-            artistsQuery: "",
-            titleQuery: "",
-            // disable url rewrite on first app launch
-            firstLaunch: true,
+            FilesUrl: process.env.VUE_APP_FILES_URL,
+
+            TitleQuery: "",
+            GenresQuery: "",
+            LabelsQuery: "",
+            TypesQuery: "",
+            Votes: 0,
+            ReleasesPerPage: 24,
+            CurrentPage: 1,
+            ArtistsQuery: "",
+
+            FirstLaunch: true,
             ShowTop: true
         }
     },
@@ -147,6 +145,25 @@ export default {
         },
         TotalReleases() {
             return this.$store.state.Release.ReleasesTotal
+        },
+        IsFilterDefault() {
+            if (
+                Object.keys(this.$route.query).length !== 0
+                // eslint-disable-next-line eqeqeq
+                && this.$route.query.p == 1
+                // eslint-disable-next-line eqeqeq
+                && this.$route.query.votes == 0
+                // eslint-disable-next-line eqeqeq
+                && this.$route.query.perPage == 24
+                && (this.$route.query.genres === "" || this.$route.query.genres === null)
+                && (this.$route.query.labels === "" || this.$route.query.labels === null)
+                && (this.$route.query.types === "" || this.$route.query.types === null)
+                && (this.$route.query.artists === "" || this.$route.query.artists === null)
+                && (this.$route.query.title === "" || this.$route.query.title === null)
+            ) {
+                return true
+            }
+            return false
         }
     },
     created() {
@@ -155,42 +172,25 @@ export default {
         Helpers.setFavicon("/img/icons/apple-touch-icon.png", "apple-touch-icon")
         Helpers.setMetaImage("http://www.musigger.com/img/icons/android-chrome-512x512.png", "twitter")
         Helpers.setMetaImage("http://www.musigger.com/img/icons/android-chrome-512x512.png", "og")
-        document.title = process.env.VUE_APP_TITLE_FULL
         // Parse query from url and apply to filter
-        this.currentPage = (this.$route.query.p)
-            ? parseInt(this.$route.query.p, 10)
-            : this.currentPage
-        this.votes = (this.$route.query.votes)
-            ? parseInt(this.$route.query.votes, 10)
-            : this.votes
-        this.perPage = (this.$route.query.perPage)
-            ? parseInt(this.$route.query.perPage, 10)
-            : this.perPage
-        if (this.$route.query.genres) {
-            this.genresQuery = this.$route.query.genres
-        }
-        if (this.$route.query.labels) {
-            this.labelsQuery = this.$route.query.labels
-        }
-        if (this.$route.query.types) {
-            this.typesQuery = this.$route.query.types
-        }
-        if (this.$route.query.artists) {
-            this.artistsQuery = this.$route.query.artists
-        }
-        if (this.$route.query.title) {
-            this.titleQuery = this.$route.query.title
-        }
-        // get genres and releases (that fits the filter)
+        this.TitleQuery = this.$route.query.title || this.TitleQuery
+        this.GenresQuery = this.$route.query.genres || this.GenresQuery
+        this.LabelsQuery = this.$route.query.labels || this.LabelsQuery
+        this.TypesQuery = this.$route.query.types || this.TypesQuery
+        this.CurrentPage = (this.$route.query.p) ? parseInt(this.$route.query.p, 10) : this.CurrentPage
+        this.Votes = (this.$route.query.votes) ? parseInt(this.$route.query.votes, 10) : this.Votes
+        this.ReleasesPerPage = (this.$route.query.perPage) ? parseInt(this.$route.query.perPage, 10) : this.ReleasesPerPage
+        this.ArtistsQuery = this.$route.query.artists || this.ArtistsQuery
+        // get releases
         this.getAllReleases(
-            this.currentPage,
-            this.votes,
-            this.perPage,
-            this.genresQuery,
-            this.labelsQuery,
-            this.typesQuery,
-            this.artistsQuery,
-            this.titleQuery
+            this.CurrentPage,
+            this.Votes,
+            this.ReleasesPerPage,
+            this.GenresQuery,
+            this.LabelsQuery,
+            this.TypesQuery,
+            this.ArtistsQuery,
+            this.TitleQuery
         )
     },
     methods: {
@@ -205,7 +205,9 @@ export default {
                 artists,
                 title
             }
-            if (!this.firstLaunch || Object.keys(this.$route.query).length !== 0) {
+
+            // update url query when any param changed (except first app launch)
+            if (!this.FirstLaunch) {
                 this.$router.replace({
                     query: {
                         p: options.p,
@@ -214,46 +216,33 @@ export default {
                         genres: options.genres,
                         labels: options.labels,
                         types: options.types,
-                        artists: this.artistsQuery,
+                        artists: this.ArtistsQuery,
                         title: options.title
                     }
                 })
             }
+            // if all params is default - clear query from url
+            if (this.IsFilterDefault) this.$router.replace({ query: null })
+            // if any params exist - hide top releases sections
             if (Object.keys(this.$route.query).length !== 0) this.ShowTop = false
-            if (
-                Object.keys(this.$route.query).length !== 0
-                /* eslint-disable eqeqeq */
-                && this.$route.query.p == 1
-                && this.$route.query.votes == 0
-                && this.$route.query.perPage == 24
-                && this.$route.query.genres === ""
-                && this.$route.query.labels === ""
-                && this.$route.query.types === ""
-                && this.$route.query.artists === ""
-                && this.$route.query.title === ""
-            ) {
-                this.ShowTop = true
-                this.$router.replace({ query: null })
-            }
+            else this.ShowTop = true
 
-            this.firstLaunch = false
-
+            this.FirstLaunch = false
             this.switchLoading()
             this.$store.dispatch(RELEASE_LIST_REQUEST, options)
                 .then(() => {
                     // update from filtration
-                    this.currentPage = page
+                    this.CurrentPage = page
                     this.page = page
-                    this.votes = votes
-                    this.perPage = perPage
-                    this.genresQuery = selectedGenres
-                    this.labelsQuery = selectedLabels
-                    this.typesQuery = selectedTypes
-                    this.artistsQuery = artists
-                    this.titleQuery = title
-                    // update url query when something changed (except first app launch)
-                    this.switchLoading()
+                    this.Votes = votes
+                    this.ReleasesPerPage = perPage
+                    this.GenresQuery = selectedGenres
+                    this.LabelsQuery = selectedLabels
+                    this.TypesQuery = selectedTypes
+                    this.ArtistsQuery = artists
+                    this.TitleQuery = title
                 })
+                .finally(() => this.switchLoading())
         }
     },
     metaInfo() {

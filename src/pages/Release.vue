@@ -110,7 +110,7 @@ export default {
     mixins: [LoadingState],
     data() {
         return {
-            filesurl: process.env.VUE_APP_FILES_URL,
+            FilesUrl: process.env.VUE_APP_FILES_URL,
             Release: {},
             artists: []
         }
@@ -156,15 +156,15 @@ export default {
                 month: "numeric",
                 day: "numeric"
             })
-            const ReleaseCover = this.filesurl + payload.Cover
+            const ReleaseCover = this.FilesUrl + payload.Cover
 
             Object.assign(this.Release, payload, { Date: ReleaseDate }, { Cover: ReleaseCover })
 
-            Helpers.setFavicon(this.filesurl + payload.Cover, "shortcut icon")
-            Helpers.setFavicon(this.filesurl + payload.Cover, "icon")
-            Helpers.setFavicon(this.filesurl + payload.Cover, "apple-touch-icon")
-            Helpers.setMetaImage(this.filesurl + payload.Cover, "twitter")
-            Helpers.setMetaImage(this.filesurl + payload.Cover, "og")
+            Helpers.setFavicon(this.FilesUrl + payload.Cover, "shortcut icon")
+            Helpers.setFavicon(this.FilesUrl + payload.Cover, "icon")
+            Helpers.setFavicon(this.FilesUrl + payload.Cover, "apple-touch-icon")
+            Helpers.setMetaImage(this.FilesUrl + payload.Cover, "twitter")
+            Helpers.setMetaImage(this.FilesUrl + payload.Cover, "og")
 
             this.artists = payload.Artists.split(", ")
             setTimeout(this.countDownloads, 100)
