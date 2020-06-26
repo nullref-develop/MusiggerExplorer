@@ -8,7 +8,6 @@
                 <Logo />
             </div>
 
-
             <div
                 v-if="Release"
                 class="srelease grid-x"
