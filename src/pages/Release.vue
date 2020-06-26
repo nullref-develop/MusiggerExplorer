@@ -156,7 +156,7 @@ export default {
                 day: "numeric"
             })
             const ReleaseCover = this.FilesUrl + payload.Cover
-
+            this.Release = payload
             Object.assign(this.Release, payload, { Date: ReleaseDate }, { Cover: ReleaseCover })
 
             Helpers.setFavicon(this.FilesUrl + payload.MiniCover, "shortcut icon")
