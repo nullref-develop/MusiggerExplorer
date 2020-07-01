@@ -11,18 +11,49 @@
     src: url("https://cdn-resources.ableton.com/80bA26cPQ1hEJDFjpUKntxfqdmG3ZykO/static/fonts/futura-pt-book.325fc4671f06.eot?&1e781793c759#iefix") format("embedded-opentype"), url("https://cdn-resources.ableton.com/80bA26cPQ1hEJDFjpUKntxfqdmG3ZykO/static/fonts/futura-pt-book.2dadbb3c03c1.woff2?1e781793c759") format("woff2"), url("https://cdn-resources.ableton.com/80bA26cPQ1hEJDFjpUKntxfqdmG3ZykO/static/fonts/futura-pt-book.b65339f98771.woff?1e781793c759") format("woff"), url("https://cdn-resources.ableton.com/80bA26cPQ1hEJDFjpUKntxfqdmG3ZykO/static/fonts/futura-pt-book.187839f67492.ttf?1e781793c759") format("truetype"), url("https://cdn-resources.ableton.com/80bA26cPQ1hEJDFjpUKntxfqdmG3ZykO/static/fonts/futura-pt-book.60a93019c94b.svg?1e781793c759#FuturaPTWeb-Book") format("svg");
 }
 
-$color-level1: #FFF;
-$color-background: #F0F0F0;
-$color-lightgrey: #e2e2e2;
-$color-darkgrey: #777;
-$color-placeholder: #999;
 $color-accent: #03A9F4;
-$color-link: #303F9F;
-$color-link-visted: #7B1FA2;
+
+:root {
+    --color-background: #F0F0F0;
+    --color-foreground: white;
+    --color-loader: 250, 250, 250;
+
+    --color-gray-6: #f2f2f7;
+    --color-gray-5: #e5e5ea;
+    --color-gray-4: #d1d1d6;
+    --color-gray-3: #c7c7cc;
+    --color-gray-2: #aeaeb2;
+    --color-gray-1: #8e8e93;
+
+    --color-text: #121212;
+    --color-link: #303F9F;
+    --color-link-visted: #7B1FA2;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --color-background: black;
+        --color-foreground: #1C1C1E;
+        --color-loader: 10, 10, 10;
+
+        --color-gray-6: #1c1c1e;
+        --color-gray-5: #2c2c2e;
+        --color-gray-4: #3a3a3c;
+        --color-gray-3: #48484a;
+        --color-gray-2: #636366;
+        --color-gray-1: #8e8e93;
+
+        --color-text: #fafafa;
+        --color-link: #5778a9;
+        --color-link-visted: #865e96;
+    }
+}
 
 $multiselectTagsBorderRadius: 0;
 $multiselectTagsBorder: none;
-$multiselectPlaceholderColor: $color-placeholder;
-$multiselectBg: $color-background;
-$multiselectTagsBgColor: $color-background;
+$multiselectPlaceholderColor: var(--color-gray-2);
+$multiselectBg: var(--color-gray-5);
+$multiselectTagsBgColor: var(--color-gray-5);
+$multiselectContentBgColor: var(--color-gray-5);
+$multiselectContentBorderColor: var(--color-gray-5);
 $color2: $color-accent;

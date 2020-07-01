@@ -6,14 +6,14 @@
     .pagination-right a,
     .pagination-mid ul li a {
         padding: 10px 20px;
-        background-color: white;
+        background-color: var(--color-foreground);
         margin: 0 5px;
         text-decoration: none;
-        color: black;
+        color: var(--color-text);
         transition: all 0.2s ease;
         &.current,
         &:hover {
-            color: white;
+            color: var(--color-foreground);
             background-color: $color-accent;
         }
         @media #{$small-only} {

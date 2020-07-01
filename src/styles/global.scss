@@ -1,15 +1,25 @@
 input::-webkit-input-placeholder { /* Chrome/Opera/Safari */
-    color: $color-placeholder;
+    color: var(--color-gray-2);
 }
 input::-moz-placeholder { /* Firefox 19+ */
-    color: $color-placeholder;
+    color: var(--color-gray-2);
 }
 input:-ms-input-placeholder { /* IE 10+ */
-    color: $color-placeholder;
+    color: var(--color-gray-2);
 }
 input:-moz-placeholder { /* Firefox 18- */
-    color: $color-placeholder;
+    color: var(--color-gray-2);
 }
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type=number] { /* Firefox */
+  -moz-appearance: textfield;
+}
+
 * {
     text-rendering: optimizeLegibility;
     -webkit-font-variant-ligatures: common-ligatures;
@@ -22,17 +32,18 @@ input:-moz-placeholder { /* Firefox 18- */
     font-family: 'futura-pt', 'Oswald', sans-serif;
 }
 html, body {
-    background-color: $color-background;
+    background-color: var(--color-background);
     min-height: 100vh;
+    color: var(--color-text);
 }
 body {
     position: relative;
     margin: 0;
 }
 a {
-    color: $color-link;
+    color: var(--color-link);
     &:visited {
-        color: $color-link-visted;
+        color: var(--color-link-visted);
     }
 }
 blockquote {
@@ -41,21 +52,21 @@ blockquote {
 .button {
     display: inline-block;
     background-color: transparent;
-    // background-color: darken($color-background,15%);
+    // background-color: darken(var(--color-background),15%);
     padding: 10px 15px;
     text-decoration: none;
     font-weight: bold;
-    color: $color-darkgrey;
+    color: var(--color-gray-2);
     transition: all 0.2s ease;
     cursor: pointer;
     border: none;
     outline: none;
     &:hover {
         background-color: $color-accent;
-        color: $color-level1;
+        color: var(--color-foreground);
     }
     &:visted {
-        color: $color-darkgrey !important;
+        color: var(--color-gray-2) !important;
     }
 }
 .fa-icon {
@@ -74,7 +85,7 @@ blockquote {
     position: absolute;
     width: 100%;
     height: 100%;
-    background: rgba(255,255,255,0.95);
+    background: #{'rgba(var(--color-loader), 0.95)'};
     z-index: 999;
     top: 0;
     left: 0;
@@ -96,7 +107,7 @@ blockquote {
                 position : absolute;
                 width: 8px;
                 height : 0;
-                background-color: #000;
+                background-color: var(--color-text);
                 bottom: 0;
             }
         }
@@ -118,7 +129,7 @@ blockquote {
 }
 
 .head {
-    background-color: $color-level1;
+    background-color: var(--color-foreground);
     display: block;
     margin: 0 0.2em 0.2em 0.2em;
     .head-title {

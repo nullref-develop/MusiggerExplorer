@@ -20,6 +20,9 @@
             white-space: nowrap;
             text-overflow: ellipsis;
         }
+        .release-info-label {
+            color: var(--color-gray-1);
+        }
         &.is-small {
             height: 186px;
             @media #{$small-only} {

@@ -4,9 +4,9 @@
     list-style: none;
 }
 .release-item {
-    background: $color-level1;
+    background: var(--color-foreground);
     height: 148px;
-    color: black !important;
+    color: var(--color-text) !important;
     margin: 0.2em;
     text-decoration: none;
     transition: all 0.2s ease;
@@ -49,7 +49,7 @@
         .release-info-genres {
             line-height: 1.1em;
             font-size: 0.9em;
-            color: gray;
+            color: var(--color-gray-1);
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -62,7 +62,7 @@
 }
 
 .releaseinner {
-    background-color: $color-level1;
+    background-color: var(--color-foreground);
     padding: 2em;
     margin: 0 0.2em 0.2em 0.2em;
     .logodiv {
@@ -139,8 +139,8 @@
         .srelease-info-label,
         .srelease-info-artist {
             display: inline-block;
-            color: black;
-            border-bottom: 2px solid black;
+            color: var(--color-text);
+            border-bottom: 2px solid var(--color-text);
             text-decoration: none;
             font-weight: bold;
         }
@@ -160,7 +160,7 @@
             white-space: nowrap;
         }
         .srelease-info-type {
-            border: 2px solid black;
+            border: 2px solid var(--color-text);
             font-size: 1em;
             line-height: 1em;
             padding: 2px 4px;
@@ -180,7 +180,7 @@
             text-align: right;
             overflow: hidden;
             > a {
-                color: lightgray;
+                color: var(--color-gray-4);
             }
         }
         ul, ol {

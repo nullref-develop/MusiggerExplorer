@@ -1,5 +1,5 @@
 footer {
-    background-color: $color-level1;
+    background-color: var(--color-foreground);
     margin: 0.4em 0.2em 0 0.2em;
     padding: 0 2em;
     .musigger-icon {
@@ -22,7 +22,7 @@ footer {
         padding: 0;
         li > a {
             text-decoration: none;
-            color: black !important;
+            color: var(--color-text) !important;
             &:after {
                 content: '\00a0›';
             }

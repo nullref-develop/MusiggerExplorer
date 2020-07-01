@@ -27,6 +27,14 @@
                             class="footerlink"
                         >NRDV</a>
                     </li>
+                    <li>
+                        <a
+                            href="https://github.com/Musigger/MusiggerExplorer/commits/master"
+                            target="_blank"
+                            rel="noopener"
+                            class="footerlink"
+                        >Changelog</a>
+                    </li>
                 </ul>
             </div>
             <div class="large-10 medium-8 small-12 cell">

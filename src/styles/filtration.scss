@@ -12,7 +12,7 @@
 }
 .filter {
     padding: 1em 2em;
-    background-color: $color-level1;
+    background-color: var(--color-foreground);
     margin: 0 0.2em 0.4em 0.2em;
     .cell.shrink {
         @media #{$small-only} {
@@ -22,11 +22,12 @@
     label {
         font-size: 1em;
         font-weight: normal;
+        color: var(--color-text);
     }
     .filter-button {
         background-color: transparent;
         min-height: 40px;
-        color: black;
+        color: var(--color-text);
         float: right;
         cursor: pointer;
         user-select: none;
@@ -36,7 +37,7 @@
         .line {
             fill:none;
             transition: all 0.4s ease;
-            stroke: black;
+            stroke: var(--color-text);
             stroke-width: 4.5;
             stroke-linecap:round;
         }
@@ -62,10 +63,10 @@
                 stroke: $color-accent;
             }
             @media #{$small-only} {
-                color: black;
-                fill: black;
+                color: var(--color-text);
+                fill: var(--color-text);
                 .line {
-                    stroke: black;
+                    stroke: var(--color-text);
                 }
             }
         }
@@ -81,7 +82,7 @@
         }
     }
     .speech-button {
-        border: 1px solid $color-lightgrey;
+        border: 1px solid var(--color-gray-4);
         max-height: 40px;
         &:hover,
         &:active {
@@ -91,8 +92,8 @@
         }
         @media #{$small-only} {
             &:hover {
-                border-color: $color-background;
-                color: $color-darkgrey;
+                border-color: var(--color-background);
+                color: var(--color-darkgrey);
             }
         }
     }
@@ -102,9 +103,9 @@
         padding: 0.8em;
         border-radius: 0;
         border: none;
-        background: #ffffff;
         box-shadow: none;
-        background-color: $color-background;
+        background-color: var(--color-gray-5);
+        color: var(--color-text);
         margin-bottom: 0.5em;
         &.is-search {
             flex-grow: unset;
@@ -112,7 +113,7 @@
             margin-bottom: 0;
             width: 24rem;
             background: transparent;
-            border: 1px solid $color-lightgrey;
+            border: 1px solid var(--color-gray-4);
             transition: all 0.3s ease;
             @media #{$small-only} {
                 width: auto;
@@ -120,7 +121,7 @@
                 flex-basis: inherit;
                 box-sizing: border-box;
                 border: none;
-                box-shadow: inset 0px 0px 0px 1px $color-lightgrey;
+                box-shadow: inset 0px 0px 0px 1px var(--color-gray-4);
             }
             &:hover {
                 border-color: $color-accent;
@@ -128,7 +129,7 @@
             &:focus,
             &:not(:placeholder-shown) {
                 flex-grow: 1;
-                background-color: $color-background;
+                background-color: var(--color-gray-5);
                 border: none;
             }
         }
