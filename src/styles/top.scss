@@ -1,4 +1,4 @@
-#top {
+.top {
     margin-bottom: 0.2em;
     .release-item {
         height: 330px;
@@ -21,7 +21,7 @@
             text-overflow: ellipsis;
         }
         .release-info-label {
-            color: var(--color-gray-1);
+            color: var(--color-gray-0);
         }
         &.is-small {
             height: 186px;

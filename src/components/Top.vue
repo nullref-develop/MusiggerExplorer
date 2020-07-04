@@ -1,5 +1,5 @@
 <template>
-    <div id="top">
+    <div class="top">
         <div class="releases grid-x">
             <div
                 v-for="Release in Releases"

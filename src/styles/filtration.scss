@@ -82,7 +82,7 @@
         }
     }
     .speech-button {
-        border: 1px solid var(--color-gray-4);
+        border: 1px solid var(--color-gray-3);
         max-height: 40px;
         &:hover,
         &:active {
@@ -93,7 +93,7 @@
         @media #{$small-only} {
             &:hover {
                 border-color: var(--color-background);
-                color: var(--color-darkgrey);
+                color: var(--color-gray-3);
             }
         }
     }
@@ -113,7 +113,7 @@
             margin-bottom: 0;
             width: 24rem;
             background: transparent;
-            border: 1px solid var(--color-gray-4);
+            border: 1px solid var(--color-gray-3);
             transition: all 0.3s ease;
             @media #{$small-only} {
                 width: auto;
@@ -121,7 +121,7 @@
                 flex-basis: inherit;
                 box-sizing: border-box;
                 border: none;
-                box-shadow: inset 0px 0px 0px 1px var(--color-gray-4);
+                box-shadow: inset 0px 0px 0px 1px var(--color-gray-3);
             }
             &:hover {
                 border-color: $color-accent;
@@ -129,7 +129,7 @@
             &:focus,
             &:not(:placeholder-shown) {
                 flex-grow: 1;
-                background-color: var(--color-gray-5);
+                background-color: var(--color-gray-3);
                 border: none;
             }
         }
