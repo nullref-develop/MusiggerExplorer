@@ -16,7 +16,7 @@
     "axios": "^0.19.2",
     "core-js": "^3.6.5",
     "foundation-sites": "^6.6.3",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "vue": "^2.6.11",
     "vue-awesome": "^3.5.4",
     "vue-disqus": "^3.0.5",
