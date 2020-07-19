@@ -129,7 +129,7 @@
             &:focus,
             &:not(:placeholder-shown) {
                 flex-grow: 1;
-                background-color: var(--color-gray-3);
+                background-color: var(--color-gray-5);
                 border: none;
             }
         }

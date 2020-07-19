@@ -119,9 +119,6 @@ blockquote {
     line-height: 0;
     margin-right: 0 !important;
     transition: all 0.2s ease-out;
-    @media (prefers-color-scheme: dark) {
-        filter: invert(1);
-    }
     &:hover {
         cursor: pointer;
         filter: sepia(1) brightness(90%) hue-rotate(160deg) saturate(2);
@@ -131,6 +128,17 @@ blockquote {
     }
     .logo-img {
         height: 40px;
+    }
+    @media (prefers-color-scheme: dark) {
+        filter: invert(1);
+    }
+    @media #{$small-only} {
+        align-items: center;
+        display: flex;
+        width: 3.5em !important;
+        .logo-img {
+            height: 32px;
+        }
     }
 }
 
