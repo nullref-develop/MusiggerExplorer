@@ -111,6 +111,7 @@ export default {
         return {
             FilesUrl: process.env.VUE_APP_FILES_URL,
             Release: {},
+            ReleaseTitle: null,
             artists: []
         }
     },
@@ -157,6 +158,7 @@ export default {
             })
             const ReleaseCover = this.FilesUrl + payload.Cover
             // this.Release = payload
+            this.ReleaseTitle = payload.Name
             this.Release = Object.assign(this.Release, payload, { Date: ReleaseDate }, { Cover: ReleaseCover })
 
             Helpers.setFavicon(this.FilesUrl + payload.MiniCover, "shortcut icon")
@@ -182,11 +184,11 @@ export default {
     },
     metaInfo() {
         return {
-            title: this.Release.Name,
+            title: this.ReleaseTitle,
             meta: [
                 { name: "description", content: this.Release.Info },
                 { property: "og:description", content: this.Release.Info },
-                { property: "og:title", content: this.Release.Name }
+                { property: "og:title", content: this.ReleaseTitle }
             ]
         }
     }
