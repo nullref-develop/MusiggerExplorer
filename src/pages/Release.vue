@@ -12,7 +12,7 @@
                 v-if="Release"
                 class="srelease grid-x"
             >
-                <div class="srelease-info auto cell">
+                <div class="srelease-info auto cell grid-y">
                     <p class="srelease-info-title">
                         {{ Release.Name }}
                     </p>
@@ -34,21 +34,23 @@
                     </p>
 
                     <br>
-                    <span class="srelease-info-type">{{ Release.Type }}</span>
-                    <span class="srelease-info-rating"><v-icon name="star" /> {{ Release.Rating }}</span>
-                    <span class="srelease-info-votes"><v-icon name="users" /> {{ Release.Votes }}</span>
-                    <span class="srelease-info-date"><v-icon name="calendar" /> {{ Release.Date }}</span>
-                    <router-link
-                        v-if="Release.Label !== ''"
-                        :to="{ name: 'home', query: { labels: Release.Label } }"
-                        class="srelease-info-label"
-                        title="Find all releases by this label"
-                    >
-                        <v-icon name="image" /> {{ Release.Label }}
-                    </router-link>
-                    <span class="srelease-info-genres">
-                        <v-icon name="music" /> {{ Release.Genres }}
-                    </span>
+                    <div class="grid-x">
+                        <span class="srelease-info-type">{{ Release.Type }}</span>
+                        <span class="srelease-info-rating"><v-icon name="star" /> {{ Release.Rating }}</span>
+                        <span class="srelease-info-votes"><v-icon name="users" /> {{ Release.Votes }}</span>
+                        <span class="srelease-info-date"><v-icon name="calendar" /> {{ Release.Date }}</span>
+                        <router-link
+                            v-if="Release.Label !== ''"
+                            :to="{ name: 'home', query: { labels: Release.Label } }"
+                            class="srelease-info-label"
+                            title="Find all releases by this label"
+                        >
+                            <v-icon name="image" /> {{ Release.Label }}
+                        </router-link>
+                        <span class="srelease-info-genres">
+                            <v-icon name="music" /> {{ Release.Genres }}
+                        </span>
+                    </div>
                     <div class="srelease-extra grid-y">
                         <div
                             class="srelease-extra-info cell"
