@@ -1,8 +1,17 @@
 # Musigger Explorer
 
-[Musigger.com](http://musigger.com)
-
 Web application for searching and filtering music releases. Musigger provides flexible release filtering engine that sorts by genres, types, labels, votes and even artists. Also it offers superrior perfomance and modern design.
+
+## Project suspended!
+
+We haven't free time and money to host Musigger for now. So you can do it yourself. Thank everyone used Musigger.
+
+Although donations can make a change. 
+* **BTC** 1PgSXDDGCeDoMJiaRWE2tJE1a6iVo8MXym
+* **ETH** 0x616F0F303BF877C8DbF8f38B65f988D74eB380e9
+* **Yandex.Money** https://yoomoney.ru/to/410015331091964
+
+---
 
 ## Getting Started
 
@@ -36,7 +45,7 @@ npm run dev
 ## Built With
 
 * [Vue](https://github.com/vuejs/vue) - A progressive, incrementally-adoptable JavaScript framework for building UI on the web
-* [Vue-Cli](https://github.com/vuejs/vue-cli) - Vue CLI is a full system for rapid Vue.js development
+* [Vue-cli](https://github.com/vuejs/vue-cli) - Vue CLI is a full system for rapid Vue.js development
 * [Vue-router](https://github.com/vuejs/vue-router) - The official router for Vue.js
 * [Axios](https://github.com/axios/axios) - Promise based HTTP client for the browser and node.js
 * [Foundation for sites](https://github.com/zurb/foundation-sites) - The most advanced responsive front-end framework in the world
